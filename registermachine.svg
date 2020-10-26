@@ -1,67 +1,111 @@
-<svg width="514" height="462"
+<svg id="registersvg" class="regmachine"
+          height = "1000"
+          width = "550"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" overflow="hidden">
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="mystyles.css" type="text/css"/>
     <defs>
+        <marker id='head' orient='auto' markerWidth='2' markerHeight='4' refX='0.1' refY='2'>
+            <path d='M0,0 V4 L2,2 Z' fill='blue' />
+        </marker>
         <clipPath id="clip0">
-            <rect x="38" y="137" width="514" height="462"/>
+            <rect x="38" y="137" width="514" height="800" />
         </clipPath>
         <linearGradient x1="154.5" y1="167.5" x2="154.5" y2="196.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill1">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
         <linearGradient x1="436.5" y1="167.5" x2="436.5" y2="196.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill2">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
         <linearGradient x1="154.5" y1="235.5" x2="154.5" y2="264.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill3">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
         <linearGradient x1="378.5" y1="393.5" x2="378.5" y2="598.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill4">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
         <linearGradient x1="151.5" y1="389.5" x2="151.5" y2="594.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill5">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
         <linearGradient x1="436" y1="230.5" x2="436" y2="312.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="fill6">
-            <stop offset="0" stop-color="#A7B2C8"/>
-            <stop offset="0.5" stop-color="#9AA6BD"/>
-            <stop offset="1" stop-color="#8898B6"/>
+            <stop offset="0" stop-color="#A7B2C8" />
+            <stop offset="0.5" stop-color="#9AA6BD" />
+            <stop offset="1" stop-color="#8898B6" />
         </linearGradient>
     </defs>
     <g clip-path="url(#clip0)" transform="translate(-38 -137)">
-        <rect x="70" y="138" width="448" height="231" fill="#EBC47F" fill-opacity="0.501961"/>
-        <rect x="103.5" y="167.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill1)"/>
-        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(121.5 185)" id="pcreg">Befehlszähler</text>
-        <rect x="385.5" y="167.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill2)"/>
-        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(405.927 185)">Akkumulator</text>
-        <rect x="103.5" y="235.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill3)"/>
-        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(118.25 253)">Befehlsregister</text>
-        <rect x="324.5" y="393.5" width="108" height="205" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill4)"/>
-        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(343.374 499)">Datenspeicher</text>
-        <rect x="97.5001" y="389.5" width="108" height="205" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill5)"/>
-        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(107.255 489)">Programmspeiche<tspan x="41.6667" y="13">r</tspan>
+        <rect x="70" y="138" width="448" height="231" fill="#EBC47F" fill-opacity="0.501961" />
+        <rect x="103.5" y="167.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill1)" />
+        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(121.5 185)" id="pcreg">
+              Befehlszähler
         </text>
-        <path d="M204.547 490.542 228.547 490.542 227.547 491.542 227.547 326.488 228.547 327.488 153 327.488 153 270.667 155 270.667 155 326.488 154 325.488 229.547 325.488 229.547 492.542 204.547 492.542ZM150 272 154 264 158 272Z" fill="#4B6893"/>
-        <path d="M385.5 230.5 486.5 230.5 486.5 311.834 454.27 312.5 437.656 283.174 421.043 311.5 385.5 311.834 385.5 230.5Z" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill6)" fill-rule="evenodd"/>
-        <text fill="#4B6893" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(414.625 253)">Operatio<tspan x="17.5866" y="13">n</tspan>
-            <tspan font-size="9" x="-20.3474" y="43">Zahl</tspan>
-            <tspan font-size="9" x="-20.3474" y="52">1</tspan>
+        <rect x="385.5" y="167.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill2)" />
+        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(405.927 185)" id="areg">
+              Akkumulator
+        </text>
+        <rect x="103.5" y="235.5" width="102" height="29" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill3)" />
+        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(118.25 253)" id="cur_instr">
+              Befehlsregister
+        </text>
+        <rect x="97.5001" y="389.5" width="108" height="205" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill5)" />
+        <text fill="#0350A0" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(107.255 489)">
+        </text>
+        <!-- Programmspeicher -> Befehlsregister -->
+        <polyline id="progmem-instrreg-connection" points="207,430 240,430 240,300 155,300 155,270" class="statemachineArrow" />
+        <path id="alu_background" d="M385.5 230.5 486.5 230.5 486.5 311.834 454.27 312.5 437.656 283.174 421.043 311.5 385.5 311.834 385.5 230.5Z" stroke="#4B6893" stroke-width="0.666667" stroke-miterlimit="8" fill="url(#fill6)" fill-rule="evenodd" />
+        <text fill="#4B6893" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="400" font-size="11" transform="translate(414.625 253)">
+            <tspan id="alu_operation">Operation</tspan>
+            <tspan font-size="9" x="-20.3474" y="43" id="alu_left_register">0</tspan>
             <tspan font-size="9" x="44.3299" y="43">Zahl</tspan>
             <tspan font-size="9" x="44.3299" y="52">2</tspan>
         </text>
-        <path d="M0-1 64.8031-1 64.8031 310.855 12.8697 310.855 12.8697 308.855 63.8031 308.855 62.8031 309.855 62.8031 0 63.8031 1 0 1ZM14.203 313.855 6.20304 309.855 14.203 305.855Z" fill="#4B6893" transform="matrix(-1 -8.74228e-08 -8.74228e-08 1 103.203 181)"/>
-        <path d="M0 1-23.9999 1-22.9999 0-22.9999 149.701-23.9999 148.701 21.9367 148.701 21.9367 241.733 19.9367 241.733 19.9367 149.701 20.9367 150.701-24.9999 150.701-24.9999-1 0-1ZM24.9367 240.4 20.9367 248.4 16.9367 240.4Z" fill="#4B6893" transform="matrix(-4.37114e-08 1 1 4.37114e-08 154 235)"/>
-        <path d="M0-1 65-1 65 117.448 7.99999 117.448 7.99999 115.448 64 115.448 63 116.448 63 0 64 1 0 1ZM9.33333 120.448 1.33333 116.448 9.33333 112.448Z" fill="#4B6893" transform="matrix(1 0 0 -1 487 298.448)"/>
-        <path d="M0-1 37.1831-1 37.1831 177.23 35.1831 177.23 35.1831 0 36.1831 1 0 1ZM40.1831 175.897 36.1831 183.897 32.1831 175.897Z" fill="#4B6893" transform="matrix(1 0 0 -1 432 495.897)"/>
-        <path d="M205 248 279.941 248 279.941 495.417 278.941 494.417 317.416 494.417 317.416 496.417 277.941 496.417 277.941 249 278.941 250 205 250ZM316.083 491.417 324.083 495.417 316.083 499.417Z" fill="#4B6893"/>
-        <path d="M385 182 357 182 358 181 358 343.167 357 342.167 403.661 342.167 402.661 343.167 402.661 317.833 404.661 317.833 404.661 344.167 356 344.167 356 180 385 180ZM399.661 319.167 403.661 311.167 407.661 319.167Z" fill="#4B6893"/>
+        <!-- Befehlszähler -> Programmspeicher -->
+        <polyline id="pc-progmem-connection" points="104,182 50,182 50,430 90,430" class="statemachineArrow"/>
+        <path d="M0 1-23.9999 1-22.9999 0-22.9999 149.701-23.9999 148.701 21.9367 148.701 21.9367 241.733 19.9367 241.733 19.9367 149.701 20.9367 150.701-24.9999 150.701-24.9999-1 0-1ZM24.9367 240.4 20.9367 248.4 16.9367 240.4Z" fill="#4B6893" transform="matrix(-4.37114e-08 1 1 4.37114e-08 154 235)" />
+        <path id="op2-acc-connection" d="M0-1 65-1 65 117.448 7.99999 117.448 7.99999 115.448 64 115.448 63 116.448 63 0 64 1 0 1ZM9.33333 120.448 1.33333 116.448 9.33333 112.448Z" fill="#4B6893" transform="matrix(1 0 0 -1 487 298.448)" />
+        <path id="datamem-op2_connection" d="M0-1 37.1831-1 37.1831 177.23 35.1831 177.23 35.1831 0 36.1831 1 0 1ZM40.1831 175.897 36.1831 183.897 32.1831 175.897Z" fill="#4B6893" transform="matrix(1 0 0 -1 432 495.897)" />
+        <path id="pc-datamem-connection" d="M205 248 279.941 248 279.941 495.417 278.941 494.417 317.416 494.417 317.416 496.417 277.941 496.417 277.941 249 278.941 250 205 250ZM316.083 491.417 324.083 495.417 316.083 499.417Z" fill="#4B6893" />
+        <path id="acc-op1-connection" d="M385 182 357 182 358 181 358 343.167 357 342.167 403.661 342.167 402.661 343.167 402.661 317.833 404.661 317.833 404.661 344.167 356 344.167 356 180 385 180ZM399.661 319.167 403.661 311.167 407.661 319.167Z" fill="#4B6893" />
     </g>
-</svg>
+    <foreignObject requiredExtensions="http://www.w3.org/1999/xhtml" x="57" y="235" width="112" height="800">
+        <body xmlns="http://www.w3.org/1999/xhtml">
+            <div>Programmsp.</div>
+            <div class="memory program">
+                <table class="memorytable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Adr</th>
+                            <th>Befehl</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pmem"></tbody>
+                </table>
+            </div>
+        </body>
+    </foreignObject>
+    <foreignObject requiredExtensions="http://www.w3.org/1999/xhtml" x="285" y="235" width="112" height="800">
+        <body xmlns="http://www.w3.org/1999/xhtml">
+            <div>Datenspeicher</div>
+            <div class="memory data">
+                <table id="memoryTable" class="memorytable">
+                    <thead>
+                        <tr>
+                            <th>Adr</th>
+                            <th>Wert</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dmem"></tbody>
+                </table>
+            </div>
+        </body>
+    </svg>

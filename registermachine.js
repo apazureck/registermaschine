@@ -10,12 +10,7 @@ var svg;
 var pcPmStartY;
 const MEMORY_TABLE_CELLHEIGHT = 21.8;
 
-var alu_ops = [
-    "add",
-    "sub",
-    "mul",
-    "div"
-]
+var alu_ops = ["add", "sub", "mul", "div"];
 
 var g_instr = [
   "lda",
@@ -275,10 +270,14 @@ function c_step() {
       case "inp":
         oldIdx = data;
         oldVal = c_readData(data);
-        while (true) {
-          var txt = prompt("Bitte Zahl eingeben: ");
+        var txtval = "NAN";
+        while (isNaN(txtval)) {
+          var txt = getValueFromInput();
           var txtval = parseInt(txt);
-          if (!isNaN(txtval)) break;
+          if(isNaN(txtval)) {
+            txt = prompt("Bitte eine Zahl in Input eingeben!");
+            setValueToInput(txt);
+          }          
         }
 
         newVal = c_lim(parseInt(txtval), 16);
@@ -308,6 +307,16 @@ function c_step() {
     g_history.unshift(what);
   }
   return what;
+}
+
+function getValueFromInput() {
+  let elem = document.getElementById("userInput");
+  return elem.value;
+}
+
+function setValueToInput(val) {
+  let elem = document.getElementById("userInput");
+  elem.value = val;
 }
 
 function p_setClass(elem, val) {
@@ -403,6 +412,7 @@ function p_loadCode() {
 
   var prog = document.getElementById(sel.value);
   src.value = prog.text.trim();
+  p_reset();
 }
 
 function p_showProg() {
@@ -440,20 +450,9 @@ function p_showProg() {
 }
 
 function p_showState() {
+  updateProgramCounterRegister();
 
-  updateProgramCounterToProgramMemoryConnection(g_pc);
-  updateProgramMemoryToInstructionRegisterConnection(g_pc);
-  var elem = document.getElementById("pcreg");
-  var data = p_lformat(g_pc, 2);
-  elem.textContent = data;
-
-  if (g_changed[0] > 0) {
-    elem.classList.add("hilite");
-  } else {
-    elem.classList.remove("hilite");
-  }
-
-  data = c_readData(0);
+  var data = c_readData(0);
 
   elem = document.getElementById("areg");
   elem.textContent = data;
@@ -467,44 +466,236 @@ function p_showState() {
     elem.classList.remove("hilite");
   }
 
-  elem = document.getElementById("cur_instr");
+  let instr = getInstructionArray();
 
-  var txt = "";
-  var instr = c_readProg(g_pc);
-  if (instr && instr[0]) {
-    txt = p_lformat(g_pc, 2) + " " + instr[0] + " " + instr[1];
-    //txt += "   " + c_explainInstr(instr[0], instr[1])
+  updateInstructionRegister(instr);
+
+  updateAluOperation(instr);
+
+  updateProgramCounterToProgramMemoryConnection(g_pc);
+  updateProgramMemoryToInstructionRegisterConnection(g_pc);
+  updateInstructionToDataMemoryConnection(instr);
+  updateInputToDataMemoryConnection(instr);
+  updateDataMemoryToAccuConnection(instr);
+  updateDataMemoryToAluConnection(instr);
+
+  updateExplanationBox();
+  updateOutputText();
+
+  function updateProgramCounterRegister() {
+    var elem = document.getElementById("pcreg");
+    var data = p_lformat(g_pc, 2);
+    elem.textContent = data;
   }
 
-  elem.textContent = txt;
-
-  elem = document.getElementById("alu_operation");
-
-  elem.textContent = getAluOperation(instr[0]);
-
-  if (instr && instr[0]) {
-    var elem = document.getElementById("explained");
-    if (elem) elem.innerText = c_explainInstr(instr[0], instr[1]);
+  function updateExplanationBox() {
+    if (instr && instr[0]) {
+      var elem = document.getElementById("explained");
+      if (elem) {
+        elem.innerText = c_explainInstr(instr[0], instr[1]);
+      }
+    }
   }
 
-  var elem = document.getElementById("cur_output");
-  if (elem) elem.innerText = g_output;
-}
+  function updateInstructionRegister(instr) {
+    elem = document.getElementById("cur_instr");
 
-function updateProgramCounterToProgramMemoryConnection(currentProgramCounter) {
-  let elem = document.getElementById("pc-progmem-connection");
-  const endpoint = elem.points[elem.points.length-1];
-  const lowerLeftCorner = elem.points[elem.points.length-2];
-  endpoint.y = pcPmStartY + (currentProgramCounter-1) * MEMORY_TABLE_CELLHEIGHT;
-  lowerLeftCorner.y = pcPmStartY + (currentProgramCounter-1) * MEMORY_TABLE_CELLHEIGHT;
-}
+    var txt = "";
+    if (instr && instr[0]) {
+      txt = instr[0] + " " + instr[1];
+      //txt += "   " + c_explainInstr(instr[0], instr[1])
+    }
 
-function updateProgramMemoryToInstructionRegisterConnection(currentProgramCounter) {
-  let elem = document.getElementById("progmem-instrreg-connection");
-  const startPoint = elem.points[0];
-  const firstCorner = elem.points[1];
-  startPoint.y = pcPmStartY + (currentProgramCounter-1) * MEMORY_TABLE_CELLHEIGHT;
-  firstCorner.y = pcPmStartY + (currentProgramCounter-1) * MEMORY_TABLE_CELLHEIGHT;
+    elem.textContent = txt;
+  }
+
+  function getInstructionArray() {
+    return c_readProg(g_pc);
+  }
+
+  function updateProgramCounterToProgramMemoryConnection(
+    currentProgramCounter
+  ) {
+    let elem = document.getElementById("pc-progmem-connection");
+    const endpoint = elem.points[elem.points.length - 1];
+    const lowerLeftCorner = elem.points[elem.points.length - 2];
+    endpoint.y =
+      pcPmStartY + (currentProgramCounter - 1) * MEMORY_TABLE_CELLHEIGHT;
+    lowerLeftCorner.y =
+      pcPmStartY + (currentProgramCounter - 1) * MEMORY_TABLE_CELLHEIGHT;
+  }
+
+  function updateProgramMemoryToInstructionRegisterConnection(
+    currentProgramCounter
+  ) {
+    let elem = document.getElementById("progmem-instrreg-connection");
+    const startPoint = elem.points[0];
+    const firstCorner = elem.points[1];
+    startPoint.y =
+      pcPmStartY + (currentProgramCounter - 1) * MEMORY_TABLE_CELLHEIGHT;
+    firstCorner.y =
+      pcPmStartY + (currentProgramCounter - 1) * MEMORY_TABLE_CELLHEIGHT;
+  }
+
+  function updateInstructionToDataMemoryConnection(instr) {
+    hideMemoryConnection();
+    hideAccuConnection();
+    switch (instr[0]) {
+      case "inp":
+        if(instr[1] > 0) {
+          showMemoryConnection(instr[1]);
+        } else {
+          showAccuConnection();
+        }
+        break;
+      case "sub":
+      case "add":
+      case "mul":
+      case "div":
+        showMemoryConnection(instr[1]);
+        break;
+      default:
+        break;
+    }
+
+    function showMemoryConnection(memoryAddress) {
+      let elem = document.getElementById("instrreg-datamem-connection");
+      showElement(elem);
+      const endpoint = elem.points[elem.points.length - 1];
+      const lowerLeftCorner = elem.points[elem.points.length - 2];
+      endpoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+      lowerLeftCorner.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function hideMemoryConnection() {
+      let elem = document.getElementById("instrreg-datamem-connection");
+      hideElement(elem);
+    }
+
+    function hideAccuConnection() {
+      let elem = document.getElementById("instrreg-accu-connection");
+      hideElement(elem);
+    }
+
+    function showAccuConnection() {
+      let elem = document.getElementById("instrreg-accu-connection");
+      showElement(elem);
+    }
+  }
+
+  function updateInputToDataMemoryConnection(instr) {
+      hideToMemoryConnection();
+      hideToAccuConnection();
+    switch(instr[0]) {
+      case "inp":
+        if(instr[1] != 0) {
+          showConnection(instr[1]);
+        } else {
+          showAccuConnection();
+        }
+        break;
+      default:
+        break;
+    }
+
+    function showConnection(memoryAddress) {
+      let elem = document.getElementById("userInput-datamem-connection");
+      showElement(elem);
+      const endpoint = elem.points[elem.points.length - 1];
+      const rightBend = elem.points[elem.points.length - 2];
+      endpoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+        rightBend.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function showAccuConnection() {
+      let elem = document.getElementById("userInput-acc-connection");
+      showElement(elem);
+    }
+
+    function hideToMemoryConnection() {
+      let elem = document.getElementById("userInput-datamem-connection");
+      hideElement(elem);
+    }
+
+    function hideToAccuConnection() {
+      let elem = document.getElementById("userInput-acc-connection");
+      hideElement(elem);
+    }
+  }
+
+  function updateDataMemoryToAccuConnection(instr) {
+    switch(instr[0]) {
+      case "lda":
+        showConnection(instr[1]);
+        break;
+      default:
+        hideConnection();
+        break;
+    }
+
+    function showConnection(memoryAddress) {
+      let elem = document.getElementById("datamem-acc-connection");
+      showElement(elem);
+      const startPoint = elem.points[0];
+      const firstBend = elem.points[1];
+      startPoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+        firstBend.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function hideConnection() {
+      let elem = document.getElementById("datamem-acc-connection");
+      hideElement(elem);
+    }
+  }
+
+  function updateDataMemoryToAluConnection(instr) {
+    switch (instr[0]) {
+      case "sub":
+      case "add":
+      case "mul":
+      case "div":
+        showConnection(instr[1]);
+        break;
+      default:
+        hideConnection();
+        break;
+    }
+
+    function showConnection(memoryAddress) {
+      let elem = document.getElementById("datamem-op2-connection");
+      showElement(elem);
+      const startPoint = elem.points[0];
+      const firstBend = elem.points[1];
+      startPoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+        firstBend.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function hideConnection() {
+      let elem = document.getElementById("datamem-op2-connection");
+      hideElement(elem);
+    }
+  }
+
+  function updateOutputText() {
+    var elem = document.getElementById("cur_output");
+    if (elem) elem.innerText = g_output;
+  }
+
+  function updateAluOperation(instr) {
+    try {
+      elem = document.getElementById("alu_operation");
+      elem.textContent = getAluOperation(instr[0]);
+    }
+    catch(error) {}
+  }
 }
 
 function p_showData() {
@@ -529,11 +720,10 @@ function p_showData() {
 }
 
 function getAluOperation(operation) {
-    let opindex = alu_ops.indexOf(operation);
-    if(opindex >= 0) {
-        return alu_ops[opindex];
-    } else
-        return "nop"
+  let opindex = alu_ops.indexOf(operation);
+  if (opindex >= 0) {
+    return alu_ops[opindex];
+  } else return "nop";
 }
 
 window.onload = function () {
@@ -555,3 +745,11 @@ window.onload = function () {
   p_showProg();
   p_showData();
 };
+
+function hideElement(elem) {
+  elem.classList.add("hide");
+}
+
+function showElement(elem) {
+  elem.classList.remove("hide");
+}

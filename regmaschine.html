@@ -175,7 +175,7 @@
           id="registersvg" 
           class="regmachine"
           height = "1000"
-          width = "550"
+          width = "650"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
         >
@@ -381,7 +381,7 @@
             <polyline id="pc-progmem-connection"
               points="104,182 50,182 50,430 90,430"
               class="statemachineArrow"/>
-            <path
+            <path id="instrreg-aluOp-connection"
               d="M0 1-23.9999 1-22.9999 0-22.9999 149.701-23.9999 148.701 21.9367 148.701 21.9367 241.733 19.9367 241.733 19.9367 149.701 20.9367 150.701-24.9999 150.701-24.9999-1 0-1ZM24.9367 240.4 20.9367 248.4 16.9367 240.4Z"
               fill="#4B6893"
               transform="matrix(-4.37114e-08 1 1 4.37114e-08 154 235)"
@@ -391,18 +391,33 @@
               fill="#4B6893"
               transform="matrix(1 0 0 -1 487 298.448)"
             />
-            <path id="datamem-op2_connection"
-              d="M0-1 37.1831-1 37.1831 177.23 35.1831 177.23 35.1831 0 36.1831 1 0 1ZM40.1831 175.897 36.1831 183.897 32.1831 175.897Z"
-              fill="#4B6893"
-              transform="matrix(1 0 0 -1 432 495.897)"
+            <polyline id="datamem-op2-connection"
+              class="statemachineArrow hide"
+              points="435,430 470,430 470,318"
             />
-            <path id="pc-datamem-connection"
-              d="M205 248 279.941 248 279.941 495.417 278.941 494.417 317.416 494.417 317.416 496.417 277.941 496.417 277.941 249 278.941 250 205 250ZM316.083 491.417 324.083 495.417 316.083 499.417Z"
-              fill="#4B6893"
+            <polyline id="instrreg-datamem-connection"
+              class="statemachineArrow hide"
+              points="205,250 275,250 275,430 318,430"
+            />
+            <polyline id="instrreg-accu-connection"
+              class="statemachineArrow hide"
+              points="205,250 275,250 275,182 379,182"
             />
             <path id="acc-op1-connection"
               d="M385 182 357 182 358 181 358 343.167 357 342.167 403.661 342.167 402.661 343.167 402.661 317.833 404.661 317.833 404.661 344.167 356 344.167 356 180 385 180ZM399.661 319.167 403.661 311.167 407.661 319.167Z"
               fill="#4B6893"
+            />
+            <polyline id="userInput-datamem-connection"
+              class="statemachineArrow hide"
+              points="525,498 490,498 490,430 440,430"
+            />
+            <polyline id="userInput-acc-connection"
+              class="statemachineArrow hide"
+              points="525,498 510,498 510,182 493,182"
+            />
+            <polyline id="datamem-acc-connection"
+              class="statemachineArrow hide"
+              points="435,430 550,430 550,182 493,182"
             />
           </g>
           <foreignObject requiredExtensions="http://www.w3.org/1999/xhtml"
@@ -430,7 +445,8 @@
           x="285"
           y="235"
           width="112"
-          height="800" >
+          height="800"
+           >
             <body xmlns="http://www.w3.org/1999/xhtml">
               <div>Datenspeicher</div>
               <div class="memory data">
@@ -445,10 +461,22 @@
                 </table>
               </div>
             </body>
+          </foreignObject>
+          <foreignObject requiredExtensions="http://www.w3.org/1999/xhtml"
+          x="520"
+          y="300"
+          width="200"
+          height="80">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              <div class="input">
+                <p>Input</p>
+                <input type="text" id="userInput" size="5">
+              </div>
+            </body>
+          </foreignObject>
         </svg>
       </div>
       <div class="memories">
-        
           
       </div>
       <div class="descriptions">
