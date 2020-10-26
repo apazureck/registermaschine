@@ -1,0 +1,78 @@
+body {
+  background-color: light-gray;
+}
+.hilite {
+  font-weight: bold;
+  color: #ff0000;
+}
+.dline {
+  width: 6ex;
+}
+.pline {
+  width: 12ex;
+}
+.normal {
+}
+.status {
+  background-color: #00ffff;
+}
+.listing {
+  background-color: #ffffff;
+}
+.code {
+  width: 100%;
+  height: 40ex;
+}
+.registermachine {
+  background: #ebc37f86;
+  display: grid;
+  grid-template-columns: 50px auto auto;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    "leftborder controls program"
+    "leftborder cpu program"
+    "leftborder description program"
+    "leftborder memories program";
+}
+
+.cpu {
+  grid-area: cpu;
+}
+.memories {
+  grid-area: memories;
+  display: grid;
+  grid-template-columns: auto 50px auto;
+  grid-template-rows: auto;
+  grid-template-areas: "memoryProgram spacer data";
+}
+
+.descriptions {
+  grid-area: descriptions;
+}
+
+.controls {
+  grid-area: controls;
+}
+
+.program {
+  grid-area: program;
+}
+
+.cpubgr {
+  fill: #ebc47f55;
+}
+
+.memory {
+  text-align: center;
+  background: linear-gradient(0deg, rgba(167,178,200,1) 0%, rgba(154,166,189,1) 50%, rgba(136,152,182,1) 100%);
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+}
+
+.statemachineArrow {
+  fill: none;
+  stroke: blue;
+  stroke-width: 3;
+  marker-end: url(#head);
+}
