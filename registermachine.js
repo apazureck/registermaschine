@@ -295,8 +295,10 @@ function c_step() {
         break;
 
       case "out":
+        const elem = document.getElementById("outputValue");
+        elem.innerText = c_readData(data);
         var msg = c_explainData(data) + " = " + c_readData(data);
-        alert(msg);
+        // alert(msg);
         g_output = "Ausgabe: " + msg;
         break;
 
@@ -491,11 +493,50 @@ function p_showState() {
   updateDataMemoryToAluConnection(instr);
   updateAccuConnectionToDataMemory(instr);
   updateInstructionRegisterToAccuConnection(instr);
+  updateOutputConnections(instr);
 
   updateExplanationBox();
   updateOutputText();
 
   showJumpArrow(g_pc, instr);
+
+  function updateOutputConnections(instr) {
+    hideMemoryConnection();
+    hideAccuConnection();
+    if(instr[0] === "out") {
+      if(instr[1] === 0) {
+        showAccuConnection();
+      } else {
+        showMemoryConnection(instr[1]);
+      }
+    }
+
+    function hideMemoryConnection() {
+      const elem = document.getElementById("datamem-output-connection");
+      hideElement(elem);
+    }
+
+    function showMemoryConnection(memoryAddress) {
+      const elem = document.getElementById("datamem-output-connection");
+      showElement(elem);
+      const startPoint = elem.points[0];
+      const firstBend = elem.points[1];
+      startPoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+        firstBend.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function showAccuConnection() {
+      const elem = document.getElementById("acc-output-connection");
+      showElement(elem);
+    }
+
+    function hideAccuConnection() {
+      const elem = document.getElementById("acc-output-connection");
+      hideElement(elem);
+    }
+  }
 
   function updateProgramCounterRegister() {
     var elem = document.getElementById("pcreg");
@@ -748,7 +789,9 @@ function p_showState() {
 
   function updateOutputText() {
     var elem = document.getElementById("cur_output");
-    if (elem) elem.innerText = g_output;
+    if (elem) {
+      elem.innerText = g_output;
+    }
   }
 
   function updateAluOperation(instr) {

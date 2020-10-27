@@ -87,3 +87,9 @@ body {
   stroke-width: 3;
   marker-end: url(#redHead);
 }
+
+.outputValue {
+  background: beige;
+  padding: 5px;
+  text-align: center;
+}
