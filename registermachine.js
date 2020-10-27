@@ -12,6 +12,16 @@ const MEMORY_TABLE_CELLHEIGHT = 21.8;
 
 var alu_ops = ["add", "sub", "mul", "div"];
 
+var jump_ops = [
+  "jmp",
+  "jez",
+  "jne",
+  "jlz",
+  "jle",
+  "jgz",
+  "jge"
+];
+
 var g_instr = [
   "lda",
   "ldk",
@@ -29,7 +39,7 @@ var g_instr = [
   "jge",
   "inp",
   "out",
-  "hlt",
+  "hlt"
 ];
 
 function c_reset() {
@@ -469,6 +479,7 @@ function p_showState() {
   let instr = getInstructionArray();
 
   updateInstructionRegister(instr);
+  updateRightRegister(instr);
 
   updateAluOperation(instr);
 
@@ -478,9 +489,13 @@ function p_showState() {
   updateInputToDataMemoryConnection(instr);
   updateDataMemoryToAccuConnection(instr);
   updateDataMemoryToAluConnection(instr);
+  updateAccuConnectionToDataMemory(instr);
+  updateInstructionRegisterToAccuConnection(instr);
 
   updateExplanationBox();
   updateOutputText();
+
+  showJumpArrow(g_pc, instr);
 
   function updateProgramCounterRegister() {
     var elem = document.getElementById("pcreg");
@@ -507,6 +522,26 @@ function p_showState() {
     }
 
     elem.textContent = txt;
+  }
+
+  function updateRightRegister(instr) {
+    switch(instr[0]) {
+      case "sub":
+      case "add":
+      case "mul":
+      case "div":
+        showRegisterValue(instr[1]);
+        break;
+      default:
+        break;
+    }
+
+    function showRegisterValue(memoryAddress) {
+      let elem = document.getElementById("alu-right-register");
+      if(memoryAddress > 0) {
+        elem.textContent = c_readData(memoryAddress);
+      }
+    }
   }
 
   function getInstructionArray() {
@@ -575,12 +610,12 @@ function p_showState() {
     }
 
     function hideAccuConnection() {
-      let elem = document.getElementById("instrreg-accu-connection");
+      let elem = document.getElementById("userInput-acc-connection");
       hideElement(elem);
     }
 
     function showAccuConnection() {
-      let elem = document.getElementById("instrreg-accu-connection");
+      let elem = document.getElementById("userInput-acc-connection");
       showElement(elem);
     }
   }
@@ -654,6 +689,33 @@ function p_showState() {
     }
   }
 
+  function updateAccuConnectionToDataMemory(instr) {
+    switch(instr[0]) {
+      case "sta":
+        showConnection(instr[1]);
+        break;
+      default:
+        hideConnection();
+        break;
+    }
+
+    function showConnection(memoryAddress) {
+      let elem = document.getElementById("acc-datamem-connection");
+      showElement(elem);
+      const startPoint = elem.points[elem.points.length - 1];
+      const firstBend = elem.points[elem.points.length - 2];
+      startPoint.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+        firstBend.y =
+        pcPmStartY + (memoryAddress - 1) * MEMORY_TABLE_CELLHEIGHT;
+    }
+
+    function hideConnection() {
+      let elem = document.getElementById("acc-datamem-connection");
+      hideElement(elem);
+    }
+  }
+
   function updateDataMemoryToAluConnection(instr) {
     switch (instr[0]) {
       case "sub":
@@ -692,9 +754,76 @@ function p_showState() {
   function updateAluOperation(instr) {
     try {
       elem = document.getElementById("alu_operation");
-      elem.textContent = getAluOperation(instr[0]);
+      const op = getAluOperation(instr[0]);
+      elem.textContent = op
+      if(op !== "nop") {
+        showInstrRegAluOperationConnection();
+        showAluToAccuConnection();
+      } else {
+        hideInstrRegAluOperationConnection();
+        hideAluToAccuConnection();
+      }
     }
     catch(error) {}
+
+    function getAluOperation(operation) {
+      let opindex = alu_ops.indexOf(operation);
+      if (opindex >= 0) {
+        return alu_ops[opindex];
+      } else return "nop";
+    }
+
+    function showInstrRegAluOperationConnection() {
+      const elem = document.getElementById("instrreg-aluOp-connection");
+      showElement(elem);
+    }
+
+    function hideInstrRegAluOperationConnection() {
+      const elem = document.getElementById("instrreg-aluOp-connection");
+      hideElement(elem);
+    }
+
+    function showAluToAccuConnection() {
+      const elem = document.getElementById("op2-acc-connection");
+      showElement(elem);
+    }
+
+    function hideAluToAccuConnection() {
+      const elem = document.getElementById("op2-acc-connection");
+      hideElement(elem);
+    }
+  }
+
+  function showJumpArrow(curInstrLine, instr) {
+    const elem = document.getElementById("jumpPath");
+    const endY = (instr[1] - curInstrLine) * MEMORY_TABLE_CELLHEIGHT;
+    const startY = (curInstrLine - 1) * MEMORY_TABLE_CELLHEIGHT;
+    const rightXOfProgramMem = 207;
+
+    elem.setAttribute("d", `M${rightXOfProgramMem},${startY + pcPmStartY} c 50,0 50,${endY} 5,${endY}`);
+    if(jump_ops.indexOf(instr[0]) >= 0) {
+      showElement(elem);
+    } else {
+      hideElement(elem);
+    }
+  }
+
+  function updateInstructionRegisterToAccuConnection(instr) {
+    const elem = document.getElementById("instrreg-accu-connection");
+    switch(instr[0]) {
+      case "lda":
+      case "ldk":
+      case "sta":
+      case "mul":
+      case "div":
+      case "add":
+      case "sub":
+        showElement(elem);
+        break;
+      default:
+        hideElement(elem);
+        break;
+    }
   }
 }
 
@@ -717,13 +846,6 @@ function p_showData() {
     tab += line;
   }
   dmem.innerHTML = tab;
-}
-
-function getAluOperation(operation) {
-  let opindex = alu_ops.indexOf(operation);
-  if (opindex >= 0) {
-    return alu_ops[opindex];
-  } else return "nop";
 }
 
 window.onload = function () {

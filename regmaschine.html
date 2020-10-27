@@ -184,6 +184,10 @@
                     refX='0.1' refY='2'>
               <path d='M0,0 V4 L2,2 Z' fill='blue' />
             </marker>
+            <marker id='redHead' orient='auto' markerWidth='2' markerHeight='4'
+                    refX='0.1' refY='2'>
+              <path d='M0,0 V4 L2,2 Z' fill='red' />
+            </marker>
             <clipPath id="clip0">
               <rect x="38" y="137" width="514" height="800" />
             </clipPath>
@@ -345,18 +349,6 @@
               stroke-miterlimit="8"
               fill="url(#fill5)"
             />
-            <text
-              fill="#0350A0"
-              font-family="Arial,Arial_MSFontService,sans-serif"
-              font-weight="400"
-              font-size="11"
-              transform="translate(107.255 489)"
-            >
-            </text>
-            <polyline id="progmem-instrreg-connection"
-              points="207,430 240,430 240,300 155,300 155,270"
-              class="statemachineArrow"
-            />
             <path id="alu_background"
               d="M385.5 230.5 486.5 230.5 486.5 311.834 454.27 312.5 437.656 283.174 421.043 311.5 385.5 311.834 385.5 230.5Z"
               stroke="#4B6893"
@@ -366,30 +358,39 @@
               fill-rule="evenodd"
             />
             <text
-              fill="#4B6893"
-              font-family="Arial,Arial_MSFontService,sans-serif"
-              font-weight="400"
-              font-size="11"
-              transform="translate(414.625 253)"
+              text-anchor="middle"
+               x="435" y="255" width="103"
             >
               <tspan id="alu_operation">Operation</tspan>
-              <tspan font-size="9" x="-20.3474" y="43" id="alu_left_register">0</tspan>
-              <tspan font-size="9" x="44.3299" y="43">Zahl</tspan>
-              <tspan font-size="9" x="44.3299" y="52">2</tspan>
+            </text>
+            
+            <text
+              text-anchor="middle"
+              x="405" y="300" width="103"
+            >
+              <tspan id="alu_left_register">0</tspan>
+            </text>
+            <text
+              text-anchor="middle"
+              x="468" y="300" width="103"
+            >
+              <tspan id="alu-right-register">0</tspan>
             </text>
             <!-- Befehlszähler -> Programmspeicher -->
             <polyline id="pc-progmem-connection"
               points="104,182 50,182 50,430 90,430"
               class="statemachineArrow"/>
-            <path id="instrreg-aluOp-connection"
-              d="M0 1-23.9999 1-22.9999 0-22.9999 149.701-23.9999 148.701 21.9367 148.701 21.9367 241.733 19.9367 241.733 19.9367 149.701 20.9367 150.701-24.9999 150.701-24.9999-1 0-1ZM24.9367 240.4 20.9367 248.4 16.9367 240.4Z"
-              fill="#4B6893"
-              transform="matrix(-4.37114e-08 1 1 4.37114e-08 154 235)"
+            <polyline id="progmem-instrreg-connection"
+              points="207,430 240,430 240,300 155,300 155,270"
+              class="statemachineArrow"
             />
-            <path id="op2-acc-connection"
-              d="M0-1 65-1 65 117.448 7.99999 117.448 7.99999 115.448 64 115.448 63 116.448 63 0 64 1 0 1ZM9.33333 120.448 1.33333 116.448 9.33333 112.448Z"
-              fill="#4B6893"
-              transform="matrix(1 0 0 -1 487 298.448)"
+            <polyline id="instrreg-aluOp-connection"
+              points="155,236 155,220 320,220 320,250 390,250"
+              class="statemachineArrow hide"
+            />
+            <polyline id="op2-acc-connection"
+            points="487,250 535,250 535,183 493,183"
+              class="statemachineArrow hide"
             />
             <polyline id="datamem-op2-connection"
               class="statemachineArrow hide"
@@ -401,23 +402,31 @@
             />
             <polyline id="instrreg-accu-connection"
               class="statemachineArrow hide"
-              points="205,250 275,250 275,182 379,182"
+              points="205,250 275,250 275,150 435,150 435,162"
             />
-            <path id="acc-op1-connection"
-              d="M385 182 357 182 358 181 358 343.167 357 342.167 403.661 342.167 402.661 343.167 402.661 317.833 404.661 317.833 404.661 344.167 356 344.167 356 180 385 180ZM399.661 319.167 403.661 311.167 407.661 319.167Z"
-              fill="#4B6893"
+            <polyline id="acc-op1-connection"
+              class="statemachineArrow"
+              points="385,182 347,182 347,340 405,340 405,318"
             />
             <polyline id="userInput-datamem-connection"
               class="statemachineArrow hide"
-              points="525,498 490,498 490,430 440,430"
+              points="555,498 490,498 490,430 440,430"
             />
             <polyline id="userInput-acc-connection"
               class="statemachineArrow hide"
-              points="525,498 510,498 510,182 493,182"
+              points="555,498 510,498 510,182 493,182"
             />
             <polyline id="datamem-acc-connection"
               class="statemachineArrow hide"
               points="435,430 550,430 550,182 493,182"
+            />
+            <polyline id="acc-datamem-connection"
+            class="statemachineArrow hide"
+            points="487,182 550,182 550,430 440,430"
+              />
+            <path id="jumpPath"
+              class="jumpPath hide"
+              d="M100,250 C100,100 398,111 400,250"
             />
           </g>
           <foreignObject requiredExtensions="http://www.w3.org/1999/xhtml"

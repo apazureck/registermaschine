@@ -80,3 +80,10 @@ body {
 .hide {
   visibility: collapse;
 }
+
+.jumpPath {
+  fill: none;
+  stroke: red;
+  stroke-width: 3;
+  marker-end: url(#redHead);
+}
