@@ -14,7 +14,8 @@ body {
 .normal {
 }
 .status {
-  background-color: #00ffff;
+  background-color: #EBC47F;
+  padding: 5px;
 }
 .listing {
   background-color: #ffffff;
@@ -26,36 +27,31 @@ body {
 .registermachine {
   background: #ebc37f86;
   display: grid;
-  grid-template-columns: 50px auto auto;
-  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 650px auto;
+  grid-template-rows: auto auto;
   grid-template-areas:
-    "leftborder controls program"
-    "leftborder cpu program"
-    "leftborder description program"
-    "leftborder memories program";
+    "controls descriptions"
+    "cpu program"
 }
 
 .cpu {
   grid-area: cpu;
 }
-.memories {
-  grid-area: memories;
-  display: grid;
-  grid-template-columns: auto 50px auto;
-  grid-template-rows: auto;
-  grid-template-areas: "memoryProgram spacer data";
-}
 
 .descriptions {
+
   grid-area: descriptions;
 }
 
 .controls {
   grid-area: controls;
+  padding: 5px;
 }
 
 .program {
   grid-area: program;
+  padding-right: 20px;
+  height: 100%;
 }
 
 .cpubgr {
