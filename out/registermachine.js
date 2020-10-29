@@ -418,6 +418,15 @@ function p_clearCode() {
   src.value = "";
 }
 
+function p_loadCode() {
+  var src = document.getElementById("code");
+  var sel = document.getElementById("program-sel");
+
+  var prog = document.getElementById(sel.value);
+  src.value = prog.text.trim();
+  p_reset();
+}
+
 function p_showProg() {
   var beg = 1;
   var step = g_MAX_DATALEN - 1;
