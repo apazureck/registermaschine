@@ -487,7 +487,8 @@ function p_showState() {
   updateOutputConnections(instr);
 
   updateExplanationBox();
-  updateOutputText();
+  updateOutputText(instr);
+  updateStatusText();
 
   showJumpArrow(g_pc, instr);
 
@@ -778,11 +779,16 @@ function p_showState() {
     }
   }
 
-  function updateOutputText() {
-    var elem = document.getElementById("cur_output");
-    if (elem) {
-      elem.innerText = g_output;
+  function updateOutputText(instr) {
+    const elem = document.getElementById("outputValue");
+    if(instr[0] === "out") {
+      elem.innerText = c_readData(instr[1])
     }
+  }
+
+  function updateStatusText() {
+    var elem = document.getElementById("cur_output");
+    elem.innerHTML = g_output;
   }
 
   function updateAluOperation(instr) {
