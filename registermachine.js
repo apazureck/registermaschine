@@ -398,7 +398,7 @@ function p_cont() {
 }
 
 function p_parse() {
-  var src = document.getElementById("code").value;
+  var src = editor.getValue();
   var lines = src.split("\n");
   for (var idx = 0; idx < lines.length; idx++) c_parseLine(lines[idx]);
 }
