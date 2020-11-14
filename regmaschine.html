@@ -123,13 +123,13 @@
 
   <body>
     <details class="title">
-      <summary>Registermaschine V 0.2.1</summary>
+      <summary>Registermaschine V 0.2.2</summary>
       Simulation der Registermaschine aus der Vorlesung IG/A an der TH Nürnberg
       <p>Prof. J. Krumm, &copy;2018</p>
       <p>Andreas Pazureck &copy;2020</p>
 
       <p>
-        Beispielprogramme aus Helmut Herold et. al: Grundlagen der Informatik,
+        Beispielprogramme mit freundlicher Genehmigung aus Helmut Herold et. al: Grundlagen der Informatik,
         &copy;2002
         <noscript>
           <p class="hilite">Dieses Programm benötigt Javascript</p>
@@ -501,6 +501,131 @@
           <select id="program-sel"></select>
         </div>
         <textarea spellcheck="false" class="code" id="code" style="height:500px"></textarea>
+        <details>
+          <summary style="background-color: #f3c600; font-weight: bold; text-align: center;">Befehlsliste</summary>
+          <table class="helptable">
+            <thead>
+              <tr>
+                <th>Befehl</th>
+                <th>Bedeutung</th>
+              </tr>
+            </thead>
+            <tr>
+              <th colspan="2" class="sectionHeader">Sprungbefehle</th>
+            </tr>
+            <tr>
+              <th>
+                JMP ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile (<code>##</code> ist die Speicherzelle von 0 - 23)
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JEZ ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JNE ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator ungleich 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JLZ ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator kleiner 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JLE ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator kleiner oder gleich 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JGZ ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator größer 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                JGE ##
+              </th>
+              <td>
+                Springt zur angegebenen Programmzeile, wenn der aktuelle Wert im Akkumulator größer oder gleich 0 ist.
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2" class="sectionHeader">
+                Verarbeitungsbefehle
+              </th>
+            </tr>
+            <tr>
+              <th>ADD ##</th>
+              <td>Addiert auf den aktuellen Wert im Akkumulator den Wert in der angegebenen Speicherzelle (<code>##</code>). Das Ergebnis landet wieder im Akkumulator.</td>
+            </tr>
+            <tr>
+              <th>SUB ##</th>
+              <td>Subtrahiert den Wert in der angegebenen Speicherzelle (<code>##</code>) vom aktuellen Wert im Akkumulator. Das Ergebnis landet wieder im Akkumulator.</td>
+            </tr>
+            <tr>
+              <th>MUL ##</th>
+              <td>
+                Multiplizert den Wert im Akkumulator mit der angegebenen Speicherzelle (<code>##</code>). Das Ergebnis landet wieder im Akkumulator.
+              </td>
+            </tr>
+            <tr>
+              <th>DIV ##</th>
+              <td>Dividiert den aktuellen Wert im Akkumulator mit dem Wert in der angegebenen Speicherzelle (<code>##</code>). Das Ergebnis landet wieder im Akkumulator.</td>
+            </tr>
+            <tr>
+              <th colspan="2" class="sectionHeader">Transportbefehle</th>
+            </tr>
+            <tr>
+              <th>LDA ##</th>
+              <td>Lädt den Wert der angegebenen Speicherzelle (<code>##</code>) in den Akkumulator.</td>
+            </tr>
+            <tr>
+              <th>LDK ##</th>
+              <td>Lädt die angegebenen KONSTANTE (<code>##</code>) in den Akkumulator.</td>
+            </tr>
+            <tr>
+              <th>STA ##</th>
+              <td>Speichert den Wert im Akku in die angegebenen Speicherzelle (<code>##</code>).</td>
+            </tr>
+            <tr>
+              <th colspan="2" class="sectionHeader">Sonstige Befehle</th>
+            </tr>
+            <tr>
+              <th>INP ##</th>
+              <td>Speichert den Wert vom INPUT in die angegebenen Speicherzelle (<code>##</code>). <code>INP 00</code> speichert den Wert vom INPUT direkt in den Akkumulator.</td>
+            </tr>
+            <tr>
+              <th>OUT ##</th>
+              <td>Schreibt den Wert der Speicherzelle (<code>##</code>) auf den OUTPUT. <code>OUT 00</code> schreibt den aktuellen Akkumulatorwert auf den OUTPUT.</td>
+            </tr>
+            <tr>
+              <th>HLT 99</th>
+              <td>
+                Beendet das aktuelle Programm.
+              </td>
+            </tr>
+          </table>
+        </details>
       </div>
     </div>
   </body>

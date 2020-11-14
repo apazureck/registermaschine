@@ -2,7 +2,7 @@ var g_output = "";
 var g_changed = [-1, -1, -1];
 var g_pc = -1;
 var g_MAX_DATALEN = 16;
-var g_MAX_PROGLEN = 64;
+var g_MAX_PROGLEN = 25;
 var g_MAX_CYCLE = 1000;
 var g_dmem = new Array(g_MAX_DATALEN);
 var g_pmem = new Array(g_MAX_PROGLEN);
@@ -420,7 +420,7 @@ function p_clearCode() {
 
 function p_showProg() {
   var beg = 1;
-  var step = g_MAX_DATALEN - 1;
+  var step = g_MAX_PROGLEN - 1;
   while (beg + step <= g_pc) beg += step;
   var pmem = document.getElementById("pmem");
   var tab = "";

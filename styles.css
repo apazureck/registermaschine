@@ -14,8 +14,13 @@ body {
 .normal {
 }
 .title {
-  background-color: #756343;
+  background-color: #f3c600;
   padding: 5px;
+}
+.title>summary {
+  text-align: center;
+  font-weight: bold;
+  background-color: #f3c600;
 }
 .status {
   background-color: #EBC47F;
@@ -106,4 +111,37 @@ body {
   line-height: 20px;
   padding: 10px;
   tab-size: 4;
+}
+
+table.helptable {
+  background-color: #ffeda0;
+  border-collapse: collapse;
+  border: none;
+}
+
+table.helptable>thead {
+  background-color: #f3c600;
+}
+table.helptable>tfoot {
+  background-color: #F7F1D4;
+  font-size: 80%;
+  border-top: 1px solid #999;
+}
+table.helptable td {
+  text-align: left;
+  padding: 0.5em 1em;
+}
+
+table.helptable th {
+  font-family: monospace;
+  text-align: left;
+  width: 2em;
+  padding: 0.5em 1em;
+}
+
+table.helptable th.sectionHeader {
+  font-weight: bold;
+  text-align: center;
+  border-top: 1px solid #999;
+  background: linear-gradient(180deg, #f3c600, #ffeda0);
 }
