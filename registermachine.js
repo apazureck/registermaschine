@@ -282,14 +282,14 @@ function c_step() {
         oldVal = c_readData(data);
         var txtval = "NAN";
         while (isNaN(txtval)) {
-          var txt = getValueFromInput();
+          var txt = getValueFromInput(); //liest Wert aus Eingabefeld
           var txtval = parseInt(txt);
           if(isNaN(txtval)) {
-            txt = prompt("Bitte eine Zahl in Input eingeben!");
-            setValueToInput(txt);
-          }          
+            txt = prompt("Bitte eine Zahl in Input eingeben!");//falls Feld leer einlesen
+            setValueToInput(txt);//nutzlose funktion durch reset unten
+          }     
         }
-
+        setValueToInput(null); //setzt das Eingabefeld zurück
         newVal = c_lim(parseInt(txtval), 16);
         c_writeData(data, newVal);
         break;
