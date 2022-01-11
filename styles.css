@@ -113,6 +113,11 @@ body {
   tab-size: 4;
 }
 
+.memorytable {
+  border-spacing: 2;
+  height: 20;
+}
+
 table.helptable {
   background-color: #ffeda0;
   border-collapse: collapse;
