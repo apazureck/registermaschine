@@ -9,6 +9,7 @@ var g_pmem = new Array(g_MAX_PROGLEN);
 var svg;
 var pcPmStartY;
 const MEMORY_TABLE_CELLHEIGHT = 21.8;
+const resetcb = document.querySelector('#inputreset');
 
 var alu_ops = ["add", "sub", "mul", "div"];
 
@@ -289,7 +290,9 @@ function c_step() {
             setValueToInput(txt);//nutzlose funktion durch reset unten
           }     
         }
-        setValueToInput(null); //setzt das Eingabefeld zurück
+        if(resetcb.checked){
+          setValueToInput(null); //setzt das Eingabefeld zurück falls checkbox geklickt
+        }
         newVal = c_lim(parseInt(txtval), 16);
         c_writeData(data, newVal);
         break;
