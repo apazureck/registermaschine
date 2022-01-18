@@ -1,0 +1,39 @@
+# This is a basic workflow that is manually triggered
+
+name: Playwright test
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches: 
+        - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: "Test site using Playwright"
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04  
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: | 
+          cd testing
+          npm ci
+          npx playwright install-deps
+          npx playwright install
+      - name: Run Playwright Tests        
+        continue-on-error: false
+        working-directory: testing       
+        run: |   
+          npx playwright test e2e --reporter=html --config playwright.config.ts
