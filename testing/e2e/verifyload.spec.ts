@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('basic test', async ({ page }) => {
-  await page.goto('file:///D:/Files/registermaschine/src/regmaschine.html');
+  await page.goto('http://pazureck.de/registermaschine/');
    await page.click('text=Lade Beispiel');
   // Click input[type="text"]
   await page.click('input[type="text"]');

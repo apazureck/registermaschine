@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('basic test', async ({ page }) => {
-  await page.goto('file:///D:/Files/registermaschine/src/regmaschine.html');
+  await page.goto('pazureck.de/registermaschine');
    await page.click('text=Lade Beispiel');
   // Click input[type="text"]
   await page.click('input[type="text"]');
@@ -10,5 +10,5 @@ test('basic test', async ({ page }) => {
   // Click text=/.*\>\>.*/
   await page.click('text=/.*\\>\\>.*/');
   const locator = page.locator('id=outputValue');
-  await expect(locator).toHaveText(/6/);
+  await expect(locator).toHaveText(/5/);
 });
