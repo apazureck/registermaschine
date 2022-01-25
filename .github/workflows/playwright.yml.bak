@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: '14.x'
           cache: 'npm'
+          cache-dependency-path: testing/package-lock.json
       - name: Install dependencies
         run: | 
           cd testing
