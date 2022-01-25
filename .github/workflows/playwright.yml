@@ -37,9 +37,9 @@ jobs:
         working-directory: testing       
         run: |   
           npx playwright test e2e --reporter=html --config playwright.config.ts
-       - name: Upload test results
-         if: always()
-         uses: actions/upload-artifact@v2
-         with:
-            name: playwright-results
-            path: test-results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: playwright-results
+          path: test-results
