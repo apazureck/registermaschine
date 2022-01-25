@@ -101,7 +101,7 @@ const config: PlaywrightTestConfig = {
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
 
-  /* Run your local dev server before starting the tests */
+  /* Run your local dev server running http-server before starting the tests */
    webServer: {
      command: 'npx http-server ../src/ -p 3000',
      port: 3000,
