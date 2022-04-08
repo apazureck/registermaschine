@@ -150,3 +150,7 @@ table.helptable th.sectionHeader {
   border-top: 1px solid #999;
   background: linear-gradient(180deg, #f3c600, #ffeda0);
 }
+
+label {
+  font-size: 12px;
+}
