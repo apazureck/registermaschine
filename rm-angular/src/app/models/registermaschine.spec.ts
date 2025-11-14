@@ -1,9 +1,4 @@
-import {
-  CommandCode,
-  LoadToAkkuCommand,
-  StoreFromAkkuCommand,
-  HaltCommand,
-} from './commands';
+import { CommandCode } from './commands';
 import { Registermaschine } from './registermaschine';
 
 describe('Registermaschine', () => {
