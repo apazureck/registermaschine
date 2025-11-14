@@ -1,6 +1,6 @@
 import { Accumulator } from './accumulator';
 import { Alu } from './alu';
-import { Command, CommandCode } from './commands';
+import { CommandCode } from './commands';
 import { DataMemory } from './data-memory';
 import { IoDevice } from './io-device';
 import { Program } from './program';

@@ -1,6 +1,5 @@
 import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
-import { CommandCode, registerCommand } from '../command';
 
 export class JumpGreaterEqualsZeroCommand extends Command {
   override execute(rm: RmComponents): void {
@@ -15,8 +14,3 @@ export class JumpGreaterEqualsZeroCommand extends Command {
     }
   }
 }
-
-registerCommand(
-  CommandCode.JumpGreaterEqualsZero,
-  JumpGreaterEqualsZeroCommand
-);

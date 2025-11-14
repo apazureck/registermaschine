@@ -1,5 +1,5 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
 export class JumpCommand extends Command {
   override execute(rm: RmComponents): void {
@@ -10,5 +10,3 @@ export class JumpCommand extends Command {
     rm.programCounter.setAddress(targetAddress);
   }
 }
-
-registerCommand(CommandCode.Jump, JumpCommand);

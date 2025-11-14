@@ -1,9 +1,10 @@
 import { Command as Command } from './commands';
+import { HaltCommand } from './commands/halt-command';
 import { ProgramCounter } from './program-counter';
 import { ProgramMemory } from './program-memory';
 
 export class ProgramRegister {
-  #currentCommand: Command = new Command('HLT 99');
+  #currentCommand: Command = new HaltCommand('HLT 99');
   #currentCommandSubscribers: ((command: Command) => void)[] = [];
   readonly #programMemory: ProgramMemory;
 

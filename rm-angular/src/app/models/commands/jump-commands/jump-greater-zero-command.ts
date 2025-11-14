@@ -14,7 +14,3 @@ export class JumpGreaterZeroCommand extends Command {
     }
   }
 }
-
-import { CommandCode, registerCommand } from '../command';
-
-registerCommand(CommandCode.JumpGreaterZero, JumpGreaterZeroCommand);

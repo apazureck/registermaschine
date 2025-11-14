@@ -1,5 +1,5 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
 export class MultiplyCommand extends Command {
   override load(rm: RmComponents): void {
@@ -14,5 +14,3 @@ export class MultiplyCommand extends Command {
     rm.alu.execute();
   }
 }
-
-registerCommand(CommandCode.Multiply, MultiplyCommand);

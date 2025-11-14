@@ -1,4 +1,5 @@
 import { Command, CommandCode } from './commands';
+import { getCommand } from './commands/command-factory';
 
 const keys: (keyof typeof CommandCode)[] = <(keyof typeof CommandCode)[]>(
   Object.keys(CommandCode)

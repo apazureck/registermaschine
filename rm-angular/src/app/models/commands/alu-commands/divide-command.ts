@@ -1,6 +1,5 @@
 import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
-import { CommandCode, registerCommand } from '../command';
 
 export class DivideCommand extends Command {
   override load(rm: RmComponents): void {
@@ -14,5 +13,3 @@ export class DivideCommand extends Command {
     rm.alu.execute();
   }
 }
-
-registerCommand(CommandCode.Divide, DivideCommand);

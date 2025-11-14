@@ -1,7 +1,7 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
-export class JumpEqZeroCommand extends Command {
+export class JumpEqualsZeroCommand extends Command {
   override execute(rm: RmComponents): void {
     const targetAddress = parseInt(this.operand);
     if (isNaN(targetAddress) || targetAddress < 0) {
@@ -14,5 +14,3 @@ export class JumpEqZeroCommand extends Command {
     }
   }
 }
-
-registerCommand(CommandCode.JumpEqualsZero, JumpEqZeroCommand);

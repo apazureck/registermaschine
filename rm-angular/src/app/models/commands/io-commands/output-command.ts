@@ -1,5 +1,5 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
 export class OutputCommand extends Command {
   override load(registermaschine: RmComponents): void {
@@ -19,5 +19,3 @@ export class OutputCommand extends Command {
     }
   }
 }
-
-registerCommand(CommandCode.Output, OutputCommand);

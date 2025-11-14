@@ -1,5 +1,5 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
 export class AddCommand extends Command {
   override load(rm: RmComponents): void {
@@ -13,5 +13,3 @@ export class AddCommand extends Command {
     rm.alu.execute();
   }
 }
-
-registerCommand(CommandCode.Add, AddCommand);

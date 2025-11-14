@@ -1,5 +1,5 @@
 import { RmComponents } from '../../registermaschine';
-import { Command, CommandCode, registerCommand } from '../command';
+import { Command } from '../command';
 
 export class LoadConstantToAccumulatorCommand extends Command {
   override execute(registermaschine: RmComponents): void {
@@ -10,8 +10,3 @@ export class LoadConstantToAccumulatorCommand extends Command {
     registermaschine.accumulator.currentValue = constantValue;
   }
 }
-
-registerCommand(
-  CommandCode.LoadConstantToAccumulator,
-  LoadConstantToAccumulatorCommand
-);

@@ -1,5 +1,4 @@
-import { Registermaschine, RmComponents } from '../registermaschine';
-import { AddCommand } from './alu-commands/add-command';
+import { RmComponents } from '../registermaschine';
 
 export enum CommandCode {
   Jump = 'JMP',
@@ -42,26 +41,4 @@ export abstract class Command {
   }
 
   load(registermaschine: RmComponents): void {}
-}
-
-const registeredCommands: {
-  [key in CommandCode]?: new (opString: string) => Command;
-} = {};
-
-export function registerCommand(
-  commandCode: CommandCode,
-  commandConstructor: new (opString: string) => Command
-): void {
-  registeredCommands[commandCode] = commandConstructor;
-}
-
-export function getCommand(commandString: string): Command | undefined {
-  const newCommandFactory =
-    registeredCommands[
-      commandString.trim().split(' ')[0].toUpperCase() as CommandCode
-    ];
-  if (newCommandFactory) {
-    return new newCommandFactory(commandString);
-  }
-  throw new Error(`Unknown command: ${commandString}`);
 }

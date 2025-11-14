@@ -1,4 +1,5 @@
 import { Command } from './commands';
+import { HaltCommand } from './commands/halt-command';
 
 export class ProgramMemory {
   readonly #memory: Command[] = [];
@@ -22,7 +23,7 @@ export class ProgramMemory {
       console.error(
         `ProgramMemory: No command at address ${currentCount}, returning HLT 99`
       );
-      return new Command('HLT 99');
+      return new HaltCommand('HLT 99');
     }
     return this.#memory[currentCount];
   }

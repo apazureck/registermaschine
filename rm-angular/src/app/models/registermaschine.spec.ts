@@ -1,4 +1,9 @@
-import { CommandCode } from './commands';
+import {
+  CommandCode,
+  LoadToAkkuCommand,
+  StoreFromAkkuCommand,
+  HaltCommand,
+} from './commands';
 import { Registermaschine } from './registermaschine';
 
 describe('Registermaschine', () => {
@@ -47,12 +52,16 @@ describe('Registermaschine', () => {
   it('should run a simple program', () => {
     const rm = new Registermaschine();
     rm.loadProgram(`
-      LDA 10
+      LDK 10
+      STA 11
       ADD 11
       STA 12
       HLT 99
     `);
     rm.run();
-    expect(rm.programCounter.current).toBe(3);
+    expect(rm.programCounter.current).toBe(4);
+    expect(rm.dataMemory.getValue(11)).toBe(10);
+    expect(rm.dataMemory.getValue(12)).toBe(20);
+    expect(rm.accumulator.currentValue).toBe(20);
   });
 });

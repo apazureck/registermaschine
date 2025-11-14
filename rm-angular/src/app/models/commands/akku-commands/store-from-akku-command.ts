@@ -1,6 +1,5 @@
 import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
-import { CommandCode, registerCommand } from '../command';
 
 export class StoreFromAkkuCommand extends Command {
   override execute(registermaschine: RmComponents): void {
@@ -11,5 +10,3 @@ export class StoreFromAkkuCommand extends Command {
     );
   }
 }
-
-registerCommand(CommandCode.StoreFromAccumulator, StoreFromAkkuCommand);

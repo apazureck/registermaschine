@@ -1,9 +1,10 @@
-import { Command, CommandCode } from './commands';
+import { CommandCode } from './commands';
+import { getCommand } from './commands/command-factory';
 import { ProgramMemory } from './program-memory';
 
 describe('ProgramMemory', () => {
   it('should load and retrieve commands correctly', () => {
-    const commands = [new Command('LDA 10'), new Command('STA 20')];
+    const commands = [getCommand('LDA 10'), getCommand('STA 20')];
     const programMemory = new ProgramMemory(256);
     programMemory.loadCommands(commands);
     expect(programMemory.getCommand(0).code).toBe(
