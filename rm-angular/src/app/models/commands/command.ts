@@ -21,6 +21,7 @@ export enum CommandCode {
   Input = 'INP',
   Output = 'OUT',
   Halt = 'HLT',
+  Noop = 'NOOP',
 }
 
 export abstract class Command {

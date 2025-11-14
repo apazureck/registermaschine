@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  position: relative;
+  margin-top: 1rem;
+  max-width: 150px;
+}
+
+.label {
+  position: absolute;
+  margin: 0 5px;
+  left: 50%;
+  top: 2px;
+  transform: translate(-55%, -55%);
+  z-index: 1;
+  background-color: var(--mat-sys-surface);
+  padding: 0 2px;
+  color: var(--ohm-color);
+  transition: 0.2s;
+}
+
+.value {
+  border: 1px solid var(--ohm-color);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 5px;
+  padding-top: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+}

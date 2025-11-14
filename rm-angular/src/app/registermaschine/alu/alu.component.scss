@@ -1,0 +1,72 @@
+:host {
+  display: grid;
+  position: relative;
+  margin-top: 1rem;
+  max-width: 150px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: max-content max-content;
+  --border: 1px solid var(--ohm-color);
+}
+
+.operation {
+  border-radius: 5px 5px 0 0;
+  border-top: var(--border);
+  border-left: var(--border);
+  border-right: var(--border);
+  text-align: center;
+  padding-top: 10px;
+  grid-column: 1 / -1;
+  font-size: 1.2rem;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.accu {
+  font-size: 1.2rem;
+  border-left: var(--border);
+  border-bottom: var(--border);
+  border-radius: 0 0 0 5px;
+  text-align: center;
+  padding: 5px;
+  padding-top: 10px;
+  align-content: end;
+}
+
+.input {
+  font-size: 1.2rem;
+  border-right: var(--border);
+  border-bottom: var(--border);
+  border-radius: 0 0 5px 0;
+  text-align: center;
+  padding: 5px;
+  padding-top: 10px;
+  align-content: end;
+}
+
+.label {
+  position: absolute;
+  margin: 0 5px;
+  left: 50%;
+  top: 2px;
+  transform: translate(-70%, -55%);
+  z-index: 1;
+  background-color: var(--mat-sys-surface);
+  padding: 0 2px;
+  color: var(--ohm-color);
+  transition: 0.2s;
+}
+
+.value {
+  border: 1px solid var(--ohm-color);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 5px;
+  padding-top: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+}
