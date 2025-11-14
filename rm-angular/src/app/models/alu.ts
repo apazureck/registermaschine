@@ -1,14 +1,115 @@
-import { accumulatorAddress } from "./registermaschine";
+import { Accumulator } from './accumulator';
+import { DataMemory } from './data-memory';
+import { accumulatorAddress } from './registermaschine';
 
-export enum AluOperation {
-  Noop = "NOP",
-  Add = "ADD",
-  Subtract = "SUB",
-  Multiply = "MUL",
-  Divide = "DIV",
+export interface AluStatus {
+  readonly setOperation: AluOperation;
+  readonly memoryInputIndex: number;
+  readonly inputValue: number;
+  readonly accuInputValue: number;
+  readonly currentOutput: number;
 }
 
-export class Alu {
-  #currentOperation: AluOperation = AluOperation.Noop;
+export enum AluOperation {
+  Noop = 'NOP',
+  Add = 'ADD',
+  Subtract = 'SUB',
+  Multiply = 'MUL',
+  Divide = 'DIV',
+}
+
+export class Alu implements AluStatus {
+  #memory: DataMemory;
+  #accumulator: Accumulator;
+  #onChangedCallbacks: Array<(alu: AluStatus) => void> = [];
+
+  #setOperation: AluOperation = AluOperation.Noop;
   #memoryInputIndex: number = accumulatorAddress;
+  #currentOutput: number = 0;
+
+  get setOperation(): AluOperation {
+    return this.#setOperation;
+  }
+
+  get memoryInputIndex(): number {
+    return this.#memoryInputIndex;
+  }
+
+  get inputValue(): number {
+    return this.#memoryInputIndex === 0
+      ? this.#accumulator.currentValue
+      : this.#memory.getValue(this.#memoryInputIndex);
+  }
+
+  get accuInputValue() {
+    return this.#accumulator.currentValue;
+  }
+
+  get currentOutput() {
+    return this.#currentOutput;
+  }
+
+  constructor(memory: DataMemory, accumulator: Accumulator) {
+    this.#memory = memory;
+    this.#accumulator = accumulator;
+  }
+
+  subtract(addressToSubtract: number) {
+    this.#setOperation = AluOperation.Subtract;
+    this.#memoryInputIndex = addressToSubtract;
+    this.#publishChanged();
+  }
+  multiply(addressToMultiply: number) {
+    this.#setOperation = AluOperation.Multiply;
+    this.#memoryInputIndex = addressToMultiply;
+    this.#publishChanged();
+  }
+  divide(addressToDivide: number) {
+    this.#setOperation = AluOperation.Divide;
+    this.#memoryInputIndex = addressToDivide;
+    this.#publishChanged();
+  }
+  add(addressToAdd: number) {
+    this.#setOperation = AluOperation.Add;
+    this.#memoryInputIndex = addressToAdd;
+    this.#publishChanged();
+  }
+
+  public execute() {
+    switch (this.setOperation) {
+      case AluOperation.Add:
+        this.#currentOutput = this.accuInputValue + this.inputValue;
+        break;
+      case AluOperation.Subtract:
+        this.#currentOutput = this.accuInputValue - this.inputValue;
+        break;
+      case AluOperation.Multiply:
+        this.#currentOutput = this.accuInputValue * this.inputValue;
+        break;
+      case AluOperation.Divide:
+        if (this.inputValue === 0) {
+          throw new Error('Division by zero error in DIV command');
+        }
+        this.#currentOutput = this.accuInputValue / this.inputValue;
+        break;
+      default:
+        return;
+    }
+    this.#accumulator.currentValue = this.#currentOutput;
+    this.#publishChanged();
+  }
+
+  onChanged(callback: (alu: AluStatus) => void) {
+    this.#onChangedCallbacks.push(callback);
+  }
+
+  #publishChanged() {
+    for (const callback of this.#onChangedCallbacks) {
+      try {
+        callback(this);
+      } catch (error) {
+        console.log('Error in ALU executed callback:', error);
+      }
+    }
+  }
 }

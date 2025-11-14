@@ -11,7 +11,6 @@ export class Program {
   constructor(public readonly programCode: string) {}
 
   getCommandSet(): Command[] {
-    const commandLines = this.programCode.split('\n');
     const commands: Command[] = [];
     const commandCodeRegex = new RegExp(commandParsingRegexString, 'gm');
 
@@ -22,7 +21,7 @@ export class Program {
         continue;
       }
       const commandString = match[1] + ' ' + match[2];
-      commands.push(new Command(commandString));
+      commands.push(getCommand(commandString));
     } while (match);
 
     return commands;

@@ -32,4 +32,27 @@ describe('Program', () => {
       CommandCode.Halt,
     ]);
   });
+
+  it('should handle empty program', () => {
+    const emptyProgram = `
+    `;
+    const program = new Program(emptyProgram);
+    const commands = program.getCommandSet();
+    expect(commands.length).toBe(0);
+  });
+
+  it('should parse prgram with tailing comments', () => {
+    const programWithTailingComments = `
+    LDA 10 ; Load value
+    STA 20 ; Store value
+    HLT 99 ; Halt program
+    `;
+    const program = new Program(programWithTailingComments);
+    const commands = program.getCommandSet();
+    expect(commands.map((cmd) => cmd.code)).toEqual([
+      CommandCode.LoadToAccumulator,
+      CommandCode.StoreFromAccumulator,
+      CommandCode.Halt,
+    ]);
+  })
 });
