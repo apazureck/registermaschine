@@ -37,9 +37,11 @@ export abstract class Command {
     this.operand = opArray[1];
   }
 
-  execute(registermaschine: RmComponents): void {
-    throw new Error('Method not implemented.');
-  }
+  abstract execute(registermaschine: RmComponents): void;
 
   load(registermaschine: RmComponents): void {}
+
+  toString(): string {
+    return this.opString;
+  }
 }

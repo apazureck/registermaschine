@@ -3,8 +3,16 @@ import { HaltCommand } from './commands/halt-command';
 
 export class ProgramMemory {
   readonly #memory: Command[] = [];
+  get content() {
+    return this.#memory;
+  }
 
-  constructor(public size: number) {}
+  constructor(public size: number) {
+    this.#memory = Array.from(
+      { length: size },
+      () => new HaltCommand('HLT 99')
+    );
+  }
 
   loadCommands(commands: Command[]) {
     this.#clearMemory();

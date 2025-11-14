@@ -1,0 +1,30 @@
+:host {
+  display: grid;
+  padding: 1rem;
+  border: 1px solid var(--ohm-color);
+  border-radius: 5px;
+  max-width: 150px;
+  position: relative;
+  margin-top: 1rem;
+  height: calc(100% - 1rem);
+  box-sizing: border-box;
+}
+
+.label {
+  position: absolute;
+  top: -0.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--mat-sys-surface);
+  padding: 0 0.5rem;
+  color: var(--ohm-color);
+}
+
+.content {
+  font-family: monospace;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
+}

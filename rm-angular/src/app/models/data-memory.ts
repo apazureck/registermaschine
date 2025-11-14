@@ -1,5 +1,10 @@
 export class DataMemory {
   #memory: number[] = [];
+
+  get content(): ReadonlyArray<number> {
+    return this.#memory;
+  }
+
   constructor(public size: number) {
     this.#memory = new Array(size);
   }
