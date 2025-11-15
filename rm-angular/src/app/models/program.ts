@@ -4,7 +4,7 @@ import { getCommand } from './commands/command-factory';
 const keys: (keyof typeof CommandCode)[] = <(keyof typeof CommandCode)[]>(
   Object.keys(CommandCode)
 );
-const commandParsingRegexString = `^\\s*\\d*\\s+(${keys
+const commandParsingRegexString = `^\\s*\\d*\\s*(${keys
   .map((key) => CommandCode[key])
   .join('|')})\\s+(\\d+)`;
 

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { Registermaschine } from '../models/registermaschine';
 import { ProgramCounterComponent } from './program-counter/program-counter.component';
 import { AccumulatorComponent } from "./accumulator/accumulator.component";
@@ -16,6 +16,13 @@ import { OutputComponent } from "./output/output.component";
   styleUrl: './registermaschine.component.scss',
 })
 export class RegistermaschineComponent {
-
   readonly registermaschine = signal(new Registermaschine());
+  readonly program = input.required<string>();
+
+  constructor() {
+    effect(() => {
+      const prog = this.program();
+      this.registermaschine().loadProgram(prog);
+    });
+  }
 }

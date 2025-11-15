@@ -3,6 +3,7 @@ import { HaltCommand } from './commands/halt-command';
 
 export class ProgramMemory {
   readonly #memory: Command[] = [];
+  readonly #memoryUpdatedCallbacks: Array<() => void> = [];
   get content() {
     return this.#memory;
   }
@@ -25,6 +26,19 @@ export class ProgramMemory {
       this.#memory.push(command);
       i++;
     }
+    this.#memoryUpdated();
+  }
+  #memoryUpdated() {
+    for (const callback of this.#memoryUpdatedCallbacks) {
+      try {
+        callback();
+      } catch (error) {
+        console.error('Error in memory updated callback:', error);
+      }
+    }
+  }
+  onMemoryUpdated(callback: () => void) {
+    this.#memoryUpdatedCallbacks.push(callback);
   }
   getCommand(currentCount: number): Command {
     if (!this.#memory[currentCount]) {
