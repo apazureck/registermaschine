@@ -1,6 +1,9 @@
 :host {
-    display: block;
+    display: grid;
     height: 100dvh;
     width: 100%;
     box-sizing: border-box;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    min-height: 0;
 }

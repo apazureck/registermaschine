@@ -1,0 +1,16 @@
+<div>
+  <mat-form-field appearance="outline">
+    <mat-label>Beispielprogramme</mat-label>
+    <mat-select>
+      <mat-option>minimum.asm</mat-option>
+      <mat-option>mittelw.asm</mat-option>
+      <mat-option>sum_1_n.asm</mat-option>
+      <mat-option>summe.asm</mat-option>
+      <mat-option>potenz.asm</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<ngx-monaco-editor
+  [options]="editorOptions"
+  [(ngModel)]="code"
+></ngx-monaco-editor>
