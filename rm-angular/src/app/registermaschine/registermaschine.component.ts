@@ -6,14 +6,16 @@ import { ProgramRegisterComponent } from "./program-register/program-register.co
 import { AluComponent } from "./alu/alu.component";
 import { ProgramMemoryComponent } from "./program-memory/program-memory.component";
 import { DataMemoryComponent } from "./data-memory/data-memory.component";
+import { InputComponent } from "./input/input.component";
+import { OutputComponent } from "./output/output.component";
 
 @Component({
   selector: 'rma-registermaschine',
-  imports: [ProgramCounterComponent, AccumulatorComponent, ProgramRegisterComponent, AluComponent, ProgramMemoryComponent, DataMemoryComponent],
+  imports: [ProgramCounterComponent, AccumulatorComponent, ProgramRegisterComponent, AluComponent, ProgramMemoryComponent, DataMemoryComponent, InputComponent, OutputComponent],
   templateUrl: './registermaschine.component.html',
   styleUrl: './registermaschine.component.scss',
 })
 export class RegistermaschineComponent {
 
-  registermaschine = signal(new Registermaschine());
+  readonly registermaschine = signal(new Registermaschine());
 }

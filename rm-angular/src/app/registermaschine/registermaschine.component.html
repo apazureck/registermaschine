@@ -4,10 +4,12 @@
 <rma-accumulator
   [accumulator]="registermaschine().accumulator"
 ></rma-accumulator>
+<rma-input [inputDevice]="registermaschine().inputDevice"></rma-input>
 <rma-program-register
   [programRegister]="registermaschine().programRegister"
 ></rma-program-register>
 <rma-alu [alu]="registermaschine().alu"></rma-alu>
+<rma-output [outputDevice]="registermaschine().outputDevice"></rma-output>
 <rma-program-memory
   [programMemory]="registermaschine().programMemory"
 ></rma-program-memory>

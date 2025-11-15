@@ -1,29 +1,67 @@
 :host {
-  display: block;
-  position: relative;
-  margin-top: 1rem;
+  --border-radius: 4px;
+  --border: 1px solid var(--ohm-color);
+  display: grid;
   max-width: 150px;
+  border-radius: 5px;
+  min-height: var(--mat-form-field-container-height, 56px);
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr;
+  box-sizing: border-box;
+}
+
+.left {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-left: var(--border);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  height: 100%;
+  grid-row: 1;
+  grid-column: 1;
+  box-sizing: border-box;
+}
+
+.label-container {
+  border-bottom: var(--border);
+  position: relative;
+  grid-row: 1;
+  grid-column: 2;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.right {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  border-right: var(--border);
+  height: 100%;
+  grid-row: 1;
+  grid-column: 3;
+  box-sizing: border-box;
 }
 
 .label {
-  position: absolute;
-  margin: 0 5px;
+  position: relative;
+  margin: 0 2px;
   left: 50%;
   top: 2px;
   transform: translate(-55%, -55%);
   z-index: 1;
-  background-color: var(--mat-sys-surface);
   padding: 0 2px;
   color: var(--ohm-color);
   transition: 0.2s;
 }
 
 .value {
-  border: 1px solid var(--ohm-color);
-  border-radius: 5px;
   background-color: transparent;
   padding: 5px;
   padding-top: 10px;
   font-size: 1.2rem;
   text-align: center;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: center;
 }
