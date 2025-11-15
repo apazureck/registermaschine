@@ -5,8 +5,8 @@ import {
   NGX_MONACO_EDITOR_CONFIG,
   NgxMonacoEditorConfig,
 } from 'ngx-monaco-editor-v2';
-
-import {MatSelectModule} from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
@@ -17,7 +17,7 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
 
 @Component({
   selector: 'rma-editor',
-  imports: [MonacoEditorModule, FormsModule, MatSelectModule],
+  imports: [MonacoEditorModule, FormsModule, MatSelectModule, MatButtonModule],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
   providers: [
