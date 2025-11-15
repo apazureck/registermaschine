@@ -9,10 +9,12 @@
       <mat-option>potenz.asm</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button (click)="loadText()">Laden</button>
-  <button mat-raised-button (click)="saveText()">Speichern</button>
+  <button mat-raised-button (click)="fileInput.click()"><mat-icon>file_open</mat-icon>Laden</button>
+  <button mat-raised-button (click)="saveText()"><mat-icon>save</mat-icon>Speichern</button>
 </div>
 <ngx-monaco-editor
   [options]="editorOptions"
   [(ngModel)]="code"
+  (ngModelChange)="editorInput($event)"
 ></ngx-monaco-editor>
+<input #fileInput type="file" style="display: none" accept=".asm,.txt" (change)="loadText($event)" />

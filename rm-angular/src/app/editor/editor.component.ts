@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, effect, model, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MonacoEditorModule,
@@ -7,6 +7,7 @@ import {
 } from 'ngx-monaco-editor-v2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
@@ -17,7 +18,13 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
 
 @Component({
   selector: 'rma-editor',
-  imports: [MonacoEditorModule, FormsModule, MatSelectModule, MatButtonModule],
+  imports: [
+    MonacoEditorModule,
+    FormsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIcon,
+  ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
   providers: [
@@ -27,9 +34,9 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
     },
   ],
 })
-export class EditorComponent {
-  editorOptions = { theme: 'vs-light', language: 'shell' };
-  code = model('LDK 10\nSTA 01\nHLT 99');
+export class EditorComponent implements OnInit {
+  readonly editorOptions = { theme: 'vs-light', language: 'shell' };
+  readonly code = model<string>('');
 
   saveText() {
     const blob = new Blob([this.code()], { type: 'text/plain' });
@@ -41,24 +48,23 @@ export class EditorComponent {
     downloadLink.click();
   }
 
-  loadText() {
-    // <input type="file" class="file-input"
-    //  (change)="onFileSelected($event)" #fileUpload>
-
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.asm,.txt';
-    fileInput.onchange = (e: any) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result;
-        if (typeof text === 'string') {
-          this.code.set(text);
-        }
-      };
-      reader.readAsText(file);
+  loadText(e: any) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result;
+      if (typeof text === 'string') {
+        this.code.set(text);
+      }
     };
-    fileInput.click();
+    reader.readAsText(file);
+  }
+
+  editorInput(change: string) {
+    localStorage.setItem('editorContent', change);
+  }
+
+  ngOnInit(): void {
+    this.code.set(localStorage.getItem('editorContent') || '');
   }
 }

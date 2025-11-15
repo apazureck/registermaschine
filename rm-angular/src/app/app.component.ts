@@ -15,5 +15,5 @@ export class AppComponent {
     title.setTitle('Registermaschine');
   }
 
-  code = signal<string>('// Write your code here\n');
+  code = signal<string>('');
 }
