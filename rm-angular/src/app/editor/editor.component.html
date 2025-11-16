@@ -1,20 +1,33 @@
 <div class="toolbar">
   <mat-form-field appearance="outline" hide-subscript="true">
     <mat-label>Beispielprogramme</mat-label>
-    <mat-select>
-      <mat-option>minimum.asm</mat-option>
-      <mat-option>mittelw.asm</mat-option>
-      <mat-option>sum_1_n.asm</mat-option>
-      <mat-option>summe.asm</mat-option>
-      <mat-option>potenz.asm</mat-option>
+    <mat-select (valueChange)="loadExample($event)">
+      <mat-option value="minimum.asm">Minimum</mat-option>
+      <mat-option value="mittelwert.asm">Mittelwert</mat-option>
+      <mat-option value="potenz.asm">Potenz</mat-option>
+      <mat-option value="sum_1_n.asm">Summe 1 bis n</mat-option>
+      <mat-option value="summe.asm">Summe</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button (click)="fileInput.click()"><mat-icon>file_open</mat-icon>Laden</button>
-  <button mat-raised-button (click)="saveText()"><mat-icon>save</mat-icon>Speichern</button>
+  <button mat-raised-button (click)="fileInput.click()">
+    <mat-icon>file_open</mat-icon>Laden
+  </button>
+  <button mat-raised-button (click)="saveText()">
+    <mat-icon>save</mat-icon>Speichern
+  </button>
+  <button mat-raised-button (click)="resetEditor()">
+    <mat-icon>refresh</mat-icon>Zurücksetzen
+  </button>
 </div>
 <ngx-monaco-editor
   [options]="editorOptions"
   [(ngModel)]="code"
   (ngModelChange)="editorInput($event)"
 ></ngx-monaco-editor>
-<input #fileInput type="file" style="display: none" accept=".asm,.txt" (change)="loadText($event)" />
+<input
+  #fileInput
+  type="file"
+  style="display: none"
+  accept=".asm,.txt"
+  (change)="loadText($event)"
+/>

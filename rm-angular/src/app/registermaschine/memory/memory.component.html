@@ -1,6 +1,17 @@
 <div class="label">{{ label() }}</div>
 <div class="content">
-  @for(entry of memory(); track i; let i = $index) { {{ i + 1 }}: {{ entry
-  }}<br />
-  }
+  <table>
+    <thead>
+      <tr>
+        <th>Adr.</th>
+        <th>Inhalt</th>
+      </tr>
+    </thead>
+    @for(entry of memory(); track i; let i = $index) {
+    <tr>
+      <td>{{ i + offset() }}</td>
+      <td>{{ entry }}</td>
+    </tr>
+    }
+  </table>
 </div>
