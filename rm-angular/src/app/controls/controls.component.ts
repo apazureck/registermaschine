@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RegistermaschineProviderService } from '../registermaschine-provider.service';
@@ -10,7 +10,7 @@ import { MatError } from '@angular/material/form-field';
   templateUrl: './controls.component.html',
   styleUrl: './controls.component.scss',
 })
-export class ControlsComponent {
+export class ControlsComponent implements OnInit {
   
   readonly error = signal<string | null>(null);
   readonly running = signal<boolean>(false);
@@ -26,6 +26,9 @@ export class ControlsComponent {
         this.running.set(isRunning);
       });
     });
+  }
+  ngOnInit(): void {
+    this.reset();
   }
 
   step() {

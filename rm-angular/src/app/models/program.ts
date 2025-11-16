@@ -1,5 +1,6 @@
 import { Command, CommandCode } from './commands';
 import { getCommand } from './commands/command-factory';
+import { RmComponents } from './registermaschine';
 
 const keys: (keyof typeof CommandCode)[] = <(keyof typeof CommandCode)[]>(
   Object.keys(CommandCode)
@@ -11,7 +12,7 @@ const commandParsingRegexString = `^\\s*\\d*\\s*(${keys
 export class Program {
   constructor(public readonly programCode: string) {}
 
-  getCommandSet(): Command[] {
+  getCommandSet(rm: RmComponents): Command[] {
     const commands: Command[] = [];
     const commandCodeRegex = new RegExp(commandParsingRegexString, 'gm');
 
@@ -22,7 +23,7 @@ export class Program {
         continue;
       }
       const commandString = match[1] + ' ' + match[2];
-      commands.push(getCommand(commandString));
+      commands.push(getCommand(rm, commandString));
     } while (match);
 
     return commands;

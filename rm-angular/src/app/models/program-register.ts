@@ -5,32 +5,50 @@ import { ProgramMemory } from './program-memory';
 import { RmComponents } from './registermaschine';
 
 export class ProgramRegister {
-  #currentCommand: Command = new HaltCommand('HLT 99');
+  #currentCommand: Command | undefined = undefined;
   #currentCommandSubscribers: ((command: Command) => void)[] = [];
   readonly #programMemory: ProgramMemory;
 
   get current(): Command {
+    if (!this.#currentCommand) {
+      throw new Error('No current command loaded');
+    }
     return this.#currentCommand;
   }
 
-  constructor(programCounter: ProgramCounter, programMemory: ProgramMemory) {
+  constructor(
+    private _programCounter: ProgramCounter,
+    programMemory: ProgramMemory
+  ) {
     this.#programMemory = programMemory;
 
-    programCounter.onStep((currentCount) => {
+    this._programCounter.onStep((currentCount) => {
       this.#currentCommand = programMemory.getCommand(currentCount);
       this.#currentCommandChanged();
+      this.#currentCommand?.load();
     });
   }
 
-  public executeCurrentCommand(registermaschine: RmComponents): number | void {
-    this.#currentCommand.load(registermaschine);
-    return this.#currentCommand.execute(registermaschine);
+  loadCurrentCommand(rm: RmComponents): void {
+    this.#currentCommand = this.#programMemory.getCommand(
+      this._programCounter.current
+    );
+    this.#currentCommand?.load();
+    this.#currentCommandChanged();
+  }
+
+  public async executeCurrentCommand(): Promise<number | void> {
+    this.#currentCommand!.load();
+    return await this.#currentCommand!.execute();
   }
 
   #currentCommandChanged() {
+    if (!this.#currentCommand) {
+      return;
+    }
     for (const callback of this.#currentCommandSubscribers) {
       try {
-        callback(this.#currentCommand);
+        callback(this.#currentCommand!);
       } catch (e) {
         console.error('Error in current command changed callback:', e);
       }

@@ -1,4 +1,39 @@
 <rma-memory
   [memory]="memoryContent()"
   label="Daten"
+  [highlight]="activeMemoryCell()"
+  [offset]="0"
 ></rma-memory>
+<table class="line-map">
+  <thead>
+    <tr>
+      <td style="position: relative; height: 1.5rem;">
+        <svg
+          width="100"
+          height="1rem"
+          style="position: absolute; left: 0; top: -18; height: 3rem;"
+        >
+          <line
+            x1="50"
+            y1="0"
+            x2="50"
+            y2="100%"
+            stroke="black"
+            stroke-width="2"
+          />
+        </svg>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    @for(entry of memoryContent(); track i; let i = $index) {
+    <tr>
+      <td style="position: relative; height: 1.5rem;">
+        @if(i < (activeMemoryCell() ?? -1)) {
+        0
+        } @else if (i === activeMemoryCell()) { &lt; } @else { }
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

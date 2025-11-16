@@ -11,16 +11,16 @@ describe('JumpCommand', () => {
       LDA 10
       MUL 1
     `);
-    const jumpCommand = new JumpCommand('JMP 3');
-    jumpCommand.execute(rm);
+    const jumpCommand = new JumpCommand(rm, 'JMP 3');
+    jumpCommand.execute();
     expect(rm.programCounter.current).toBe(3);
     expect(rm.programRegister.current.code).toBe(CommandCode.Multiply);
   });
 
   it('should throw error for invalid jump address', () => {
     const rm = new Registermaschine();
-    const jumpCommand = new JumpCommand('JMP XYZ');
-    expect(() => jumpCommand.execute(rm)).toThrowError(
+    const jumpCommand = new JumpCommand(rm, 'JMP XYZ');
+    expect(() => jumpCommand.execute()).toThrowError(
       'Invalid jump address: XYZ'
     );
   });
@@ -32,7 +32,7 @@ describe('JumpCommand', () => {
       STA 20
     `);
     const outOfBoundsCommand = rm.programMemory.getCommand(5);
-    expect(outOfBoundsCommand.code).toBe(CommandCode.Halt);
-    expect(outOfBoundsCommand.operand).toBe('99');
+    expect(outOfBoundsCommand!.code).toBe(CommandCode.Halt);
+    expect(outOfBoundsCommand!.operand).toBe('99');
   });
 });

@@ -3,6 +3,7 @@ import {
   effect,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
@@ -32,11 +33,12 @@ import { RegistermaschineProviderService } from '../registermaschine-provider.se
   templateUrl: './registermaschine.component.html',
   styleUrl: './registermaschine.component.scss',
 })
-export class RegistermaschineComponent {
+export class RegistermaschineComponent implements OnInit {
   readonly #rmService = inject(RegistermaschineProviderService);
   readonly registermaschine = signal(this.#rmService.registermaschine);
   readonly program = input.required<string>();
-  readonly isRunning = output<boolean>();
+  readonly isRunning = signal<boolean>(false);
+  #initialized = false;
 
   constructor() {
     effect(() => {
@@ -45,12 +47,19 @@ export class RegistermaschineComponent {
       const rm = this.registermaschine();
       if (!rm) return;
       rm.loadProgram(prog);
+      if (!this.#initialized) {
+        rm.reset();
+        this.#initialized = true;
+      }
     });
 
     effect(() => {
       const rm = this.registermaschine();
       if (!rm) return;
-      rm.onRunningChanged((isRunning) => this.isRunning.emit(isRunning));
+      rm.onRunningChanged((isRunning) => this.isRunning.set(isRunning));
     });
+  }
+  ngOnInit(): void {
+    this.registermaschine().reset();
   }
 }

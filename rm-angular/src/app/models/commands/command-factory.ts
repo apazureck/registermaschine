@@ -1,3 +1,4 @@
+import { RmComponents } from '../registermaschine';
 import { LoadConstantToAccumulatorCommand } from './akku-commands/load-constant-to-akku-command';
 import { LoadToAkkuCommand } from './akku-commands/load-to-akku-command';
 import { StoreFromAkkuCommand } from './akku-commands/store-from-akku-command';
@@ -14,7 +15,7 @@ import { JumpCommand } from './jump-commands/jump-command';
 import { JumpEqualsZeroCommand } from './jump-commands/jump-eq-zero-command';
 
 const registeredCommands: {
-  [key in CommandCode]?: new (opString: string) => Command;
+  [key in CommandCode]?: new (rm: RmComponents, opString: string) => Command;
 } = {
   [CommandCode.Add]: AddCommand,
   [CommandCode.Divide]: DivideCommand,
@@ -37,21 +38,21 @@ const registeredCommands: {
 
 export function registerCommand(
   commandCode: CommandCode,
-  commandConstructor: new (opString: string) => Command
+  commandConstructor: new (rm: RmComponents, opString: string) => Command
 ): void {
   registeredCommands[commandCode] = commandConstructor;
 }
 
-export function getCommand(commandString: string): Command {
+export function getCommand(rm: RmComponents, commandString: string): Command {
   try {
     const commandCtor =
       registeredCommands[
         commandString.trim().split(' ')[0].toUpperCase() as CommandCode
       ];
     if (commandCtor) {
-      const instance = new commandCtor(commandString)
+      const instance = new commandCtor(rm, commandString);
       return instance;
     }
   } catch {}
-  return new InvalidCommand(commandString);
+  return new InvalidCommand(rm, commandString);
 }

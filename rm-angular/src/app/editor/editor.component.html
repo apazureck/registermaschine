@@ -19,7 +19,9 @@
     <mat-icon>refresh</mat-icon>Zurücksetzen
   </button>
 </div>
+
 <ngx-monaco-editor
+  class="editor-border"
   [options]="editorOptions"
   [(ngModel)]="code"
   (ngModelChange)="editorInput($event)"

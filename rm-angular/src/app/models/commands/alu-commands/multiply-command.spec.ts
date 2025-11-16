@@ -6,16 +6,16 @@ describe('MultiplyCommand', () => {
     const registermaschine = new Registermaschine();
     registermaschine.dataMemory.setValue(3, 4);
     registermaschine.accumulator.currentValue = 5;
-    const command = new MultiplyCommand('MUL 3');
-    command.load(registermaschine);
-    command.execute(registermaschine);
+    const command = new MultiplyCommand(registermaschine, 'MUL 3');
+    command.load();
+    command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(20);
   });
 
   it('should throw an error for invalid operand', () => {
     const registermaschine = new Registermaschine();
-    const command = new MultiplyCommand('MUL X');
-    expect(() => command.load(registermaschine)).toThrowError(
+    const command = new MultiplyCommand(registermaschine, 'MUL X');
+    expect(() => command.load()).toThrowError(
       'Invalid operand for MUL command: X'
     );
   });
@@ -23,9 +23,9 @@ describe('MultiplyCommand', () => {
   it('should multiply accumulator by zero if data memory value is zero', () => {
     const registermaschine = new Registermaschine();
     registermaschine.accumulator.currentValue = 10;
-    const command = new MultiplyCommand('MUL 0');
-    command.load(registermaschine);
-    command.execute(registermaschine);
+    const command = new MultiplyCommand(registermaschine, 'MUL 0');
+    command.load();
+    command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(100);
   });
 });

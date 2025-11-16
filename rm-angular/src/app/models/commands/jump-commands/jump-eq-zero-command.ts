@@ -2,13 +2,13 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class JumpEqualsZeroCommand extends Command {
-  override execute(rm: RmComponents): number | void {
+  override execute(): number | void {
     const targetAddress = parseInt(this.operand);
     if (isNaN(targetAddress) || targetAddress < 0) {
       throw new Error(`Invalid jump address: ${this.operand}`);
     }
-    if (rm.accumulator.currentValue === 0) {
-      rm.programCounter.setAddress(targetAddress);
+    if (this.rm.accumulator.currentValue === 0) {
+      this.rm.programCounter.setAddress(targetAddress);
       return targetAddress;
     }
   }

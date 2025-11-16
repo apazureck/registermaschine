@@ -2,11 +2,8 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class StoreFromAkkuCommand extends Command {
-  override execute(registermaschine: RmComponents): void {
+  override execute(): void {
     const address = parseInt(this.operand, 10);
-    registermaschine.dataMemory.setValue(
-      address,
-      registermaschine.accumulator.currentValue
-    );
+    this.rm.dataMemory.setValue(address, this.rm.accumulator.currentValue);
   }
 }

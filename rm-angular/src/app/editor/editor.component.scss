@@ -1,20 +1,30 @@
 :host {
-    display: grid;
-    padding-top: 1rem;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+  display: grid;
+  padding-top: 1rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .toolbar {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
 }
 
 ngx-monaco-editor {
-    grid-column: 1;
-    grid-row: 2;
-    height: 100%;
-    width: 100%;
+  grid-column: 1;
+  grid-row: 2;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editor-border {
+  border: 1px solid var(--ohm-color);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 5px;
 }

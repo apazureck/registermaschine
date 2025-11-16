@@ -1,14 +1,10 @@
 export class DataMemory {
-  setSize(dataMemorySize: number) {
-    this.size = dataMemorySize;
-    while (this.#memory.length < dataMemorySize) {
-      this.#memory.push(0);
-    }
-    while (this.#memory.length > dataMemorySize) {
-      this.#memory.pop();
-    }
+  deactivateCell() {
+    this.activateCell(undefined);
   }
+  #cellActiveCallbacks: Array<(index: number | undefined) => void> = [];
   #memory: number[] = [];
+  #activeCellIndex: number | undefined = undefined;
 
   get content(): ReadonlyArray<number> {
     return this.#memory;
@@ -34,5 +30,29 @@ export class DataMemory {
       throw new Error(`Memory address out of bounds: ${address}`);
     }
     this.#memory[address - 1] = value;
+  }
+
+  activateCell(address: number | undefined): void {
+    this.#activeCellIndex = address;
+    for (const callback of this.#cellActiveCallbacks) {
+      try {
+        callback(address);
+      } catch (e) {
+        console.error('Error in cell active callback:', e);
+      }
+    }
+  }
+
+  onCellActive(activeCallback: (index: number | undefined) => void) {
+    this.#cellActiveCallbacks.push(activeCallback);
+  }
+  setSize(dataMemorySize: number) {
+    this.size = dataMemorySize;
+    while (this.#memory.length < dataMemorySize) {
+      this.#memory.push(0);
+    }
+    while (this.#memory.length > dataMemorySize) {
+      this.#memory.pop();
+    }
   }
 }

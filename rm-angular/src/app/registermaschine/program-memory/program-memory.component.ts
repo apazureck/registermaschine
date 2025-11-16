@@ -13,9 +13,9 @@ import { ProgramCounter } from 'src/app/models/program-counter';
 export class ProgramMemoryComponent {
   public readonly programMemory = input.required<ProgramMemory>();
   public readonly programCounter = input.required<ProgramCounter>();
-  readonly #memoryContent = signal<ReadonlyArray<Command>>([]);
+  readonly #memoryContent = signal<ReadonlyArray<Command | undefined>>([]);
   public readonly memoryContent = computed(() =>
-    this.#memoryContent().map((cmd) => cmd.toString())
+    this.#memoryContent().map((cmd) => cmd?.toString() ?? '---')
   );
   public readonly currentProgramCounter = signal<number | undefined>(undefined);
 

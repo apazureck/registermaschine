@@ -50,6 +50,11 @@ body {
   --register-min-width: 10rem;
 }
 
-mat-form-field[hide-subscript] .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+mat-form-field[hide-subscript]
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
   visibility: collapse;
+}
+
+mat-form-field[fill] {
+  width: 100% !important;
 }

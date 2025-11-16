@@ -6,10 +6,10 @@ describe('OutputCommand', () => {
     const registermaschine = new Registermaschine();
 
     registermaschine.dataMemory.setValue(5, 42);
-    const outputCommand = new OutputCommand('OUT 5');
+    const outputCommand = new OutputCommand(registermaschine, 'OUT 5');
 
-    outputCommand.load(registermaschine);
-    outputCommand.execute(registermaschine);
+    outputCommand.load();
+    outputCommand.execute();
 
     expect(registermaschine.outputDevice.value).toBe(42);
   });
@@ -18,19 +18,19 @@ describe('OutputCommand', () => {
     const registermaschine = new Registermaschine();
 
     registermaschine.accumulator.currentValue = 99;
-    const outputCommand = new OutputCommand('OUT 0');
+    const outputCommand = new OutputCommand(registermaschine, 'OUT 0');
 
-    outputCommand.load(registermaschine);
-    outputCommand.execute(registermaschine);
+    outputCommand.load();
+    outputCommand.execute();
 
     expect(registermaschine.outputDevice.value).toBe(99);
   });
 
   it('should throw error for invalid memory address', () => {
     const registermaschine = new Registermaschine();
-    const outputCommand = new OutputCommand('OUT 300'); // Assuming memory size is less than 300
+    const outputCommand = new OutputCommand(registermaschine, 'OUT 300'); // Assuming memory size is less than 300
 
-    expect(() => outputCommand.load(registermaschine)).toThrowError(
+    expect(() => outputCommand.load()).toThrowError(
       'Invalid memory address: 300'
     );
   });

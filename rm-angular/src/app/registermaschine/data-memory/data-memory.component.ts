@@ -9,6 +9,7 @@ import { MemoryComponent } from '../memory/memory.component';
   styleUrl: './data-memory.component.scss',
 })
 export class DataMemoryComponent {
+  activeMemoryCell = signal<number | undefined>(undefined);
   public readonly dataMemory = input.required<DataMemory>();
   public readonly memoryContent = signal<ReadonlyArray<number>>([]);
 
@@ -16,6 +17,9 @@ export class DataMemoryComponent {
     effect(() => {
       const mem = this.dataMemory();
       this.memoryContent.set(mem.content);
+      mem.onCellActive((i) => {
+        this.activeMemoryCell.set(i);
+      });
     });
   }
 }

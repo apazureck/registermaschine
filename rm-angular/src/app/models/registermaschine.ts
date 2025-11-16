@@ -23,6 +23,7 @@ export const defaultRegistermaschineConfig: RegistermaschineConfig = {
 };
 
 export interface RmComponents {
+  readonly isRunning: boolean;
   readonly programMemory: ProgramMemory;
   readonly dataMemory: DataMemory;
   readonly accumulator: Accumulator;
@@ -68,10 +69,9 @@ export class Registermaschine implements RmComponents {
     this.#publishRunningChanged();
     if (this.programRegister.current.code === CommandCode.Halt) return;
     const wait = 1000 / this.clockFrequency;
-    this.#stepInternal();
     while (this.programRegister.current.continue() && !this.#stop) {
       await new Promise((resolve) => setTimeout(resolve, wait));
-      this.#stepInternal();
+      await this.#stepInternal();
     }
     this.#stop = false;
     this.#running = false;
@@ -88,18 +88,19 @@ export class Registermaschine implements RmComponents {
     this.#stepInternal();
   }
 
-  #stepInternal(): void {
-    if (this.programRegister.executeCurrentCommand(this) === undefined)
+  async #stepInternal(): Promise<void> {
+    if ((await this.programRegister.executeCurrentCommand()) === undefined)
       this.programCounter.increment();
   }
 
   public reset(): void {
     this.programCounter.reset();
+    this.programRegister.loadCurrentCommand(this);
     this.#stop = false;
   }
 
   public loadProgram(programCode: string) {
-    const commands = new Program(programCode).getCommandSet();
+    const commands = new Program(programCode).getCommandSet(this);
     this.programMemory.loadCommands(commands);
     this.programCounter.reset();
   }

@@ -2,9 +2,9 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class LoadToAkkuCommand extends Command {
-  override execute(registermaschine: RmComponents): void {
+  override execute(): void {
     const address = parseInt(this.operand, 10);
-    const value = registermaschine.dataMemory.getValue(address);
-    registermaschine.accumulator.currentValue = value;
+    const value = this.rm.dataMemory.getValue(address);
+    this.rm.accumulator.currentValue = value;
   }
 }

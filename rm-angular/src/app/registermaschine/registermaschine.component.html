@@ -1,17 +1,63 @@
-<rma-program-counter
-  [programCounter]="registermaschine().programCounter"
-></rma-program-counter>
-<rma-accumulator
-  [accumulator]="registermaschine().accumulator"
-></rma-accumulator>
-<rma-input [inputDevice]="registermaschine().inputDevice"></rma-input>
-<rma-program-register
-  [programRegister]="registermaschine().programRegister"
-></rma-program-register>
-<rma-alu [alu]="registermaschine().alu"></rma-alu>
-<rma-output [outputDevice]="registermaschine().outputDevice"></rma-output>
-<rma-program-memory
-  [programMemory]="registermaschine().programMemory"
-  [programCounter]="registermaschine().programCounter"
-></rma-program-memory>
-<rma-data-memory [dataMemory]="registermaschine().dataMemory"></rma-data-memory>
+<svg viewPort="0 0 1000 500" class="rma-diagram">
+  <foreignObject x="50" y="0" width="160" height="65">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-program-counter
+        [programCounter]="registermaschine().programCounter"
+      ></rma-program-counter>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="300" y="0" width="160" height="65">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-accumulator
+        [accumulator]="registermaschine().accumulator"
+      ></rma-accumulator>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="550" y="0" width="160" height="65">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-input
+        [inputDevice]="registermaschine().inputDevice"
+        [rmIsRunning]="isRunning()"
+      ></rma-input>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="50" y="80" width="160" height="65">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-program-register
+        [programRegister]="registermaschine().programRegister"
+      ></rma-program-register>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="300" y="80" width="160" height="100">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-alu [alu]="registermaschine().alu"></rma-alu>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="550" y="80" width="160" height="65">
+    <div style="width: 100%; height: 100%; padding-top: 0.5rem">
+      <rma-output [outputDevice]="registermaschine().outputDevice"></rma-output>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="50" y="200" width="160" height="500">
+    <div style="width: 100%; min-height: 0; max-height: 30rem; padding-top: 0.5rem">
+      <rma-program-memory
+        [programMemory]="registermaschine().programMemory"
+        [programCounter]="registermaschine().programCounter"
+      ></rma-program-memory>
+    </div>
+  </foreignObject>
+
+  <foreignObject x="300" y="200" width="300" height="500">
+    <div style="width: 100%; min-height: 0; max-height: 30rem; padding-top: 0.5rem">
+      <rma-data-memory
+        [dataMemory]="registermaschine().dataMemory"
+      ></rma-data-memory>
+    </div>
+  </foreignObject>
+</svg>

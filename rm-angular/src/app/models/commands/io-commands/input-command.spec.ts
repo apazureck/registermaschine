@@ -4,30 +4,30 @@ import { InputCommand } from './input-command';
 describe('InputCommand', () => {
   it('should load given value to memory', () => {
     const registermaschine = new Registermaschine();
-    const inputCommand = new InputCommand('INP 5');
+    const inputCommand = new InputCommand(registermaschine, 'INP 5');
 
     registermaschine.inputDevice.value = 42;
-    inputCommand.load(registermaschine);
-    inputCommand.execute(registermaschine);
+    inputCommand.load();
+    inputCommand.execute();
 
     expect(registermaschine.dataMemory.getValue(5)).toBe(42);
   });
 
   it('should load given value to accumulator if address is 0', () => {
     const registermaschine = new Registermaschine();
-    const inputCommand = new InputCommand('INP 0');
+    const inputCommand = new InputCommand(registermaschine, 'INP 0');
     registermaschine.inputDevice.value = 99;
 
-    inputCommand.load(registermaschine);
-    inputCommand.execute(registermaschine);
+    inputCommand.load();
+    inputCommand.execute();
     expect(registermaschine.accumulator.currentValue).toBe(99);
   });
 
   it('should throw error for invalid memory address', () => {
     const registermaschine = new Registermaschine();
-    const inputCommand = new InputCommand('INP 300'); // Assuming memory size is less than 300
+    const inputCommand = new InputCommand(registermaschine, 'INP 300'); // Assuming memory size is less than 300
 
-    expect(() => inputCommand.load(registermaschine)).toThrowError(
+    expect(() => inputCommand.load()).toThrowError(
       'Invalid memory address: 300'
     );
   });

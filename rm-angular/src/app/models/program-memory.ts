@@ -8,21 +8,18 @@ export class ProgramMemory {
       this.#memory.pop();
     }
     while (this.#memory.length < programMemorySize) {
-      this.#memory.push(new HaltCommand('HLT 99'));
+      this.#memory.push(undefined);
     }
     this.#memoryUpdated();
   }
-  readonly #memory: Command[] = [];
+  readonly #memory: (Command | undefined)[] = [];
   readonly #memoryUpdatedCallbacks: Array<() => void> = [];
   get content() {
     return this.#memory;
   }
 
   constructor(public size: number) {
-    this.#memory = Array.from(
-      { length: size },
-      () => new HaltCommand('HLT 99')
-    );
+    this.#memory = Array.from({ length: size }, () => undefined);
   }
 
   loadCommands(commands: Command[]) {
@@ -50,12 +47,12 @@ export class ProgramMemory {
   onMemoryUpdated(callback: () => void) {
     this.#memoryUpdatedCallbacks.push(callback);
   }
-  getCommand(currentCount: number): Command {
+  getCommand(currentCount: number): Command | undefined {
     if (!this.#memory[currentCount]) {
       console.error(
         `ProgramMemory: No command at address ${currentCount}, returning HLT 99`
       );
-      return new HaltCommand('HLT 99');
+      return undefined;
     }
     return this.#memory[currentCount];
   }

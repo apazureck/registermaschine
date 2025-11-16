@@ -6,8 +6,8 @@ describe('JumpEqZeroCommand', () => {
     const rm = new Registermaschine();
     // Set accumulator to zero
     rm.accumulator.currentValue = 0;
-    const jumpEqZeroCommand = new JumpEqualsZeroCommand('JEZ 4');
-    jumpEqZeroCommand.execute(rm);
+    const jumpEqZeroCommand = new JumpEqualsZeroCommand(rm, 'JEZ 4');
+    jumpEqZeroCommand.execute();
     expect(rm.programCounter.current).toBe(4);
   });
 
@@ -15,8 +15,8 @@ describe('JumpEqZeroCommand', () => {
     const rm = new Registermaschine();
     // Set accumulator to non-zero
     rm.accumulator.currentValue = 5;
-    const jumpEqZeroCommand = new JumpEqualsZeroCommand('JEZ 4');
-    jumpEqZeroCommand.execute(rm);
+    const jumpEqZeroCommand = new JumpEqualsZeroCommand(rm, 'JEZ 4');
+    jumpEqZeroCommand.execute();
     expect(rm.programCounter.current).toBe(1);
   });
 });

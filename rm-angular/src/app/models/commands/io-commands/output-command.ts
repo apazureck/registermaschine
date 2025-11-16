@@ -2,20 +2,19 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class OutputCommand extends Command {
-  override load(registermaschine: RmComponents): void {
+  override load(): void {
     const address = parseInt(this.operand, 10);
-    if (address < 0 || address >= registermaschine.dataMemory.size) {
+    if (address < 0 || address >= this.rm.dataMemory.size) {
       throw new Error(`Invalid memory address: ${address}`);
     }
   }
-  override execute(registermaschine: RmComponents): void {
+  override execute(): void {
     const address = parseInt(this.operand, 10);
     if (address === 0) {
-      registermaschine.outputDevice.value =
-        registermaschine.accumulator.currentValue;
+      this.rm.outputDevice.value = this.rm.accumulator.currentValue;
     } else {
-      const value = registermaschine.dataMemory.getValue(address);
-      registermaschine.outputDevice.value = value;
+      const value = this.rm.dataMemory.getValue(address);
+      this.rm.outputDevice.value = value;
     }
   }
 }

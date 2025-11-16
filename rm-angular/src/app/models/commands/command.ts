@@ -30,7 +30,7 @@ export abstract class Command {
   public readonly code: CommandCode;
   public readonly operand: string;
 
-  constructor(public opString: string) {
+  constructor(public rm: RmComponents, public opString: string) {
     const opArray = opString.trim().split(' ');
     if (opArray.length !== 2) {
       throw new Error(`Invalid command string: ${opString}`);
@@ -39,9 +39,9 @@ export abstract class Command {
     this.operand = opArray[1];
   }
 
-  abstract execute(registermaschine: RmComponents): number | void;
+  abstract execute(): Promise<number | void> | number | void;
 
-  load(registermaschine: RmComponents): void {}
+  load(): void {}
 
   continue() {
     return true;

@@ -4,16 +4,16 @@ import { LoadConstantToAccumulatorCommand } from './load-constant-to-akku-comman
 describe('LoadConstantToAccumulatorCommand', () => {
   it('should load a valid constant into the accumulator', () => {
     const registermaschine = new Registermaschine();
-    const command = new LoadConstantToAccumulatorCommand('LDK 42');
+    const command = new LoadConstantToAccumulatorCommand(registermaschine, 'LDK 42');
 
-    command.execute(registermaschine);
+    command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(42);
   });
 
   it('should throw an error for an invalid constant', () => {
     const registermaschine = new Registermaschine();
-    const command = new LoadConstantToAccumulatorCommand('LDK invalid');
-    expect(() => command.execute(registermaschine)).toThrowError(
+    const command = new LoadConstantToAccumulatorCommand(registermaschine, 'LDK invalid');
+    expect(() => command.execute()).toThrowError(
       'Invalid constant value: invalid'
     );
   });

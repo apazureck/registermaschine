@@ -2,14 +2,14 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class AddCommand extends Command {
-  override load(rm: RmComponents): void {
+  override load(): void {
     const addressToAdd = parseInt(this.operand);
     if (isNaN(addressToAdd)) {
       throw new Error(`Invalid operand for ADD command: ${this.operand}`);
     }
-    rm.alu.add(addressToAdd);
+    this.rm.alu.add(addressToAdd);
   }
-  override execute(rm: RmComponents): void {
-    rm.alu.execute();
+  override execute(): void {
+    this.rm.alu.execute();
   }
 }

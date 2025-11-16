@@ -1,47 +1,12 @@
 :host {
-  display: grid;
-  box-sizing: border-box;
-  padding: 1rem;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "pc accu input"
-    "pr alu output"
-    "progmem datamem null";
-  gap: 1rem;
-  height: calc(100% - 2rem);
+  display: flex;
   min-height: 0;
+  width: 50vw;
+}
+
+.rma-diagram {
   width: 100%;
-}
-
-rma-program-counter {
-  grid-area: pc;
-}
-
-rma-accumulator {
-  grid-area: accu;
-}
-
-rma-input {
-  grid-area: input;
-}
-
-rma-program-register {
-  grid-area: pr;
-}
-
-rma-alu {
-  grid-area: alu;
-}
-
-rma-output {
-  grid-area: output;
-}
-
-rma-program-memory {
-  grid-area: progmem;
-}
-
-rma-data-memory {
-  grid-area: datamem;
+  height: 100%;
+  border: 1px solid var(--rm-border-color);
+  margin: 0.5rem;
 }
