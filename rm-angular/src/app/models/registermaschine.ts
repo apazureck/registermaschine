@@ -66,7 +66,6 @@ export class Registermaschine implements RmComponents {
     if (this.#stop) return;
     this.#running = true;
     this.#publishRunningChanged();
-    this.reset();
     if (this.programRegister.current.code === CommandCode.Halt) return;
     const wait = 1000 / this.clockFrequency;
     this.#stepInternal();
@@ -76,6 +75,7 @@ export class Registermaschine implements RmComponents {
     }
     this.#stop = false;
     this.#running = false;
+    this.#publishRunningChanged();
   }
 
   public stop(): void {

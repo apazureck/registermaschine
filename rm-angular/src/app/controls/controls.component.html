@@ -1,10 +1,10 @@
 <div class="controls">
   @if(running()) {
-  <button mat-button (click)="stop()"><mat-icon>stop</mat-icon>Stop</button>
+  <button mat-button (click)="stop()"><mat-icon>pause</mat-icon>Pause</button>
   } @else {
   <button mat-button (click)="run()"><mat-icon>play_arrow</mat-icon>Start</button>
   }
-  <button mat-button (click)="step()">
+  <button mat-button (click)="step()" [disabled]="running()">
     <mat-icon>skip_next</mat-icon>Step
   </button>
   <button mat-button (click)="reset()">
