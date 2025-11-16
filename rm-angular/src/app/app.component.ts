@@ -26,6 +26,7 @@ import { defaultRegistermaschineConfig, RegistermaschineConfig } from './models/
 })
 export class AppComponent {
   readonly code = signal<string>('');
+  readonly rmRunning = signal<boolean>(false);
 
   #dialog = inject(MatDialog);
 

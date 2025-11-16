@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RegistermaschineProviderService } from '../registermaschine-provider.service';
@@ -11,18 +11,41 @@ import { MatError } from '@angular/material/form-field';
   styleUrl: './controls.component.scss',
 })
 export class ControlsComponent {
+  
   readonly error = signal<string | null>(null);
-  reset() {
-    this.error.set(null);
-    this.registermaschine().reset();
-  }
+  readonly running = signal<boolean>(false);
+
   readonly #rmService = inject(RegistermaschineProviderService);
   readonly registermaschine = signal(this.#rmService.registermaschine);
+
+  constructor() {
+    effect(() => {
+      const rm = this.registermaschine();
+      if (!rm) return;
+      rm.onRunningChanged((isRunning) => {
+        this.running.set(isRunning);
+      });
+    });
+  }
+
   step() {
     try {
       this.registermaschine().step();
     } catch (e) {
       this.error.set((e as Error).message);
     }
+  }
+
+  async run() {
+    await this.registermaschine().run();
+  }
+
+  stop() {
+    this.registermaschine().stop();
+  }
+
+  reset() {
+    this.error.set(null);
+    this.registermaschine().reset();
   }
 }

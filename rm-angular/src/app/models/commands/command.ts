@@ -43,6 +43,10 @@ export abstract class Command {
 
   load(registermaschine: RmComponents): void {}
 
+  continue() {
+    return true;
+  }
+
   toString(): string {
     return this.opString;
   }

@@ -1,5 +1,9 @@
 <div class="controls">
-  <button mat-button><mat-icon>play_arrow</mat-icon>Run</button>
+  @if(running()) {
+  <button mat-button (click)="stop()"><mat-icon>stop</mat-icon>Stop</button>
+  } @else {
+  <button mat-button (click)="run()"><mat-icon>play_arrow</mat-icon>Start</button>
+  }
   <button mat-button (click)="step()">
     <mat-icon>skip_next</mat-icon>Step
   </button>

@@ -1,4 +1,3 @@
-import { RegistermaschineComponent } from '../registermaschine/registermaschine.component';
 import { Accumulator } from './accumulator';
 import { Alu } from './alu';
 import { CommandCode } from './commands';
@@ -36,6 +35,7 @@ export interface RmComponents {
 
 export class Registermaschine implements RmComponents {
   clockFrequency: number = 2;
+  #runningCallbacks: Array<(isRunning: boolean) => void> = [];
   constructor(settings?: RegistermaschineConfig) {
     if (settings) {
       this.programMemory.setSize(settings.programMemorySize);
@@ -55,24 +55,66 @@ export class Registermaschine implements RmComponents {
   public readonly inputDevice = new IoDevice();
   public readonly outputDevice = new IoDevice();
 
-  public run(): void {
-    while (this.programRegister.current.code !== CommandCode.Halt) {
-      this.step();
+  #stop = false;
+  #running = false;
+
+  public get isRunning(): boolean {
+    return this.#running;
+  }
+
+  public async run(): Promise<void> {
+    if (this.#stop) return;
+    this.#running = true;
+    this.#publishRunningChanged();
+    this.reset();
+    if (this.programRegister.current.code === CommandCode.Halt) return;
+    const wait = 1000 / this.clockFrequency;
+    this.#stepInternal();
+    while (this.programRegister.current.continue() && !this.#stop) {
+      await new Promise((resolve) => setTimeout(resolve, wait));
+      this.#stepInternal();
     }
+    this.#stop = false;
+    this.#running = false;
+  }
+
+  public stop(): void {
+    this.#stop = true;
   }
 
   public step(): void {
+    if (this.#running) return;
+
+    this.#stepInternal();
+  }
+
+  #stepInternal(): void {
     if (this.programRegister.executeCurrentCommand(this) === undefined)
       this.programCounter.increment();
   }
 
   public reset(): void {
     this.programCounter.reset();
+    this.#stop = false;
   }
 
   public loadProgram(programCode: string) {
     const commands = new Program(programCode).getCommandSet();
     this.programMemory.loadCommands(commands);
     this.programCounter.reset();
+  }
+
+  public onRunningChanged(callback: (isRunning: boolean) => void): void {
+    this.#runningCallbacks.push(callback);
+  }
+
+  #publishRunningChanged(): void {
+    for (const callback of this.#runningCallbacks) {
+      try {
+        callback(this.#running);
+      } catch (error) {
+        console.error('Error in running changed callback:', error);
+      }
+    }
   }
 }

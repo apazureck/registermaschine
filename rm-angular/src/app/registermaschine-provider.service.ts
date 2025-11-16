@@ -15,7 +15,9 @@ export class RegistermaschineProviderService {
   constructor() {
     
   }
-  readonly #registermaschine = new Registermaschine(inject(REGISTERMASCHINE_SETTINGS));
+  readonly #registermaschine = new Registermaschine(inject(REGISTERMASCHINE_SETTINGS, {
+    optional: true,
+  }) ?? undefined);
 
   get registermaschine(): Registermaschine {
     return this.#registermaschine;

@@ -14,4 +14,8 @@ export class InvalidCommand extends Command {
   override execute(registermaschine: RmComponents): void {
     throw new Error('Invalid Command cannot be executed.');
   }
+
+  override continue() {
+    return false;
+  }
 }
