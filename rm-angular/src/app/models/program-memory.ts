@@ -2,6 +2,16 @@ import { Command } from './commands';
 import { HaltCommand } from './commands/halt-command';
 
 export class ProgramMemory {
+  setSize(programMemorySize: number) {
+    this.size = programMemorySize;
+    while (this.#memory.length > programMemorySize) {
+      this.#memory.pop();
+    }
+    while (this.#memory.length < programMemorySize) {
+      this.#memory.push(new HaltCommand('HLT 99'));
+    }
+    this.#memoryUpdated();
+  }
   readonly #memory: Command[] = [];
   readonly #memoryUpdatedCallbacks: Array<() => void> = [];
   get content() {

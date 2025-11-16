@@ -1,4 +1,13 @@
 export class DataMemory {
+  setSize(dataMemorySize: number) {
+    this.size = dataMemorySize;
+    while (this.#memory.length < dataMemorySize) {
+      this.#memory.push(0);
+    }
+    while (this.#memory.length > dataMemorySize) {
+      this.#memory.pop();
+    }
+  }
   #memory: number[] = [];
 
   get content(): ReadonlyArray<number> {

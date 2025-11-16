@@ -1,4 +1,4 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Registermaschine } from '../models/registermaschine';
 import { ProgramCounterComponent } from './program-counter/program-counter.component';
 import { AccumulatorComponent } from "./accumulator/accumulator.component";
@@ -8,6 +8,7 @@ import { ProgramMemoryComponent } from "./program-memory/program-memory.componen
 import { DataMemoryComponent } from "./data-memory/data-memory.component";
 import { InputComponent } from "./input/input.component";
 import { OutputComponent } from "./output/output.component";
+import { RegistermaschineProviderService } from '../registermaschine-provider.service';
 
 @Component({
   selector: 'rma-registermaschine',
@@ -16,7 +17,8 @@ import { OutputComponent } from "./output/output.component";
   styleUrl: './registermaschine.component.scss',
 })
 export class RegistermaschineComponent {
-  readonly registermaschine = signal(new Registermaschine());
+  readonly #rmService = inject(RegistermaschineProviderService);
+  readonly registermaschine = signal(this.#rmService.registermaschine);
   readonly program = input.required<string>();
 
   constructor() {

@@ -21,7 +21,9 @@ export enum CommandCode {
   Input = 'INP',
   Output = 'OUT',
   Halt = 'HLT',
-  Noop = 'NOOP',
+  Noop = 'NOP',
+
+  INVALID = 'INVALID',
 }
 
 export abstract class Command {
@@ -37,7 +39,7 @@ export abstract class Command {
     this.operand = opArray[1];
   }
 
-  abstract execute(registermaschine: RmComponents): void;
+  abstract execute(registermaschine: RmComponents): number | void;
 
   load(registermaschine: RmComponents): void {}
 

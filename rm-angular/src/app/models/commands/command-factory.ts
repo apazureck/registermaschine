@@ -7,8 +7,10 @@ import { MultiplyCommand } from './alu-commands/multiply-command';
 import { SubtractCommand } from './alu-commands/subtract-command';
 import { Command, CommandCode } from './command';
 import { HaltCommand } from './halt-command';
+import { InvalidCommand } from './invalid-command';
 import { InputCommand } from './io-commands/input-command';
 import { OutputCommand } from './io-commands/output-command';
+import { JumpCommand } from './jump-commands/jump-command';
 import { JumpEqualsZeroCommand } from './jump-commands/jump-eq-zero-command';
 
 const registeredCommands: {
@@ -24,6 +26,7 @@ const registeredCommands: {
   [CommandCode.JumpLessEqualsZero]: JumpEqualsZeroCommand,
   [CommandCode.JumpLessZero]: JumpEqualsZeroCommand,
   [CommandCode.JumpNotZero]: JumpEqualsZeroCommand,
+  [CommandCode.Jump]: JumpCommand,
   [CommandCode.LoadToAccumulator]: LoadToAkkuCommand,
   [CommandCode.LoadConstantToAccumulator]: LoadConstantToAccumulatorCommand,
   [CommandCode.Multiply]: MultiplyCommand,
@@ -40,12 +43,15 @@ export function registerCommand(
 }
 
 export function getCommand(commandString: string): Command {
-  const newCommandFactory =
-    registeredCommands[
-      commandString.trim().split(' ')[0].toUpperCase() as CommandCode
-    ];
-  if (newCommandFactory) {
-    return new newCommandFactory(commandString);
-  }
-  throw new Error(`Unknown command: ${commandString}`);
+  try {
+    const commandCtor =
+      registeredCommands[
+        commandString.trim().split(' ')[0].toUpperCase() as CommandCode
+      ];
+    if (commandCtor) {
+      const instance = new commandCtor(commandString)
+      return instance;
+    }
+  } catch {}
+  return new InvalidCommand(commandString);
 }

@@ -1,3 +1,4 @@
+import { RegistermaschineComponent } from '../registermaschine/registermaschine.component';
 import { Accumulator } from './accumulator';
 import { Alu } from './alu';
 import { CommandCode } from './commands';
@@ -9,6 +10,18 @@ import { ProgramMemory } from './program-memory';
 import { ProgramRegister } from './program-register';
 
 export const accumulatorAddress = 0;
+
+export interface RegistermaschineConfig {
+  programMemorySize: 256;
+  dataMemorySize: 256;
+  clockFrequency: 2;
+}
+
+export const defaultRegistermaschineConfig: RegistermaschineConfig = {
+  programMemorySize: 256,
+  dataMemorySize: 256,
+  clockFrequency: 2,
+};
 
 export interface RmComponents {
   readonly programMemory: ProgramMemory;
@@ -22,11 +35,19 @@ export interface RmComponents {
 }
 
 export class Registermaschine implements RmComponents {
+  clockFrequency: number = 2;
+  constructor(settings?: RegistermaschineConfig) {
+    if (settings) {
+      this.programMemory.setSize(settings.programMemorySize);
+      this.dataMemory.setSize(settings.dataMemorySize);
+      this.clockFrequency = settings.clockFrequency;
+    }
+  }
   public readonly programMemory = new ProgramMemory(256);
   public readonly dataMemory = new DataMemory(256);
   public readonly accumulator = new Accumulator();
   public readonly programCounter = new ProgramCounter();
-  public readonly programRegister = new ProgramRegister(
+  public readonly programRegister: ProgramRegister = new ProgramRegister(
     this.programCounter,
     this.programMemory
   );
@@ -36,23 +57,13 @@ export class Registermaschine implements RmComponents {
 
   public run(): void {
     while (this.programRegister.current.code !== CommandCode.Halt) {
-      this.loadCurrentCommand();
-      this.executeCurrentCommand();
       this.step();
     }
   }
 
   public step(): void {
-    this.programCounter.increment();
-  }
-
-  public loadCurrentCommand(): void {
-    this.programRegister.current.load(this);
-  }
-
-  public executeCurrentCommand(): void {
-    const command = this.programRegister.current;
-    command.execute(this);
+    if (this.programRegister.executeCurrentCommand(this) === undefined)
+      this.programCounter.increment();
   }
 
   public reset(): void {

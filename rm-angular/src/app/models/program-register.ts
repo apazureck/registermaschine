@@ -2,6 +2,7 @@ import { Command as Command } from './commands';
 import { HaltCommand } from './commands/halt-command';
 import { ProgramCounter } from './program-counter';
 import { ProgramMemory } from './program-memory';
+import { RmComponents } from './registermaschine';
 
 export class ProgramRegister {
   #currentCommand: Command = new HaltCommand('HLT 99');
@@ -19,6 +20,11 @@ export class ProgramRegister {
       this.#currentCommand = programMemory.getCommand(currentCount);
       this.#currentCommandChanged();
     });
+  }
+
+  public executeCurrentCommand(registermaschine: RmComponents): number | void {
+    this.#currentCommand.load(registermaschine);
+    return this.#currentCommand.execute(registermaschine);
   }
 
   #currentCommandChanged() {

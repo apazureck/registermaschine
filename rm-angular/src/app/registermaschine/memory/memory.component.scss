@@ -7,6 +7,7 @@
   position: relative;
   height: 100%;
   box-sizing: border-box;
+  min-width: var(--register-min-width);
 }
 
 .label {
@@ -26,4 +27,9 @@
   overflow-y: auto;
   height: 100%;
   box-sizing: border-box;
+}
+
+.highlight {
+  color: var(--mat-sys-on-primary-container);
+  font-weight: bold;
 }

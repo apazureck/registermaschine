@@ -3,12 +3,14 @@
   <table>
     <thead>
       <tr>
+        <th></th>
         <th>Adr.</th>
         <th>Inhalt</th>
       </tr>
     </thead>
     @for(entry of memory(); track i; let i = $index) {
-    <tr>
+    <tr [class]="{ highlight: i === highlightEntry() }">
+      <td>@if(i === highlightEntry()) { ►}</td>
       <td>{{ i + offset() }}</td>
       <td>{{ entry }}</td>
     </tr>

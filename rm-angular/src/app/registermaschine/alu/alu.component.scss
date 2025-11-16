@@ -5,6 +5,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: max-content max-content;
   --border: 1px solid var(--ohm-color);
+  min-width: var(--register-min-width);
 }
 
 .operation {

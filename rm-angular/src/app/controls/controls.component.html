@@ -1,3 +1,12 @@
-<button mat-button><mat-icon>play_arrow</mat-icon>Run</button>
-<button mat-button><mat-icon>skip_next</mat-icon>Step</button>
-<button mat-button><mat-icon>restart_alt</mat-icon>Reset</button>
+<div class="controls">
+  <button mat-button><mat-icon>play_arrow</mat-icon>Run</button>
+  <button mat-button (click)="step()">
+    <mat-icon>skip_next</mat-icon>Step
+  </button>
+  <button mat-button (click)="reset()">
+    <mat-icon>restart_alt</mat-icon>Reset
+  </button>
+</div>
+@if(error()) {
+<mat-error>{{ error() }}</mat-error>
+}

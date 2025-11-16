@@ -1,4 +1,9 @@
-<h2 class="title-rm">Registermaschine</h2>
+<div class="title-rm">
+  <h2>Registermaschine</h2>
+  <button mat-mini-fab color="primary" (click)="showSettings()">
+    <mat-icon>settings</mat-icon>
+  </button>
+</div>
 <h2 class="title-editor">Editor</h2>
 <rma-controls></rma-controls>
 <rma-registermaschine [program]="code()"></rma-registermaschine>
