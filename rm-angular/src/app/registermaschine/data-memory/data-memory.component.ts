@@ -1,16 +1,17 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { DataMemory } from 'src/app/models/data-memory';
-import { MemoryComponent } from '../memory/memory.component';
 
 @Component({
   selector: 'rma-data-memory',
-  imports: [MemoryComponent],
   templateUrl: './data-memory.component.html',
   styleUrl: './data-memory.component.scss',
+  imports: [NgTemplateOutlet],
 })
 export class DataMemoryComponent {
   activeMemoryCell = signal<number | undefined>(undefined);
   public readonly dataMemory = input.required<DataMemory>();
+  public readonly memory = computed(() => this.dataMemory().content);
   public readonly memoryContent = signal<ReadonlyArray<number>>([]);
 
   constructor() {
@@ -18,7 +19,11 @@ export class DataMemoryComponent {
       const mem = this.dataMemory();
       this.memoryContent.set(mem.content);
       mem.onCellActive((i) => {
-        this.activeMemoryCell.set(i);
+        if (i === undefined) {
+          this.activeMemoryCell.set(undefined);
+          return;
+        }
+        this.activeMemoryCell.set(Math.max(i - 1, 0));
       });
     });
   }
