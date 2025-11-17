@@ -79,9 +79,31 @@
     </div>
   </foreignObject>
 
-  @if(targetDataMemory()) {
+  @switch(target()) { @case(TargetEnum.DataMemoryWrite) {
   <path d="M 550,35 H 485 V 217" stroke="black" stroke-width="1" fill="none" />
-  } @if(targetAccumulator()) {
-  <path d="M 465,35 H 550 V 35" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow)" />
-  }
+  } @case(TargetEnum.AccumulatorWrite) {
+  <path
+    d="M 465,35 H 550 V 35"
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-start="url(#arrow)"
+  />
+  } @case(TargetEnum.AccumulatorRead) {
+  <path
+    d="M460,35 H 500 V 115 H 545"
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-end="url(#arrow)"
+  ></path>
+  } @case(TargetEnum.DataMemoryRead) {
+  <path
+    d="M 485,220 V 115 H 545"
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-end="url(#arrow)"
+  ></path>
+  } }
 </svg>

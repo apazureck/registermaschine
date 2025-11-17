@@ -1,3 +1,4 @@
+import { Target } from '../../io-device';
 import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
@@ -6,6 +7,12 @@ export class OutputCommand extends Command {
     const address = parseInt(this.operand, 10);
     if (address < 0 || address >= this.rm.dataMemory.size) {
       throw new Error(`Invalid memory address: ${address}`);
+    }
+    if (address > 0) {
+      this.rm.dataMemory.activateCell(address);
+      this.rm.outputDevice.target = Target.DataMemoryRead;
+    } else {
+      this.rm.outputDevice.target = Target.AccumulatorRead;
     }
   }
   override execute(): void {

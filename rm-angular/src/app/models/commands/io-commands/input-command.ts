@@ -1,4 +1,4 @@
-import { InputTarget } from '../../io-device';
+import { Target } from '../../io-device';
 import { Command } from '../command';
 
 export class InputCommand extends Command {
@@ -11,7 +11,7 @@ export class InputCommand extends Command {
       this.rm.dataMemory.activateCell(address);
     }
     this.rm.inputDevice.target =
-      address === 0 ? InputTarget.Accumulator : InputTarget.DataMemory;
+      address === 0 ? Target.AccumulatorWrite : Target.DataMemoryWrite;
   }
   override async execute(): Promise<void> {
     const address = parseInt(this.operand, 10);
@@ -24,5 +24,6 @@ export class InputCommand extends Command {
       );
     }
     this.rm.dataMemory.deactivateCell();
+    this.rm.inputDevice.target = undefined;
   }
 }

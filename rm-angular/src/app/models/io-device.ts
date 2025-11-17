@@ -1,20 +1,22 @@
-export enum InputTarget {
-  DataMemory,
-  Accumulator,
+export enum Target {
+  DataMemoryWrite = 'DataMemoryWrite',
+  AccumulatorWrite = 'AccumulatorWrite',
+  DataMemoryRead = 'DataMemoryRead',
+  AccumulatorRead = 'AccumulatorRead',
 }
 
 export class IoDevice {
   #value = 0;
   #valueChangedCallbacks: Array<(newValue: number) => void> = [];
-  #targetCallbacks: Array<(target: InputTarget | undefined) => void> = [];
+  #targetCallbacks: Array<(target: Target | undefined) => void> = [];
   #valueReadCallbacks: Array<() => Promise<boolean>> = [];
-  #target: InputTarget | undefined;
+  #target: Target | undefined;
 
-  get target(): InputTarget | undefined {
+  get target(): Target | undefined {
     return this.#target;
   }
 
-  set target(target: InputTarget | undefined) {
+  set target(target: Target | undefined) {
     this.#target = target;
     for (const callback of this.#targetCallbacks) {
       try {
@@ -49,7 +51,7 @@ export class IoDevice {
     this.#valueChangedCallbacks.push(callback);
   }
 
-  onTargetChanged(callback: (target: InputTarget | undefined) => void) {
+  onTargetChanged(callback: (target: Target | undefined) => void) {
     this.#targetCallbacks.push(callback);
   }
 
