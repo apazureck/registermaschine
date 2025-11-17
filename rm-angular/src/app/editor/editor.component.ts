@@ -1,4 +1,5 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { Component, inject, input, model, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import {
   MonacoEditorModule,
@@ -6,12 +7,13 @@ import {
   NgxMonacoEditorConfig,
 } from 'ngx-monaco-editor-v2';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
+import { MatError, MatSelectModule } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { debounceTime, firstValueFrom, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ProgramError } from '../models/program';
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
@@ -29,6 +31,7 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
     MatButtonModule,
     MatIcon,
     MatDialogModule,
+    MatError,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
@@ -44,6 +47,14 @@ export class EditorComponent implements OnInit {
   readonly #dialog = inject(MatDialog);
   readonly editorOptions = { theme: 'vs-light', language: 'shell' };
   readonly code = model<string>('');
+  readonly errors = input<ProgramError[] | undefined>();
+
+  constructor() {
+    this.#debouncedInput.pipe(takeUntilDestroyed(), debounceTime(1000)).subscribe(change => {
+      this.code.set(change);
+      localStorage.setItem('editorContent', change);
+    });
+  }
 
   async loadExample(fileName: string) {
     if (!fileName) return;
@@ -95,8 +106,10 @@ export class EditorComponent implements OnInit {
     reader.readAsText(file);
   }
 
+  #debouncedInput = new Subject<string>();
+
   editorInput(change: string) {
-    localStorage.setItem('editorContent', change);
+    this.#debouncedInput.next(change);
   }
 
   resetEditor() {

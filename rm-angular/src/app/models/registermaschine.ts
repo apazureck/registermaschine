@@ -95,14 +95,20 @@ export class Registermaschine implements RmComponents {
 
   public reset(): void {
     this.programCounter.reset();
-    this.programRegister.loadCurrentCommand(this);
+    this.dataMemory.reset();
+    this.inputDevice.reset();
+    this.outputDevice.reset();
+    this.accumulator.reset();
+    this.alu.reset();
+    this.programRegister.loadCurrentCommand();
     this.#stop = false;
   }
 
   public loadProgram(programCode: string) {
+    this.programRegister.unloadCurrentCommand();
     const commands = new Program(programCode).getCommandSet(this);
     this.programMemory.loadCommands(commands);
-    this.programCounter.reset();
+    this.programRegister.loadCurrentCommand();
   }
 
   public onRunningChanged(callback: (isRunning: boolean) => void): void {

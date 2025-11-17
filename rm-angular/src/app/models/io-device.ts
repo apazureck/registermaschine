@@ -6,6 +6,9 @@ export enum Target {
 }
 
 export class IoDevice {
+  reset() {
+    this.target = undefined;
+  }
   #value = 0;
   #valueChangedCallbacks: Array<(newValue: number) => void> = [];
   #targetCallbacks: Array<(target: Target | undefined) => void> = [];

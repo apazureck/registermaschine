@@ -2,7 +2,7 @@
   display: grid;
   padding-top: 1rem;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   height: 100%;
   box-sizing: border-box;
 }
@@ -19,7 +19,16 @@ ngx-monaco-editor {
   grid-row: 2;
   height: 100%;
   width: 100%;
+  min-height: 0;
   box-sizing: border-box;
+}
+
+.error-list {
+  grid-column: 1;
+  grid-row: 3;
+  margin-top: 0.5rem;
+  color: var(--ohm-error-color);
+  font-size: 0.9rem;
 }
 
 .editor-border {

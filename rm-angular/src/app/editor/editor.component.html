@@ -23,9 +23,14 @@
 <ngx-monaco-editor
   class="editor-border"
   [options]="editorOptions"
-  [(ngModel)]="code"
+  [ngModel]="code()"
   (ngModelChange)="editorInput($event)"
 ></ngx-monaco-editor>
+<div class="error-list">
+  @for(error of errors(); track error.line) {
+  <mat-error>Zeile {{ error.line }}: {{ error.message }}</mat-error>
+  }
+</div>
 <input
   #fileInput
   type="file"

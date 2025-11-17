@@ -1,10 +1,21 @@
+export enum DataOperation {
+  Read,
+  Write,
+}
+
 export class DataMemory {
+  reset() {
+    this.deactivateCell();
+  }
   deactivateCell() {
     this.activateCell(undefined);
   }
-  #cellActiveCallbacks: Array<(index: number | undefined) => void> = [];
+  #cellActiveCallbacks: Array<
+    (index: number | undefined, isTarget: DataOperation | undefined) => void
+  > = [];
   #memory: number[] = [];
   #activeCellIndex: number | undefined = undefined;
+  operation: DataOperation | undefined = undefined;
 
   get content(): ReadonlyArray<number> {
     return this.#memory;
@@ -32,18 +43,27 @@ export class DataMemory {
     this.#memory[address - 1] = value;
   }
 
-  activateCell(address: number | undefined): void {
+  activateCell(
+    address: number | undefined,
+    operation: DataOperation | undefined = undefined
+  ): void {
     this.#activeCellIndex = address;
+    this.operation = operation;
     for (const callback of this.#cellActiveCallbacks) {
       try {
-        callback(address);
+        callback(address, operation);
       } catch (e) {
         console.error('Error in cell active callback:', e);
       }
     }
   }
 
-  onCellActive(activeCallback: (index: number | undefined) => void) {
+  onCellActive(
+    activeCallback: (
+      index: number | undefined,
+      isTarget: DataOperation | undefined
+    ) => void
+  ) {
     this.#cellActiveCallbacks.push(activeCallback);
   }
   setSize(dataMemorySize: number) {

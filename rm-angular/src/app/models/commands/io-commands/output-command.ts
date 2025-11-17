@@ -1,5 +1,5 @@
+import { DataOperation } from '../../data-memory';
 import { Target } from '../../io-device';
-import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class OutputCommand extends Command {
@@ -9,7 +9,7 @@ export class OutputCommand extends Command {
       throw new Error(`Invalid memory address: ${address}`);
     }
     if (address > 0) {
-      this.rm.dataMemory.activateCell(address);
+      this.rm.dataMemory.activateCell(address, DataOperation.Read);
       this.rm.outputDevice.target = Target.DataMemoryRead;
     } else {
       this.rm.outputDevice.target = Target.AccumulatorRead;
@@ -23,5 +23,10 @@ export class OutputCommand extends Command {
       const value = this.rm.dataMemory.getValue(address);
       this.rm.outputDevice.value = value;
     }
+  }
+
+  override unload(): void {
+    this.rm.outputDevice.target = undefined;
+    this.rm.dataMemory.deactivateCell();
   }
 }

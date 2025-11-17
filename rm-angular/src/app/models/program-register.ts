@@ -1,10 +1,9 @@
 import { Command as Command } from './commands';
-import { HaltCommand } from './commands/halt-command';
 import { ProgramCounter } from './program-counter';
 import { ProgramMemory } from './program-memory';
-import { RmComponents } from './registermaschine';
 
 export class ProgramRegister {
+  
   #currentCommand: Command | undefined = undefined;
   #currentCommandSubscribers: ((command: Command) => void)[] = [];
   readonly #programMemory: ProgramMemory;
@@ -23,13 +22,14 @@ export class ProgramRegister {
     this.#programMemory = programMemory;
 
     this._programCounter.onStep((currentCount) => {
-      this.#currentCommand = programMemory.getCommand(currentCount);
-      this.#currentCommandChanged();
-      this.#currentCommand?.load();
+      this.loadCurrentCommand();
     });
   }
 
-  loadCurrentCommand(rm: RmComponents): void {
+  loadCurrentCommand(): void {
+    if(this.#currentCommand) {
+      this.#currentCommand.unload();
+    }
     this.#currentCommand = this.#programMemory.getCommand(
       this._programCounter.current
     );
@@ -37,9 +37,14 @@ export class ProgramRegister {
     this.#currentCommandChanged();
   }
 
+  unloadCurrentCommand() {
+    this.#currentCommand?.unload();
+  }
+
   public async executeCurrentCommand(): Promise<number | void> {
     this.#currentCommand!.load();
-    return await this.#currentCommand!.execute();
+    const result = await this.#currentCommand!.execute();
+    return result;
   }
 
   #currentCommandChanged() {

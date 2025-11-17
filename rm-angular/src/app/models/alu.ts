@@ -18,10 +18,18 @@ export enum AluOperation {
   Divide = 'DIV',
 }
 
+export enum AluTarget {
+  DataMemory,
+  Accumulator,
+  None,
+}
+
 export class Alu implements AluStatus {
   #memory: DataMemory;
   #accumulator: Accumulator;
   #onChangedCallbacks: Array<(alu: AluStatus) => void> = [];
+  #onTargetChangedCallbacks: Array<(target: AluTarget) => void> = [];
+  #target: AluTarget | undefined = undefined;
 
   #setOperation: AluOperation = AluOperation.Noop;
   #memoryInputIndex: number = accumulatorAddress;
@@ -33,6 +41,15 @@ export class Alu implements AluStatus {
 
   get memoryInputIndex(): number {
     return this.#memoryInputIndex;
+  }
+
+  get target(): AluTarget | undefined {
+    return this.#target;
+  }
+
+  set target(value: AluTarget | undefined) {
+    this.#target = value;
+    this.#publishTargetChanged();
   }
 
   get inputValue(): number {
@@ -53,6 +70,8 @@ export class Alu implements AluStatus {
     this.#memory = memory;
     this.#accumulator = accumulator;
   }
+
+  reset() {}
 
   subtract(addressToSubtract: number) {
     this.#setOperation = AluOperation.Subtract;
@@ -103,12 +122,26 @@ export class Alu implements AluStatus {
     this.#onChangedCallbacks.push(callback);
   }
 
+  onTargetChanged(callback: (target: AluTarget) => void) {
+    this.#onTargetChangedCallbacks.push(callback);
+  }
+
   #publishChanged() {
     for (const callback of this.#onChangedCallbacks) {
       try {
         callback(this);
       } catch (error) {
         console.log('Error in ALU executed callback:', error);
+      }
+    }
+  }
+
+  #publishTargetChanged() {
+    for (const callback of this.#onTargetChangedCallbacks) {
+      try {
+        callback(this.#target!);
+      } catch (error) {
+        console.log('Error in ALU target changed callback:', error);
       }
     }
   }

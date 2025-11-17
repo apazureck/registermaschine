@@ -1,6 +1,5 @@
 <svg viewPort="0 0 1000 500" class="rma-diagram">
   <defs>
-    <!-- A marker to be used as an arrowhead -->
     <marker
       id="arrow"
       viewBox="0 0 10 10"
@@ -58,7 +57,7 @@
     </div>
   </foreignObject>
 
-  <foreignObject x="50" y="200" width="160" height="500">
+  <foreignObject x="50" y="250" width="160" height="500">
     <div
       style="width: 100%; min-height: 0; max-height: 30rem; padding-top: 0.5rem"
     >
@@ -69,7 +68,7 @@
     </div>
   </foreignObject>
 
-  <foreignObject x="300" y="200" width="300" height="500">
+  <foreignObject x="300" y="250" width="300" height="500">
     <div
       style="width: 100%; min-height: 0; max-height: 30rem; padding-top: 0.5rem"
     >
@@ -79,9 +78,15 @@
     </div>
   </foreignObject>
 
-  @switch(target()) { @case(TargetEnum.DataMemoryWrite) {
-  <path d="M 550,35 H 485 V 217" stroke="black" stroke-width="1" fill="none" />
-  } @case(TargetEnum.AccumulatorWrite) {
+  @switch(inputTarget()) { @case(IoTargetEnum.DataMemoryWrite) {
+  <path
+    d="M 485,270 V 35 H 550"
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+  ></path>
+
+  } @case(IoTargetEnum.AccumulatorWrite) {
   <path
     d="M 465,35 H 550 V 35"
     stroke="black"
@@ -89,21 +94,29 @@
     fill="none"
     marker-start="url(#arrow)"
   />
-  } @case(TargetEnum.AccumulatorRead) {
+  } } @switch(outputTarget()) { @case(IoTargetEnum.AccumulatorRead) {
   <path
-    d="M460,35 H 500 V 115 H 545"
+    d="M460,35 H 485 V 115 H 545"
     stroke="black"
     stroke-width="1"
     fill="none"
     marker-end="url(#arrow)"
   ></path>
-  } @case(TargetEnum.DataMemoryRead) {
+  } @case(IoTargetEnum.DataMemoryRead) {
   <path
-    d="M 485,220 V 115 H 545"
+    d="M 545,35 H 485 V 270"
     stroke="black"
     stroke-width="1"
     fill="none"
-    marker-end="url(#arrow)"
-  ></path>
+    marker-start="url(#arrow)"
+  />
+  } } @switch (accuTarget()) { @case (AccuTargetEnum.DataMemoryWrite) {
+  <path d="M 460,35 H 485 V 270 " stroke="black" stroke-width="1" fill="none" />
+  } @case(AccuTargetEnum.DataMemoryRead) {
+  <path d="M 465,35 H 485 V 270 " stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow)" />
   } }
+  @switch (aluTarget()) {
+  @case (AluTargetEnum.DataMemory) {
+  <path d="M 435,180 V 200 H 485 V 270 " stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow)" />
+  }}
 </svg>

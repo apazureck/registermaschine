@@ -1,3 +1,4 @@
+import { DataOperation } from '../../data-memory';
 import { Target } from '../../io-device';
 import { Command } from '../command';
 
@@ -8,7 +9,9 @@ export class InputCommand extends Command {
       throw new Error(`Invalid memory address: ${address}`);
     }
     if (address > 0) {
-      this.rm.dataMemory.activateCell(address);
+      this.rm.dataMemory.activateCell(address, DataOperation.Write);
+    } else {
+      this.rm.dataMemory.deactivateCell();
     }
     this.rm.inputDevice.target =
       address === 0 ? Target.AccumulatorWrite : Target.DataMemoryWrite;
@@ -23,6 +26,9 @@ export class InputCommand extends Command {
         await this.rm.inputDevice.readValue()
       );
     }
+  }
+
+  override unload(): void {
     this.rm.dataMemory.deactivateCell();
     this.rm.inputDevice.target = undefined;
   }

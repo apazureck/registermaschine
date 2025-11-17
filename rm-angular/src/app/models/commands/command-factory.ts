@@ -36,19 +36,19 @@ const registeredCommands: {
   [CommandCode.Subtract]: SubtractCommand,
 };
 
-export function registerCommand(
-  commandCode: CommandCode,
-  commandConstructor: new (rm: RmComponents, opString: string) => Command
-): void {
-  registeredCommands[commandCode] = commandConstructor;
-}
-
 export function getCommand(rm: RmComponents, commandString: string): Command {
   try {
-    const commandCtor =
-      registeredCommands[
-        commandString.trim().split(' ')[0].toUpperCase() as CommandCode
-      ];
+    const commandCode = commandString
+      .trim()
+      .split(' ')[0]
+      .toUpperCase() as CommandCode;
+    const commandCtor = registeredCommands[commandCode];
+
+    // Odd error add is always undefined, handling it manually
+    if(commandCode === CommandCode.Add) {
+      return new AddCommand(rm, commandString);
+    }
+
     if (commandCtor) {
       const instance = new commandCtor(rm, commandString);
       return instance;

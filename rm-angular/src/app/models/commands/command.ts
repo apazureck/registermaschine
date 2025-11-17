@@ -43,6 +43,8 @@ export abstract class Command {
 
   load(): void {}
 
+  unload(): void {}
+
   continue() {
     return true;
   }

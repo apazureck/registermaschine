@@ -2,13 +2,27 @@
   <div class="border top left"></div>
   <div class="label">Daten</div>
   <div class="border top right"></div>
-  <div><ng-container *ngTemplateOutlet="lineDown"></ng-container></div>
+  <div>
+    @if(activeMemoryCell() !== undefined){<ng-container
+      *ngTemplateOutlet="lineDown"
+    ></ng-container
+    >}
+  </div>
   <div class="border left"></div>
   <div>Adr.</div>
   <div class="border right">Inhalt</div>
-  <div><ng-container *ngTemplateOutlet="lineDown"></ng-container></div>
+  <div>
+    @if(activeMemoryCell() !== undefined){<ng-container
+      *ngTemplateOutlet="lineDown"
+    ></ng-container
+    >}
+  </div>
   @for(entry of memory(); track i; let i = $index) {
-  <div class="border left" style="width:1rem" [class]="{ highlight: i === activeMemoryCell() }">
+  <div
+    class="border left"
+    style="width: 1rem"
+    [class]="{ highlight: i === activeMemoryCell() }"
+  >
     @if(i === activeMemoryCell()) {►}
   </div>
   <div [class]="{ highlight: i === activeMemoryCell() }">{{ i + 1 }}</div>
@@ -19,32 +33,41 @@
     @if(i < (activeMemoryCell() ?? -1)) {
     <ng-container *ngTemplateOutlet="lineDown"></ng-container> } @else if (i ===
     activeMemoryCell()) {
-    <ng-container *ngTemplateOutlet="lineleft"></ng-container> } @else { }
+    <svg viewBox="0 0 50 50" width="50" height="25">
+      <defs>
+        <!-- A marker to be used as an arrowhead -->
+        <marker
+          id="arrow"
+          viewBox="0 0 10 10"
+          refX="5"
+          refY="5"
+          markerWidth="10"
+          markerHeight="10"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+      </defs>
+      <line
+        x1="50%"
+        y1="50%"
+        x2="-20"
+        y2="50%"
+        stroke="black"
+        stroke-width="2"
+        [attr.marker-end]="
+          operation() === DataOperation.Write ? 'url(#arrow)' : null
+        "
+      />
+      <line x1="50%" y1="0" x2="50%" y2="50%" stroke="black" stroke-width="2" />
+    </svg>
+    } @else { }
   </div>
   }
 </div>
 
 <ng-template #lineDown>
-  <svg style="position:absolute" viewBox="0 0 50 50" width="50" height="25">
+  <svg style="position: absolute" viewBox="0 0 50 50" width="50" height="25">
     <line x1="50%" y1="0" x2="50%" y2="100%" stroke="black" stroke-width="2" />
   </svg>
 </ng-template>
-
-<ng-template #lineleft>
-  <svg viewBox="0 0 50 50" width="50" height="25">
-    <defs>
-    <!-- A marker to be used as an arrowhead -->
-    <marker
-      id="arrow"
-      viewBox="0 0 10 10"
-      refX="5"
-      refY="5"
-      markerWidth="10"
-      markerHeight="10"
-      orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" />
-    </marker>
-  </defs>
-    <line x1="50%" y1="50%" x2="-20" y2="50%" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
-    <line x1="50%" y1="0" x2="50%" y2="50%" stroke="black" stroke-width="2"/></svg>
-></ng-template>
