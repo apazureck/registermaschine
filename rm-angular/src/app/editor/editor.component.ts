@@ -105,22 +105,7 @@ export class EditorComponent implements OnInit {
   }
 
   #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
-    const glyphWidget: me.IGlyphMarginWidget = {
-      getDomNode: () => {
-        return document.createElement('div');
-      },
-      getPosition: () => {
-        return {
-          lane: me.GlyphMarginLane.Right,
-          range: new Range(1, 1, 1, 1),
-          zIndex: 0,
-        };
-      },
-      getId() {
-        return `program-line-glyph-widget`;
-      },
-    };
-    editor.removeGlyphMarginWidget(glyphWidget);
+    this.removeOldProgramLineGlyphs(editor);
     for (const command of program) {
       const glyphWidget: me.IGlyphMarginWidget = {
         getDomNode: () => {
@@ -139,6 +124,28 @@ export class EditorComponent implements OnInit {
         },
       };
       editor.addGlyphMarginWidget(glyphWidget);
+    }
+  }
+
+  private removeOldProgramLineGlyphs(editor: me.IStandaloneCodeEditor) {
+    const size = this.#rmService.registermaschine.programMemory.size;
+    for (let address = 0; address < size; address++) {
+      const glyphWidget: me.IGlyphMarginWidget = {
+        getDomNode: () => {
+          return document.createElement('div');
+        },
+        getPosition: () => {
+          return {
+            lane: me.GlyphMarginLane.Right,
+            range: new Range(1, 1, 1, 1),
+            zIndex: 0,
+          };
+        },
+        getId() {
+          return `program-line-glyph-widget-${address}`;
+        },
+      };
+      editor.removeGlyphMarginWidget(glyphWidget);
     }
   }
 
