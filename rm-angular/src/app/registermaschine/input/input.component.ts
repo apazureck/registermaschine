@@ -34,7 +34,7 @@ export class InputComponent {
               })
               .afterClosed()
           );
-          if (value) {
+          if (value !== undefined) {
             this.inputDevice().value = value;
             return true;
           }
