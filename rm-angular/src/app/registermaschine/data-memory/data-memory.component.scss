@@ -1,22 +1,53 @@
-.line-map {
-  padding-top: 1rem;
-  font-family: monospace;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  overflow-y: auto;
-  height: 100%;
-  box-sizing: border-box;
-}
-
 :host {
   --border-style: 1px solid var(--ohm-color);
   --border-radius: 5px;
-  display: grid;
+  display: block;
   width: 220px;
   position: relative;
-  height: 100%;
+  max-height: 100%;
   box-sizing: border-box;
   min-width: var(--register-min-width);
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  padding-top: 0.5rem;
+  font-family: monospace;
+  box-sizing: border-box;
+  grid-template-columns: auto auto 1fr auto;
+  grid-auto-rows: auto 1fr auto;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  max-height: 100%;
+  width: 100%;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+}
+
+.content {
+  max-height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  box-sizing: border-box;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .label {
@@ -26,18 +57,7 @@
   transform: translateX(-50%);
   padding: 0 0.5rem;
   color: var(--ohm-color);
-}
-
-.content {
-  padding-top: .5rem;
-  font-family: monospace;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  overflow-y: auto;
-  height: 100%;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  width: 100%;
 }
 
 .highlight {
@@ -60,6 +80,15 @@
   }
   &.top.right {
     border-top-right-radius: var(--border-radius);
+  }
+  &.bottom {
+    border-bottom: var(--border-style);
+  }
+  &.bottom.left {
+    border-bottom-left-radius: var(--border-radius);
+  }
+  &.bottom.right {
+    border-bottom-right-radius: var(--border-radius);
   }
 }
 

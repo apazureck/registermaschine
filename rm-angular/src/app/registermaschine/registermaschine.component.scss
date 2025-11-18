@@ -2,11 +2,25 @@
   display: flex;
   min-height: 0;
   width: 50vw;
+  height: 100%;
+}
+
+.rma-container {
+  zoom: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rma-diagram {
   width: 100%;
   height: 100%;
   border: 1px solid var(--rm-border-color);
+  box-sizing: border-box;
+}
+
+.rma-diagram-container {
+  min-height: 0;
   margin: 0.5rem;
+  box-sizing: border-box;
 }

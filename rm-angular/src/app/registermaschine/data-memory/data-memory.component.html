@@ -1,69 +1,85 @@
-<div class="content">
-  <div class="border top left"></div>
-  <div class="label">Daten</div>
-  <div class="border top right"></div>
-  <div>
-    @if(activeMemoryCell() !== undefined){<ng-container
-      *ngTemplateOutlet="lineDown"
-    ></ng-container
-    >}
+<div class="grid">
+  <div class="header">
+    <div class="border top left">&nbsp;</div>
+    <div class="label">Daten</div>
+    <div class="border top right">&nbsp;</div>
+    <div>
+      @if(activeMemoryCell() !== undefined){<ng-container
+        *ngTemplateOutlet="lineDown"
+      ></ng-container
+      >}
+    </div>
+    <div class="border left"></div>
+    <div>Adr.</div>
+    <div class="border right">Inhalt</div>
+    <div>
+      @if(activeMemoryCell() !== undefined){<ng-container
+        *ngTemplateOutlet="lineDown"
+      ></ng-container
+      >}
+    </div>
   </div>
-  <div class="border left"></div>
-  <div>Adr.</div>
-  <div class="border right">Inhalt</div>
-  <div>
-    @if(activeMemoryCell() !== undefined){<ng-container
-      *ngTemplateOutlet="lineDown"
-    ></ng-container
-    >}
+  <div class="content">
+    @for(entry of memory(); track i; let i = $index) {
+    <div
+      class="border left"
+      style="width: 1rem"
+      [class]="{ highlight: i === activeMemoryCell() }"
+    >
+      @if(i === activeMemoryCell()) {►}
+    </div>
+    <div [class]="{ highlight: i === activeMemoryCell() }">{{ i + 1 }}</div>
+    <div class="border right" [class]="{ highlight: i === activeMemoryCell() }">
+      {{ entry }}
+    </div>
+    <div style="position: relative; height: 1.5rem; width: 60px">
+      @if(i < (activeMemoryCell() ?? -1)) {
+      <ng-container *ngTemplateOutlet="lineDown"></ng-container> } @else if (i
+      === activeMemoryCell()) {
+      <svg viewBox="0 0 50 50" width="50" height="25">
+        <defs>
+          <!-- A marker to be used as an arrowhead -->
+          <marker
+            id="arrow"
+            viewBox="0 0 10 10"
+            refX="5"
+            refY="5"
+            markerWidth="10"
+            markerHeight="10"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
+        </defs>
+        <line
+          x1="50%"
+          y1="50%"
+          x2="-20"
+          y2="50%"
+          stroke="black"
+          stroke-width="2"
+          [attr.marker-end]="
+            operation() === DataOperation.Write ? 'url(#arrow)' : null
+          "
+        />
+        <line
+          x1="50%"
+          y1="0"
+          x2="50%"
+          y2="50%"
+          stroke="black"
+          stroke-width="2"
+        />
+      </svg>
+      } @else { }
+    </div>
+    }
   </div>
-  @for(entry of memory(); track i; let i = $index) {
-  <div
-    class="border left"
-    style="width: 1rem"
-    [class]="{ highlight: i === activeMemoryCell() }"
-  >
-    @if(i === activeMemoryCell()) {►}
+  <div class="footer">
+    <div class="border bottom left">&nbsp;</div>
+    <div class="border bottom">&nbsp;</div>
+    <div class="border bottom right">&nbsp;</div>
   </div>
-  <div [class]="{ highlight: i === activeMemoryCell() }">{{ i + 1 }}</div>
-  <div class="border right" [class]="{ highlight: i === activeMemoryCell() }">
-    {{ entry }}
-  </div>
-  <div style="position: relative; height: 1.5rem; width: 60px">
-    @if(i < (activeMemoryCell() ?? -1)) {
-    <ng-container *ngTemplateOutlet="lineDown"></ng-container> } @else if (i ===
-    activeMemoryCell()) {
-    <svg viewBox="0 0 50 50" width="50" height="25">
-      <defs>
-        <!-- A marker to be used as an arrowhead -->
-        <marker
-          id="arrow"
-          viewBox="0 0 10 10"
-          refX="5"
-          refY="5"
-          markerWidth="10"
-          markerHeight="10"
-          orient="auto-start-reverse"
-        >
-          <path d="M 0 0 L 10 5 L 0 10 z" />
-        </marker>
-      </defs>
-      <line
-        x1="50%"
-        y1="50%"
-        x2="-20"
-        y2="50%"
-        stroke="black"
-        stroke-width="2"
-        [attr.marker-end]="
-          operation() === DataOperation.Write ? 'url(#arrow)' : null
-        "
-      />
-      <line x1="50%" y1="0" x2="50%" y2="50%" stroke="black" stroke-width="2" />
-    </svg>
-    } @else { }
-  </div>
-  }
 </div>
 
 <ng-template #lineDown>

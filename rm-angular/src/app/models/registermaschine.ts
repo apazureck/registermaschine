@@ -44,8 +44,8 @@ export class Registermaschine implements RmComponents {
       this.clockFrequency = settings.clockFrequency;
     }
   }
-  public readonly programMemory = new ProgramMemory(256);
-  public readonly dataMemory = new DataMemory(256);
+  public readonly programMemory = new ProgramMemory(32);
+  public readonly dataMemory = new DataMemory(16);
   public readonly accumulator = new Accumulator();
   public readonly programCounter = new ProgramCounter();
   public readonly programRegister: ProgramRegister = new ProgramRegister(

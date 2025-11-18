@@ -1,12 +1,11 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
-import { MemoryComponent } from '../memory/memory.component';
 import { ProgramMemory } from 'src/app/models/program-memory';
 import { Command } from 'src/app/models/commands';
 import { ProgramCounter } from 'src/app/models/program-counter';
 
 @Component({
   selector: 'rma-program-memory',
-  imports: [MemoryComponent],
+  imports: [],
   templateUrl: './program-memory.component.html',
   styleUrl: './program-memory.component.scss',
 })

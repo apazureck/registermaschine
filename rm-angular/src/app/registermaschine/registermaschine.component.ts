@@ -1,6 +1,7 @@
 import {
   Component,
   effect,
+  ElementRef,
   inject,
   input,
   OnInit,
@@ -43,8 +44,19 @@ export class RegistermaschineComponent implements OnInit {
   readonly AluTargetEnum = AluTarget;
 
   readonly #rmService = inject(RegistermaschineProviderService);
+  readonly #hostElement = inject(ElementRef<HTMLElement>);
+  readonly #hostObserver = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      const height = entry.contentRect.height;
+      this.zoom.set(height / 610);
+    }
+  });
+  readonly memoryHeight = signal<string>('300px');
+  readonly zoom = signal<number>(1);
+
   readonly registermaschine = signal(this.#rmService.registermaschine);
   readonly program = input.required<string>();
+
   readonly isRunning = signal<boolean>(false);
   readonly inputTarget = signal<IoTarget | undefined>(undefined);
   readonly outputTarget = signal<IoTarget | undefined>(undefined);
@@ -55,6 +67,8 @@ export class RegistermaschineComponent implements OnInit {
   #initialized = false;
 
   constructor() {
+    this.#hostObserver.observe(this.#hostElement.nativeElement);
+
     effect(() => {
       this.onError.emit(undefined);
       const prog = this.program();
@@ -93,6 +107,13 @@ export class RegistermaschineComponent implements OnInit {
         this.aluTarget.set(target);
       });
     });
+
+    effect(() => {
+      console.log('Memory height set to:', this.memoryHeight());
+    });
+    effect(() => {
+      console.log('Zoom set to:', this.zoom());
+    })
   }
   ngOnInit(): void {
     this.registermaschine().reset();
