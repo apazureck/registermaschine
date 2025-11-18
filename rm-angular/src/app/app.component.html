@@ -1,10 +1,1 @@
-<div class="title-rm">
-  <h2>Registermaschine</h2>
-  <button mat-mini-fab color="primary" (click)="showSettings()">
-    <mat-icon>settings</mat-icon>
-  </button>
-</div>
-<h2 class="title-editor">Editor</h2>
-<rma-controls></rma-controls>
-<rma-registermaschine [program]="code()" (onError)="errors.set($event)"></rma-registermaschine>
-<rma-editor [(code)]="code" [errors]="errors()"></rma-editor>
+<router-outlet/>

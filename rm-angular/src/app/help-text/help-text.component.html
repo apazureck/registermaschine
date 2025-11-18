@@ -1,0 +1,151 @@
+<mat-accordion multi="true">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Einführung </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Die Registermaschine ist ein einfaches Modell eines Computers, das aus
+      einer begrenzten Anzahl von Registern und einem Programm besteht, das in
+      einer einfachen Assemblersprache geschrieben ist. Diese Maschine kann
+      grundlegende arithmetische Operationen und Kontrollflussanweisungen
+      ausführen.
+    </p>
+    <p>
+      Um Kommentare in Ihrem Programm hinzuzufügen, verwenden Sie das
+      Semikolon-Zeichen oder Raute-Zeichen (<code>;</code>, <code>#</code>).
+      Alles, was nach dem Kommentarzeichen in einer Zeile steht, wird als
+      Kommentar betrachtet und von der Registermaschine ignoriert.
+    </p>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Programmfluss </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Die Registermaschine unterstützt bedingte und unbedingte Sprungbefehle,
+      die es ermöglichen, den Programmfluss zu steuern. Bedingte Sprünge
+      überprüfen den Wert eines Registers und springen zu einer bestimmten
+      Programmzeile, wenn die Bedingung erfüllt ist.
+    </p>
+    <ul>
+      <li>
+        <code>JMP ##</code>
+        <div>
+          Springt zur angegebenen Programmzeile (<code>##</code> ist die
+          Speicherzelle von 0 - SPEICHERLAENGE)
+        </div>
+      </li>
+      <li>
+        <code>JEZ ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator 0 ist.
+      </li>
+      <li>
+        <code>JNE ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator ungleich 0 ist.
+      </li>
+      <li>
+        <code>JLZ ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator kleiner 0 ist.
+      </li>
+      <li>
+        <code>JLE ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator kleiner oder gleich 0 ist.
+      </li>
+      <li>
+        <code>JGZ ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator größer 0 ist.
+      </li>
+      <li>
+        <code>JGE ##</code>Springt zur angegebenen Programmzeile, wenn der
+        aktuelle Wert im Akkumulator größer oder gleich 0 ist.
+      </li>
+      <li><code>HLT 99</code> Beendet das aktuelle Programm.</li>
+    </ul>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Lade- und Speicherbefehle </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-title>Verarbeitungsbefehle</mat-panel-title>
+    <ul>
+      <li>
+        <code>ADD ##</code>
+        <div>
+          Addiert auf den aktuellen Wert im Akkumulator den Wert in der
+          angegebenen Speicherzelle (<code>##</code>). Das Ergebnis landet
+          wieder im Akkumulator. <code>ADD 00</code> addiert den Wert im
+          Akkumulator mit sich selbst.
+        </div>
+      </li>
+      <li>
+        <code>SUB ##</code>
+        <div>
+          Subtrahiert den Wert in der angegebenen Speicherzelle
+          (<code>##</code>) vom aktuellen Wert im Akkumulator. Das Ergebnis
+          landet wieder im Akkumulator. <code>ADD 00</code> addiert den Wert im
+          Akkumulator mit sich selbst.
+        </div>
+      </li>
+      <li>
+        <code>MUL ##</code>
+        <div>
+          Multiplizert den Wert im Akkumulator mit der angegebenen Speicherzelle
+          (<code>##</code>). Das Ergebnis landet wieder im Akkumulator.
+          <code>ADD 00</code> addiert den Wert im Akkumulator mit sich selbst.
+        </div>
+      </li>
+      <li>
+        <code>DIV ##</code>
+        <div>
+          Dividiert den aktuellen Wert im Akkumulator mit dem Wert in der
+          angegebenen Speicherzelle (<code>##</code>). Das Ergebnis landet
+          wieder im Akkumulator. <code>ADD 00</code> addiert den Wert im
+          Akkumulator mit sich selbst.
+        </div>
+      </li>
+    </ul>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Transportbefehle </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ul>
+      <li>
+        <code>LDA ##</code>
+        <div>
+          Lädt den Wert der angegebenen Speicherzelle (<code>##</code>) in den
+          Akkumulator.
+        </div>
+      </li>
+      <li>
+        <code>LDK ##</code>
+        <div>
+          Lädt die angegebenen KONSTANTE (<code>##</code>) in den Akkumulator.
+        </div>
+      </li>
+      <li>
+        <code>STA ##</code>
+        <div>
+          Speichert den Wert im Akku in die angegebenen Speicherzelle
+          (<code>##</code>).
+        </div>
+      </li>
+      <li>
+        <code>INP ##</code>
+        <div>
+          Speichert den Wert vom INPUT in die angegebenen Speicherzelle
+          (<code>##</code>). <code>INP 00</code> speichert den Wert vom INPUT direkt in den
+          Akkumulator.
+        </div>
+      </li>
+      <li>
+        <code>OUT ##</code>
+        <div>
+          Schreibt den Wert der Speicherzelle (<code>##</code>) auf den OUTPUT.
+          <code>OUT 00</code> schreibt den aktuellen Akkumulatorwert auf den
+          OUTPUT.
+        </div>
+      </li>
+    </ul>
+  </mat-expansion-panel>
+</mat-accordion>

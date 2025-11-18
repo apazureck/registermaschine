@@ -1,0 +1,41 @@
+:host {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "title-rm title-editor"
+    "controls editor"
+    "registermaschine editor";
+  min-height: 0;
+  gap: 1rem;
+}
+
+rma-register-maschine {
+  grid-area: registermaschine;
+}
+
+rma-editor {
+  grid-area: editor;
+}
+rma-controls {
+  grid-area: controls;
+}
+
+.title-rm {
+    grid-area: title-rm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.title-editor {
+    grid-area: title-editor;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}

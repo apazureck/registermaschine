@@ -1,0 +1,15 @@
+<div class="title-rm">
+  <h2>Registermaschine</h2>
+  <button mat-icon-button color="primary" (click)="showSettings()">
+    <mat-icon>settings</mat-icon>
+  </button>
+</div>
+<div class="title-editor">
+  <h2>Editor</h2>
+  <button mat-icon-button color="primary" (click)="showHelp()">
+    <mat-icon>help</mat-icon>
+  </button>
+</div>
+<rma-controls></rma-controls>
+<rma-registermaschine [program]="code()" (onError)="errors.set($event)"></rma-registermaschine>
+<rma-editor [(code)]="code" [errors]="errors()"></rma-editor>
