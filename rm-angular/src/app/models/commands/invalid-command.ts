@@ -2,9 +2,9 @@ import { RmComponents } from '../registermaschine';
 import { Command } from './command';
 
 export class InvalidCommand extends Command {
-  constructor(rm: RmComponents, opString: string) {
+  constructor(rm: RmComponents, opString: string, editorLine: number) {
     try {
-      super(rm, opString);
+      super(rm, opString, editorLine);
     } catch {}
   }
 

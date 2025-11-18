@@ -22,7 +22,7 @@ export class DataMemory {
   }
 
   constructor(public size: number) {
-    this.#memory = new Array(size);
+    this.#memory = Array.from({ length: size }, () => 0);
   }
 
   getValue(address: number): number {

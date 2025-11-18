@@ -58,3 +58,7 @@ mat-form-field[hide-subscript]
 mat-form-field[fill] {
   width: 100% !important;
 }
+
+.current-line-glyph {
+  color: var(--mat-sys-on-primary-container);
+}

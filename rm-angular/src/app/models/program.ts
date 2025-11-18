@@ -40,7 +40,7 @@ export class Program {
         continue;
       }
       const commandString = match[1] + ' ' + match[2];
-      commands.push(getCommand(rm, commandString));
+      commands.push(getCommand(rm, commandString, i));
     }
 
     if (errors.length > 0) {

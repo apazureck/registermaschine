@@ -21,8 +21,8 @@ export class SettingsDialogComponent {
   #data = inject(MAT_DIALOG_DATA);
   public readonly data = signal(
     this.#data || {
-      programMemorySize: 256,
-      dataMemorySize: 256,
+      programMemorySize: 16,
+      dataMemorySize: 16,
       clockFrequency: 2,
     }
   );

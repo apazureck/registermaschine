@@ -5,8 +5,8 @@ import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class AddCommand extends Command {
-  constructor(rm: RmComponents, operand: string) {
-    super(rm, operand);
+  constructor(rm: RmComponents, operand: string, editorLine: number) {
+    super(rm, operand, editorLine);
   }
   override load(): void {
     const addressToAdd = parseInt(this.operand);

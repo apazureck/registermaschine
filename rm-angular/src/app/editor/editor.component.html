@@ -25,6 +25,7 @@
   [options]="editorOptions"
   [ngModel]="code()"
   (ngModelChange)="editorInput($event)"
+  (onInit)="editor.set($event)"
 ></ngx-monaco-editor>
 <div class="error-list">
   @for(error of errors(); track error.line) {

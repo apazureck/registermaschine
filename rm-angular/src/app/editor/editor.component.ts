@@ -1,10 +1,19 @@
-import { Component, inject, input, model, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  model,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import {
   MonacoEditorModule,
   NGX_MONACO_EDITOR_CONFIG,
   NgxMonacoEditorConfig,
+  EditorComponent as MonacoEditorComponent,
 } from 'ngx-monaco-editor-v2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatSelectModule } from '@angular/material/select';
@@ -14,12 +23,16 @@ import { debounceTime, firstValueFrom, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ProgramError } from '../models/program';
+import { Range, editor as me } from 'monaco-editor';
+import { RegistermaschineProviderService } from '../registermaschine-provider.service';
+import { Command } from '../models/commands';
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
     typeof window !== 'undefined'
       ? window.location.origin + '/assets/monaco/min/vs'
       : '', // bugfix for version 0.52. of monaco-editor
+  defaultOptions: { glyphMargin: true },
 };
 
 @Component({
@@ -45,15 +58,58 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
 export class EditorComponent implements OnInit {
   readonly #httpClient = inject(HttpClient);
   readonly #dialog = inject(MatDialog);
+  readonly #rmService = inject(
+    RegistermaschineProviderService
+  ).registermaschine.programRegister.onCurrentCommandChanged((command) => {
+    this.#commandChanged.set(command);
+  });
+  #commandChanged = signal<Command | undefined>(undefined);
+  readonly editor = signal<me.IStandaloneCodeEditor | undefined>(undefined);
   readonly editorOptions = { theme: 'vs-light', language: 'shell' };
   readonly code = model<string>('');
   readonly errors = input<ProgramError[] | undefined>();
 
   constructor() {
-    this.#debouncedInput.pipe(takeUntilDestroyed(), debounceTime(1000)).subscribe(change => {
-      this.code.set(change);
-      localStorage.setItem('editorContent', change);
+    this.#debouncedInput
+      .pipe(takeUntilDestroyed(), debounceTime(1000))
+      .subscribe((change) => {
+        this.code.set(change);
+        localStorage.setItem('editorContent', change);
+      });
+
+    effect(() => {
+      const editor = this.editor();
+      if (!editor) return;
+
+      const command = this.#commandChanged();
+      if (!command) return;
+
+      this.createCurrentLineGlyph(editor, command.editorLine);
     });
+  }
+
+  private createCurrentLineGlyph(
+    editor: me.IStandaloneCodeEditor,
+    lineNumber: number
+  ) {
+    const glyphWidget: me.IGlyphMarginWidget = {
+      getDomNode: () => {
+        const div = document.createElement('div');
+        div.className = 'current-line-glyph';
+        div.textContent = '▶';
+        return div;
+      },
+      getPosition: () => ({
+        lane: me.GlyphMarginLane.Center,
+        range: new Range(lineNumber, 1, lineNumber, 1),
+        zIndex: 0,
+      }),
+      getId() {
+        return 'current-line-glyph-widget';
+      },
+    };
+    editor.removeGlyphMarginWidget(glyphWidget);
+    editor.addGlyphMarginWidget(glyphWidget);
   }
 
   async loadExample(fileName: string) {
@@ -110,6 +166,10 @@ export class EditorComponent implements OnInit {
 
   editorInput(change: string) {
     this.#debouncedInput.next(change);
+  }
+
+  onMonacoInit($event: any) {
+    throw new Error('Method not implemented.');
   }
 
   resetEditor() {
