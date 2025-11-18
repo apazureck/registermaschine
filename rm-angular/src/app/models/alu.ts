@@ -69,6 +69,7 @@ export class Alu implements AluStatus {
   constructor(memory: DataMemory, accumulator: Accumulator) {
     this.#memory = memory;
     this.#accumulator = accumulator;
+    accumulator.onValueChanged(() => this.#publishChanged());
   }
 
   reset() {}
@@ -109,7 +110,7 @@ export class Alu implements AluStatus {
         if (this.inputValue === 0) {
           throw new Error('Division by zero error in DIV command');
         }
-        this.#currentOutput = this.accuInputValue / this.inputValue;
+        this.#currentOutput = Math.floor(this.accuInputValue / this.inputValue);
         break;
       default:
         return;

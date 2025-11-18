@@ -78,6 +78,14 @@
     </div>
   </foreignObject>
 
+  <path
+    d="M 300,35 H 270 V 200 H 325 V 180"
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-end="url(#arrow)"
+  ></path>
+
   @switch(inputTarget()) { @case(IoTargetEnum.DataMemoryWrite) {
   <path
     d="M 485,270 V 35 H 550"
@@ -113,10 +121,20 @@
   } } @switch (accuTarget()) { @case (AccuTargetEnum.DataMemoryWrite) {
   <path d="M 460,35 H 485 V 270 " stroke="black" stroke-width="1" fill="none" />
   } @case(AccuTargetEnum.DataMemoryRead) {
-  <path d="M 465,35 H 485 V 270 " stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow)" />
-  } }
-  @switch (aluTarget()) {
-  @case (AluTargetEnum.DataMemory) {
-  <path d="M 435,180 V 200 H 485 V 270 " stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow)" />
+  <path
+    d="M 465,35 H 485 V 270 "
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-start="url(#arrow)"
+  />
+  } } @switch (aluTarget()) { @case (AluTargetEnum.DataMemory) {
+  <path
+    d="M 435,180 V 200 H 485 V 270 "
+    stroke="black"
+    stroke-width="1"
+    fill="none"
+    marker-start="url(#arrow)"
+  />
   }}
 </svg>
