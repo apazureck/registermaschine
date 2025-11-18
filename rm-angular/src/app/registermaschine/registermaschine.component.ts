@@ -48,7 +48,10 @@ export class RegistermaschineComponent implements OnInit {
   readonly #hostObserver = new ResizeObserver((entries) => {
     for (let entry of entries) {
       const height = entry.contentRect.height;
-      this.zoom.set(height / 610);
+      const width = entry.contentRect.width;
+      const zoomHeight = height / 580;
+      const zoomWidth = width / 750;
+      this.zoom.set(Math.min(zoomHeight, zoomWidth));
     }
   });
   readonly memoryHeight = signal<string>('300px');
