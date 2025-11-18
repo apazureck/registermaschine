@@ -23,8 +23,6 @@ import { firstValueFrom } from 'rxjs';
     MatButtonModule,
     MatIcon,
     MatDialogModule,
-    HelpDialogComponent,
-    SettingsDialogComponent,
   ],
 
   providers: [RegistermaschineProviderService],

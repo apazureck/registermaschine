@@ -1,6 +1,6 @@
 import { Accumulator } from './accumulator';
 import { Alu } from './alu';
-import { CommandCode } from './commands';
+import { Command, CommandCode } from './commands';
 import { DataMemory } from './data-memory';
 import { IoDevice } from './io-device';
 import { Program } from './program';
@@ -37,6 +37,7 @@ export interface RmComponents {
 export class Registermaschine implements RmComponents {
   clockFrequency: number = 2;
   #runningCallbacks: Array<(isRunning: boolean) => void> = [];
+  #programLoadedCallbacks: Array<(commands: Command[]) => void> = [];
   constructor(settings?: RegistermaschineConfig) {
     if (settings) {
       this.programMemory.setSize(settings.programMemorySize);
@@ -109,6 +110,21 @@ export class Registermaschine implements RmComponents {
     const commands = new Program(programCode).getCommandSet(this);
     this.programMemory.loadCommands(commands);
     this.programRegister.loadCurrentCommand();
+    this.#programLoaded(commands);
+  }
+
+  #programLoaded(commands: Command[]) {
+    for (const callback of this.#programLoadedCallbacks) {
+      try {
+        callback(commands);
+      } catch (error) {
+        console.error('Error in program loaded callback:', error);
+      }
+    }
+  }
+
+  public onProgramLoaded(callback: (commands: Command[]) => void): void {
+    this.#programLoadedCallbacks.push(callback);
   }
 
   public onRunningChanged(callback: (isRunning: boolean) => void): void {

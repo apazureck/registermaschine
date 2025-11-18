@@ -15,7 +15,7 @@ import { JumpCommand } from './jump-commands/jump-command';
 import { JumpEqualsZeroCommand } from './jump-commands/jump-eq-zero-command';
 
 const registeredCommands: {
-  [key in CommandCode]?: new (rm: RmComponents, opString: string, editorLine: number) => Command;
+  [key in CommandCode]?: new (rm: RmComponents, opString: string, editorLine: number, address: number) => Command;
 } = {
   [CommandCode.Add]: AddCommand,
   [CommandCode.Divide]: DivideCommand,
@@ -36,7 +36,7 @@ const registeredCommands: {
   [CommandCode.Subtract]: SubtractCommand,
 };
 
-export function getCommand(rm: RmComponents, commandString: string, editorLine: number): Command {
+export function getCommand(rm: RmComponents, commandString: string, editorLine: number, address: number): Command {
   try {
     const commandCode = commandString
       .trim()
@@ -46,13 +46,13 @@ export function getCommand(rm: RmComponents, commandString: string, editorLine: 
 
     // Odd error add is always undefined, handling it manually
     if(commandCode === CommandCode.Add) {
-      return new AddCommand(rm, commandString, editorLine);
+      return new AddCommand(rm, commandString, editorLine, address);
     }
 
     if (commandCtor) {
-      const instance = new commandCtor(rm, commandString, editorLine);
+      const instance = new commandCtor(rm, commandString, editorLine, address);
       return instance;
     }
   } catch {}
-  return new InvalidCommand(rm, commandString, editorLine);
+  return new InvalidCommand(rm, commandString, editorLine, address);
 }

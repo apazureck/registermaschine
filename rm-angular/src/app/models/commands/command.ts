@@ -30,7 +30,7 @@ export abstract class Command {
   public readonly code: CommandCode;
   public readonly operand: string;
 
-  constructor(public rm: RmComponents, public opString: string, public readonly editorLine: number) {
+  constructor(public rm: RmComponents, public opString: string, public readonly editorLine: number, public readonly address: number) {
     const opArray = opString.trim().split(' ');
     if (opArray.length !== 2) {
       throw new Error(`Invalid command string: ${opString}`);

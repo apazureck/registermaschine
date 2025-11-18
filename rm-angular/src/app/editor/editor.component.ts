@@ -58,12 +58,9 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
 export class EditorComponent implements OnInit {
   readonly #httpClient = inject(HttpClient);
   readonly #dialog = inject(MatDialog);
-  readonly #rmService = inject(
-    RegistermaschineProviderService
-  ).registermaschine.programRegister.onCurrentCommandChanged((command) => {
-    this.#commandChanged.set(command);
-  });
+  readonly #rmService = inject(RegistermaschineProviderService);
   #commandChanged = signal<Command | undefined>(undefined);
+  #program = signal<Command[]>([]);
   readonly editor = signal<me.IStandaloneCodeEditor | undefined>(undefined);
   readonly editorOptions = { theme: 'vs-light', language: 'shell' };
   readonly code = model<string>('');
@@ -84,11 +81,68 @@ export class EditorComponent implements OnInit {
       const command = this.#commandChanged();
       if (!command) return;
 
-      this.createCurrentLineGlyph(editor, command.editorLine);
+      this.#createCurrentLineGlyph(editor, command.editorLine);
+    });
+
+    effect(() => {
+      const program = this.#program();
+      const editor = this.editor();
+      if (!editor) return;
+      if (!program || program.length === 0) return;
+
+      this.#createProgramGlyphs(editor, program);
+    });
+
+    this.#rmService.registermaschine.programRegister.onCurrentCommandChanged(
+      (command) => {
+        this.#commandChanged.set(command);
+      }
+    );
+
+    this.#rmService.registermaschine.onProgramLoaded((commands) => {
+      this.#program.set(commands);
     });
   }
 
-  private createCurrentLineGlyph(
+  #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
+    const glyphWidget: me.IGlyphMarginWidget = {
+      getDomNode: () => {
+        return document.createElement('div');
+      },
+      getPosition: () => {
+        return {
+          lane: me.GlyphMarginLane.Right,
+          range: new Range(1, 1, 1, 1),
+          zIndex: 0,
+        };
+      },
+      getId() {
+        return `program-line-glyph-widget`;
+      },
+    };
+    editor.removeGlyphMarginWidget(glyphWidget);
+    for (const command of program) {
+      const glyphWidget: me.IGlyphMarginWidget = {
+        getDomNode: () => {
+          const div = document.createElement('div');
+          div.className = 'program-line-glyph';
+          div.textContent = command.address.toString();
+          return div;
+        },
+        getPosition: () => ({
+          lane: me.GlyphMarginLane.Right,
+          range: new Range(command.editorLine, 1, command.editorLine, 1),
+          zIndex: 0,
+        }),
+        getId() {
+          return `program-line-glyph-widget-${command.address}`;
+        },
+      };
+      editor.addGlyphMarginWidget(glyphWidget);
+    }
+  }
+
+  #createCurrentLineGlyph(
     editor: me.IStandaloneCodeEditor,
     lineNumber: number
   ) {
@@ -100,7 +154,7 @@ export class EditorComponent implements OnInit {
         return div;
       },
       getPosition: () => ({
-        lane: me.GlyphMarginLane.Center,
+        lane: me.GlyphMarginLane.Left,
         range: new Range(lineNumber, 1, lineNumber, 1),
         zIndex: 0,
       }),
