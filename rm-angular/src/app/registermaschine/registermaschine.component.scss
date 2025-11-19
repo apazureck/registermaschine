@@ -1,11 +1,13 @@
 :host {
   display: flex;
   min-height: 0;
-  width: 50vw;
   height: 100%;
 }
 
 .small-grid {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   overflow: auto;

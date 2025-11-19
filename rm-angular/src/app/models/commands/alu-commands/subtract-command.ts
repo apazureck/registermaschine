@@ -27,6 +27,6 @@ export class SubtractCommand extends Command {
   override unload(): void {
     this.rm.accumulator.target = undefined;
     this.rm.dataMemory.deactivateCell();
-    this.rm.alu.target = undefined;
+    this.rm.alu.reset();
   }
 }

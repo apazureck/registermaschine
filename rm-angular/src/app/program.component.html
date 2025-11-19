@@ -1,9 +1,9 @@
 <div class="title-rm">
   <h2>Registermaschine</h2>
   <div class="buttons">
-    <mat-button-toggle-group name="fontStyle" aria-label="Ansicht wechseln" [(value)]="displayStyle">
-      <mat-button-toggle value="svg">SVG</mat-button-toggle>
-      <mat-button-toggle value="grid">Grid</mat-button-toggle>
+    <mat-button-toggle-group name="displayStyle" aria-label="Ansicht wechseln" [(value)]="displayStyle">
+      <mat-button-toggle value="svg"><mat-icon>image</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="grid"><mat-icon>grid_on</mat-icon></mat-button-toggle>
     </mat-button-toggle-group>
     <button mat-icon-button color="primary" (click)="showSettings()">
       <mat-icon>settings</mat-icon>

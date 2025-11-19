@@ -3,9 +3,9 @@
   <p>Bitte geben Sie einen Wert für die Eingabegeräte ein:</p>
   <mat-form-field appearance="outline" style="width: 100%; margin-top: 10px">
     <mat-label>Wert</mat-label>
-    <input cdkFocusInitial (keydown.enter)="closeDialog(value())" matInput type="number" [(ngModel)]="value" /> </mat-form-field
+    <input cdkFocusInitial onfocus="this.select()" (keydown.enter)="closeDialog(value())" matInput type="number" [(ngModel)]="value" /> </mat-form-field
 ></mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Verwerfen</button>
+  <button mat-button [mat-dialog-close]="undefined">Verwerfen</button>
   <button #okButton mat-button [mat-dialog-close]="value()">OK</button>
 </mat-dialog-actions>

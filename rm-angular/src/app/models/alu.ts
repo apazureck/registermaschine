@@ -4,8 +4,8 @@ import { accumulatorAddress } from './registermaschine';
 
 export interface AluStatus {
   readonly setOperation: AluOperation;
-  readonly memoryInputIndex: number;
-  readonly inputValue: number;
+  readonly memoryInputIndex: number | undefined;
+  readonly inputValue: number | undefined;
   readonly accuInputValue: number;
   readonly currentOutput: number;
 }
@@ -32,14 +32,14 @@ export class Alu implements AluStatus {
   #target: AluTarget | undefined = undefined;
 
   #setOperation: AluOperation = AluOperation.Noop;
-  #memoryInputIndex: number = accumulatorAddress;
+  #memoryInputIndex: number | undefined = undefined;
   #currentOutput: number = 0;
 
   get setOperation(): AluOperation {
     return this.#setOperation;
   }
 
-  get memoryInputIndex(): number {
+  get memoryInputIndex(): number | undefined {
     return this.#memoryInputIndex;
   }
 
@@ -52,7 +52,10 @@ export class Alu implements AluStatus {
     this.#publishTargetChanged();
   }
 
-  get inputValue(): number {
+  get inputValue(): number | undefined {
+    if (this.#memoryInputIndex === undefined) {
+      return undefined;
+    }
     return this.#memoryInputIndex === 0
       ? this.#accumulator.currentValue
       : this.#memory.getValue(this.#memoryInputIndex);
@@ -72,7 +75,11 @@ export class Alu implements AluStatus {
     accumulator.onValueChanged(() => this.#publishChanged());
   }
 
-  reset() {}
+  reset() {
+    this.#setOperation = AluOperation.Noop;
+    this.#memoryInputIndex = undefined;
+    this.target = undefined;
+  }
 
   subtract(addressToSubtract: number) {
     this.#setOperation = AluOperation.Subtract;
@@ -96,6 +103,9 @@ export class Alu implements AluStatus {
   }
 
   public execute() {
+    if (this.inputValue === undefined) {
+      throw new Error('ALU execute called without input value set');
+    }
     switch (this.setOperation) {
       case AluOperation.Add:
         this.#currentOutput = this.accuInputValue + this.inputValue;
