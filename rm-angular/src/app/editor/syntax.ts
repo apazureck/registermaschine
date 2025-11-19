@@ -6,7 +6,7 @@ export function getRegistermaschineSyntax(): languages.IMonarchLanguage {
     keywords: [
       'JMP',
       'JEZ',
-      'LNE',
+      'JNE',
       'JLZ',
       'JLE',
       'JGZ',

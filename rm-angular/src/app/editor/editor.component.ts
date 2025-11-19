@@ -26,19 +26,40 @@ import { Range, editor as me, languages } from 'monaco-editor';
 import { RegistermaschineProviderService } from '../registermaschine-provider.service';
 import { Command } from '../models/commands';
 import { getRegistermaschineSyntax } from './syntax';
+import { getHelpText } from './help-text';
 
-languages.register({ id: 'registermaschine' });
-languages.setMonarchTokensProvider(
-  'registermaschine',
-  getRegistermaschineSyntax()
-);
+function registerMonacoLanguages() {
+  const monaco = (window as any).monaco.languages as typeof languages;
+  monaco.register({
+    id: 'registermaschine',
+    extensions: ['.asm'],
+    aliases: ['Registermaschine', 'rm'],
+    mimetypes: ['text/x-registermaschine'],
+  });
+  monaco.setMonarchTokensProvider(
+    'registermaschine',
+    getRegistermaschineSyntax()
+  );
+  monaco.registerHoverProvider('registermaschine', {
+    provideHover: function (model, position) {
+      const word = model.getWordAtPosition(position);
+      if (!word) return null;
+      const helpText = getHelpText(word.word);
+      if (!helpText) return null;
+      return {
+        contents: [{ value: helpText }],
+      }
+    },
+  });
+}
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
     typeof window !== 'undefined'
       ? window.location.origin + '/assets/monaco/min/vs'
       : '', // bugfix for version 0.52. of monaco-editor
-  defaultOptions: { glyphMargin: true, languages: ['registermaschine'] },
+  defaultOptions: { glyphMargin: true },
+  onMonacoLoad: registerMonacoLanguages,
 };
 
 @Component({
