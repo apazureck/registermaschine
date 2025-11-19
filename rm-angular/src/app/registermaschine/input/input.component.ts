@@ -1,23 +1,29 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, signal, viewChild } from '@angular/core';
 import { IoDevice } from 'src/app/models/io-device';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { firstValueFrom } from 'rxjs';
-import { RequestInputValueComponent } from './request-input-value/request-input-value.component';
+import { firstValueFrom, Subject } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'rma-input',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatIcon,
+    MatButtonModule,
+  ],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
 export class InputComponent {
-  #dialog = inject(MatDialog);
   public readonly inputDevice = input.required<IoDevice>();
   public readonly rmIsRunning = input.required<boolean>();
   public readonly inputValue = signal<number>(0);
+  public readonly input = viewChild<ElementRef<HTMLInputElement>>('input');
 
   constructor() {
     effect(() => {
@@ -26,14 +32,11 @@ export class InputComponent {
         this.inputValue.set(value);
       });
       device.onBeforeValueRead(async () => {
+        this.input()?.nativeElement.focus();
+        this.input()?.nativeElement.select();
         if (this.rmIsRunning()) {
-          const value = await firstValueFrom(
-            this.#dialog
-              .open(RequestInputValueComponent, {
-                data: this.inputValue(),
-              })
-              .afterClosed()
-          );
+          await firstValueFrom(this.#continue$);
+          const value = this.inputValue();
           if (value !== undefined) {
             this.inputDevice().value = value;
             return true;
@@ -48,5 +51,11 @@ export class InputComponent {
       const device = this.inputDevice();
       device.value = inputValue;
     });
+  }
+
+  #continue$ = new Subject<void>();
+
+  continue() {
+    this.#continue$.next();
   }
 }

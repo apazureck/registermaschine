@@ -1,4 +1,9 @@
 <mat-form-field hide-subscript="true" appearance="outline" fill="true">
     <mat-label>Input</mat-label>
-    <input matInput [(ngModel)]="inputValue" type="number" required/>
+    <input matInput [(ngModel)]="inputValue" type="number" required #input (keydown.enter)="continue()"/>
+    @if (input.value !== '') {
+    <button matSuffix matIconButton color="accent" aria-label="Continue" (click)="continue()" #continueButton>
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+  }
 </mat-form-field>
