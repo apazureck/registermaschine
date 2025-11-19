@@ -9,7 +9,9 @@ describe('LoadToAkkuCommand', () => {
     registermaschine.dataMemory.setValue(testAddress, testValue);
     const command = new LoadToAkkuCommand(
       registermaschine,
-      `LDA ${testAddress}`
+      `LDA ${testAddress}`,
+      1,
+      1
     );
 
     command.execute();
@@ -19,7 +21,7 @@ describe('LoadToAkkuCommand', () => {
     const registermaschine = new Registermaschine();
     const testAddress = 10;
     registermaschine.dataMemory.setValue(testAddress, 0);
-    const command = new LoadToAkkuCommand(registermaschine, `LDA ${testAddress}`);
+    const command = new LoadToAkkuCommand(registermaschine, `LDA ${testAddress}`, 1, 1);
     command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(0);
   });
@@ -28,14 +30,14 @@ describe('LoadToAkkuCommand', () => {
     const testAddress = 15;
     const testValue = -7;
     registermaschine.dataMemory.setValue(testAddress, testValue);
-    const command = new LoadToAkkuCommand(registermaschine, `LDA ${testAddress}`);
+    const command = new LoadToAkkuCommand(registermaschine, `LDA ${testAddress}`, 1, 1);
     command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(testValue);
   });
   it('should throw error for invalid address', () => {
     const registermaschine = new Registermaschine();
     const invalidAddress = 9999;
-    const command = new LoadToAkkuCommand(registermaschine, `LDA ${invalidAddress}`);
+    const command = new LoadToAkkuCommand(registermaschine, `LDA ${invalidAddress}`, 1 ,1);
     expect(() => command.execute()).toThrowError();
   });
 });

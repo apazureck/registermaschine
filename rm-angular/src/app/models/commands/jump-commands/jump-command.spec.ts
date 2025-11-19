@@ -11,7 +11,7 @@ describe('JumpCommand', () => {
       LDA 10
       MUL 1
     `);
-    const jumpCommand = new JumpCommand(rm, 'JMP 3');
+    const jumpCommand = new JumpCommand(rm, 'JMP 3', 1, 1);
     jumpCommand.execute();
     expect(rm.programCounter.current).toBe(3);
     expect(rm.programRegister.current.code).toBe(CommandCode.Multiply);
@@ -19,7 +19,7 @@ describe('JumpCommand', () => {
 
   it('should throw error for invalid jump address', () => {
     const rm = new Registermaschine();
-    const jumpCommand = new JumpCommand(rm, 'JMP XYZ');
+    const jumpCommand = new JumpCommand(rm, 'JMP XYZ', 1, 1);
     expect(() => jumpCommand.execute()).toThrowError(
       'Invalid jump address: XYZ'
     );

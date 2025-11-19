@@ -4,7 +4,7 @@ import { StoreFromAkkuCommand } from './store-from-akku-command';
 describe('StoreFromAkkuCommand', () => {
   it('should store the value from the accumulator into the specified memory address', () => {
     const registermaschine = new Registermaschine();
-    const command = new StoreFromAkkuCommand(registermaschine, 'STA 10');
+    const command = new StoreFromAkkuCommand(registermaschine, 'STA 10', 1, 1);
 
     // Set the accumulator to a known value
     registermaschine.accumulator.currentValue = 42;
@@ -17,7 +17,7 @@ describe('StoreFromAkkuCommand', () => {
 
   it('should handle negative values correctly', () => {
     const registermaschine = new Registermaschine();
-    const command = new StoreFromAkkuCommand(registermaschine, 'STA 20');
+    const command = new StoreFromAkkuCommand(registermaschine, 'STA 20', 1, 1);
     registermaschine.accumulator.currentValue = -15;
     command.execute();
     const storedValue = registermaschine.dataMemory.getValue(20);
@@ -26,7 +26,7 @@ describe('StoreFromAkkuCommand', () => {
 
   it('should overwrite existing values in memory', () => {
     const registermaschine = new Registermaschine();
-    const command = new StoreFromAkkuCommand(registermaschine, 'STA 5');
+    const command = new StoreFromAkkuCommand(registermaschine, 'STA 5', 1, 1);
     registermaschine.dataMemory.setValue(5, 100);
     registermaschine.accumulator.currentValue = 55;
     command.execute();
@@ -36,7 +36,7 @@ describe('StoreFromAkkuCommand', () => {
 
   it('should throw an error for invalid memory addresses', () => {
     const registermaschine = new Registermaschine();
-    const command = new StoreFromAkkuCommand(registermaschine, 'STA -1');
+    const command = new StoreFromAkkuCommand(registermaschine, 'STA -1', 1, 1);
     registermaschine.accumulator.currentValue = 10;
     expect(() => command.execute()).toThrowError();
   });

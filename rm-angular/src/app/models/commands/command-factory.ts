@@ -13,6 +13,11 @@ import { InputCommand } from './io-commands/input-command';
 import { OutputCommand } from './io-commands/output-command';
 import { JumpCommand } from './jump-commands/jump-command';
 import { JumpEqualsZeroCommand } from './jump-commands/jump-eq-zero-command';
+import { JumpGreaterEqualsZeroCommand } from './jump-commands/jump-greater-equals-zero-command';
+import { JumpGreaterZeroCommand } from './jump-commands/jump-greater-zero-command';
+import { JumpLessEqualsZeroCommand } from './jump-commands/jump-less-equals-zero-command';
+import { JumpLessZeroCommand } from './jump-commands/jump-less-zero-command';
+import { JumpNotZeroCommand } from './jump-commands/jump-not-zero-command';
 
 const registeredCommands: {
   [key in CommandCode]?: new (rm: RmComponents, opString: string, editorLine: number, address: number) => Command;
@@ -22,11 +27,11 @@ const registeredCommands: {
   [CommandCode.Halt]: HaltCommand,
   [CommandCode.Input]: InputCommand,
   [CommandCode.JumpEqualsZero]: JumpEqualsZeroCommand,
-  [CommandCode.JumpGreaterEqualsZero]: JumpEqualsZeroCommand,
-  [CommandCode.JumpGreaterZero]: JumpEqualsZeroCommand,
-  [CommandCode.JumpLessEqualsZero]: JumpEqualsZeroCommand,
-  [CommandCode.JumpLessZero]: JumpEqualsZeroCommand,
-  [CommandCode.JumpNotZero]: JumpEqualsZeroCommand,
+  [CommandCode.JumpGreaterEqualsZero]: JumpGreaterEqualsZeroCommand,
+  [CommandCode.JumpGreaterZero]: JumpGreaterZeroCommand,
+  [CommandCode.JumpLessEqualsZero]: JumpLessEqualsZeroCommand,
+  [CommandCode.JumpLessZero]: JumpLessZeroCommand,
+  [CommandCode.JumpNotZero]: JumpNotZeroCommand,
   [CommandCode.Jump]: JumpCommand,
   [CommandCode.LoadToAccumulator]: LoadToAkkuCommand,
   [CommandCode.LoadConstantToAccumulator]: LoadConstantToAccumulatorCommand,

@@ -24,13 +24,13 @@ describe('Registermaschine', () => {
     HLT 99
     `;
     rm.loadProgram(programCode);
-    expect(rm.programMemory.getCommand(0).code).toBe(
+    expect(rm.programMemory.getCommand(0)!.code).toBe(
       CommandCode.LoadToAccumulator
     );
-    expect(rm.programMemory.getCommand(1).code).toBe(
+    expect(rm.programMemory.getCommand(1)!.code).toBe(
       CommandCode.StoreFromAccumulator
     );
-    expect(rm.programMemory.getCommand(2).code).toBe(CommandCode.Halt);
+    expect(rm.programMemory.getCommand(2)!.code).toBe(CommandCode.Halt);
   });
 
   it('should reset program counter when loading a new program', () => {

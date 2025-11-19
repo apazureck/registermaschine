@@ -18,7 +18,9 @@ describe('JumpGreaterEqualsZeroCommand', () => {
     registermaschine.accumulator.currentValue = 0;
     const command = new JumpGreaterEqualsZeroCommand(
       registermaschine,
-      'JGE 10'
+      'JGE 10',
+      1,
+      1
     );
     command.execute();
     expect(registermaschine.programCounter.current).toBe(10);
@@ -29,7 +31,9 @@ describe('JumpGreaterEqualsZeroCommand', () => {
     registermaschine.accumulator.currentValue = -3;
     const command = new JumpGreaterEqualsZeroCommand(
       registermaschine,
-      'JGE 10'
+      'JGE 10',
+      1,
+      1
     );
     command.execute();
     expect(registermaschine.programCounter.current).toBe(1);
@@ -39,7 +43,9 @@ describe('JumpGreaterEqualsZeroCommand', () => {
     const registermaschine = new Registermaschine();
     const command = new JumpGreaterEqualsZeroCommand(
       registermaschine,
-      'JGE -1'
+      'JGE -1',
+      1,
+      1
     );
     expect(() => command.execute()).toThrowError('Invalid jump address: -1');
   });

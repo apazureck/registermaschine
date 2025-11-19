@@ -6,7 +6,7 @@ describe('SubtractCommand', () => {
     const registermaschine = new Registermaschine();
     registermaschine.dataMemory.setValue(2, 7);
     registermaschine.accumulator.currentValue = 10;
-    const command = new SubtractCommand(registermaschine,'SUB 2');
+    const command = new SubtractCommand(registermaschine,'SUB 2', 1, 1);
     command.load();
     command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(3);
@@ -14,7 +14,7 @@ describe('SubtractCommand', () => {
 
   it('should throw an error for invalid operand', () => {
     const registermaschine = new Registermaschine();
-    const command = new SubtractCommand(registermaschine, 'SUB Y');
+    const command = new SubtractCommand(registermaschine, 'SUB Y', 1, 1);
     expect(() => command.load()).toThrowError(
       'Invalid operand for SUB command: Y'
     );
@@ -22,7 +22,7 @@ describe('SubtractCommand', () => {
   it('should subtract value from accumulator, if address is zero', () => {
     const registermaschine = new Registermaschine();
     registermaschine.accumulator.currentValue = 10;
-    const command = new SubtractCommand(registermaschine, 'SUB 0');
+    const command = new SubtractCommand(registermaschine, 'SUB 0', 1, 1);
     command.load();
     command.execute();
     expect(registermaschine.accumulator.currentValue).toBe(0);

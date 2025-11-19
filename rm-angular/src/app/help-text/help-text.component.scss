@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  overflow-y: auto;
+}
+
 ul {
   display: grid;
   grid-template-columns: auto 1fr;

@@ -6,7 +6,7 @@ describe('JumpNotZeroCommand', () => {
     const rm = new Registermaschine();
     // Set accumulator to non-zero
     rm.accumulator.currentValue = 5;
-    const jumpNotZeroCommand = new JumpNotZeroCommand(rm, 'JNZ 4');
+    const jumpNotZeroCommand = new JumpNotZeroCommand(rm, 'JNZ 4', 1, 1);
     jumpNotZeroCommand.execute();
     expect(rm.programCounter.current).toBe(4);
   });
@@ -14,7 +14,7 @@ describe('JumpNotZeroCommand', () => {
     const rm = new Registermaschine();
     // Set accumulator to zero
     rm.accumulator.currentValue = 0;
-    const jumpNotZeroCommand = new JumpNotZeroCommand(rm, 'JNZ 4');
+    const jumpNotZeroCommand = new JumpNotZeroCommand(rm, 'JNZ 4', 1, 1);
     jumpNotZeroCommand.execute();
     expect(rm.programCounter.current).toBe(1);
   });

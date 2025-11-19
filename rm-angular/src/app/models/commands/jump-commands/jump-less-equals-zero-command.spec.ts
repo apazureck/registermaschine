@@ -7,7 +7,9 @@ describe('JumpLessEqualsZeroCommand', () => {
     rm.accumulator.currentValue = -5;
     const jumpLessEqualsZeroCommand = new JumpLessEqualsZeroCommand(
       rm,
-      'JLEZ 4'
+      'JLEZ 4',
+      1,
+      1
     );
     jumpLessEqualsZeroCommand.execute();
     expect(rm.programCounter.current).toBe(4);
@@ -18,7 +20,9 @@ describe('JumpLessEqualsZeroCommand', () => {
     rm.accumulator.currentValue = 0;
     const jumpLessEqualsZeroCommand = new JumpLessEqualsZeroCommand(
       rm,
-      'JLEZ 4'
+      'JLEZ 4',
+      1,
+      1
     );
     jumpLessEqualsZeroCommand.execute();
     expect(rm.programCounter.current).toBe(4);
@@ -29,7 +33,9 @@ describe('JumpLessEqualsZeroCommand', () => {
     rm.accumulator.currentValue = 5;
     const jumpLessEqualsZeroCommand = new JumpLessEqualsZeroCommand(
       rm,
-      'JLEZ 4'
+      'JLEZ 4',
+      1,
+      1
     );
     jumpLessEqualsZeroCommand.execute();
     expect(rm.programCounter.current).toBe(1);

@@ -1,4 +1,3 @@
-import { RmComponents } from '../../registermaschine';
 import { Command } from '../command';
 
 export class JumpLessZeroCommand extends Command {
