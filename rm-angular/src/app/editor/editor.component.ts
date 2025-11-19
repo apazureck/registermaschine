@@ -27,6 +27,7 @@ import { RegistermaschineProviderService } from '../registermaschine-provider.se
 import { Command } from '../models/commands';
 import { getRegistermaschineSyntax } from './syntax';
 import { getHelpText } from './help-text';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 function registerMonacoLanguages() {
   const monaco = (window as any).monaco.languages as typeof languages;
@@ -83,6 +84,7 @@ const glob_monacoConfig: NgxMonacoEditorConfig = {
   ],
 })
 export class EditorComponent implements OnInit {
+  #messageToast = inject(MatSnackBar);
   readonly #httpClient = inject(HttpClient);
   readonly #dialog = inject(MatDialog);
   readonly #rmService = inject(RegistermaschineProviderService);
@@ -134,6 +136,7 @@ export class EditorComponent implements OnInit {
 
   copy() {
     navigator.clipboard.writeText(this.code());
+    this.#messageToast.open('Code in die Zwischenablage kopiert.', undefined, {duration: 2000});
   }
 
   #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
