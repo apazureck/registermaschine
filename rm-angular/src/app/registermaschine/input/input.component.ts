@@ -1,8 +1,16 @@
-import { Component, effect, ElementRef, inject, input, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { IoDevice } from 'src/app/models/io-device';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { firstValueFrom, Subject } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,7 +63,10 @@ export class InputComponent {
 
   #continue$ = new Subject<void>();
 
-  continue() {
+  continue(inputModel: NgModel) {
+    if (!inputModel.valid) {
+      return;
+    }
     this.#continue$.next();
   }
 }

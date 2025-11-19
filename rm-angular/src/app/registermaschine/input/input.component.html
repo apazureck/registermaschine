@@ -1,9 +1,26 @@
 <mat-form-field hide-subscript="true" appearance="outline" fill="true">
-    <mat-label>Input</mat-label>
-    <input matInput [(ngModel)]="inputValue" type="number" required #input (keydown.enter)="continue()"/>
-    @if (input.value !== '') {
-    <button matSuffix matIconButton color="accent" aria-label="Continue" (click)="continue()" #continueButton>
-      <mat-icon>keyboard_return</mat-icon>
-    </button>
+  <mat-label>Input</mat-label>
+  <input
+    matInput
+    [(ngModel)]="inputValue"
+    #inputModel="ngModel"
+    type="number"
+    required
+    #input
+    (keydown.enter)="continue(inputModel)"
+  />
+  <button
+    matSuffix
+    matIconButton
+    color="accent"
+    aria-label="Continue"
+    (click)="continue(inputModel)"
+    #continueButton
+    [disabled]="inputModel.invalid"
+  >
+    <mat-icon>keyboard_return</mat-icon>
+  </button>
+  @if(inputModel.invalid && inputModel.touched) {
+  <mat-error>Bitte geben Sie einen gültigen Zahlwert ein.</mat-error>
   }
 </mat-form-field>
