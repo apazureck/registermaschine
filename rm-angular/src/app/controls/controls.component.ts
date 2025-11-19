@@ -14,6 +14,7 @@ export class ControlsComponent implements OnInit {
   
   readonly error = signal<string | null>(null);
   readonly running = signal<boolean>(false);
+  readonly breakpointHit = signal<boolean>(false);
 
   readonly #rmService = inject(RegistermaschineProviderService);
   readonly registermaschine = signal(this.#rmService.registermaschine);
@@ -24,6 +25,9 @@ export class ControlsComponent implements OnInit {
       if (!rm) return;
       rm.onRunningChanged((isRunning) => {
         this.running.set(isRunning);
+        if(!isRunning) {
+          this.breakpointHit.set(rm.programRegister.current.break);
+        }
       });
     });
   }
