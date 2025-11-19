@@ -5,6 +5,16 @@
   height: 100%;
 }
 
+.small-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  overflow: auto;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
 .rma-container {
   zoom: 1;
   width: 100%;

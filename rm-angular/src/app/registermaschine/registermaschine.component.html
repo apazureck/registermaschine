@@ -1,3 +1,4 @@
+@if(displayStyle() === 'svg') {
 <div [style.zoom]="zoom()" class="rma-container">
   <svg
     viewPort="0 0 1000 500"
@@ -155,3 +156,29 @@
     }}
   </svg>
 </div>
+} @else {
+<div class="small-grid">
+  <rma-program-counter
+    [programCounter]="registermaschine().programCounter"
+  ></rma-program-counter>
+  <rma-accumulator
+    [accumulator]="registermaschine().accumulator"
+  ></rma-accumulator>
+  <rma-input
+    [inputDevice]="registermaschine().inputDevice"
+    [rmIsRunning]="isRunning()"
+  ></rma-input>
+  <rma-program-register
+    [programRegister]="registermaschine().programRegister"
+  ></rma-program-register>
+  <rma-alu [alu]="registermaschine().alu"></rma-alu>
+  <rma-output [outputDevice]="registermaschine().outputDevice"></rma-output>
+  <rma-program-memory
+    [programMemory]="registermaschine().programMemory"
+    [programCounter]="registermaschine().programCounter"
+  ></rma-program-memory>
+  <rma-data-memory
+    [dataMemory]="registermaschine().dataMemory"
+  ></rma-data-memory>
+</div>
+}

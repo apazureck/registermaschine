@@ -22,6 +22,9 @@ import { AccuTarget } from '../models/accumulator';
 import { DataOperation as DataOperation } from '../models/data-memory';
 import { ProgramError } from '../models/program';
 import { AluTarget } from '../models/alu';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'rma-registermaschine',
@@ -43,6 +46,14 @@ export class RegistermaschineComponent implements OnInit {
   readonly AccuTargetEnum = AccuTarget;
   readonly AluTargetEnum = AluTarget;
 
+  readonly #breakpointObserver = inject(BreakpointObserver);
+  readonly showReducedRegistermaschine = toSignal(
+    this.#breakpointObserver
+      .observe("(max-width: 1200px)")
+      .pipe(map((result) => result.matches)),
+    { initialValue: false }
+  );
+
   readonly #rmService = inject(RegistermaschineProviderService);
   readonly #hostElement = inject(ElementRef<HTMLElement>);
   readonly #hostObserver = new ResizeObserver((entries) => {
@@ -51,11 +62,16 @@ export class RegistermaschineComponent implements OnInit {
       const width = entry.contentRect.width;
       const zoomHeight = height / 580;
       const zoomWidth = width / 750;
-      this.zoom.set(Math.min(zoomHeight, zoomWidth));
+      if(this.showReducedRegistermaschine()) {
+        this.zoom.set(1);
+      } else {
+        this.zoom.set(Math.min(zoomHeight, zoomWidth));
+      }
     }
   });
   readonly memoryHeight = signal<string>('300px');
   readonly zoom = signal<number>(1);
+  readonly displayStyle = input.required<'svg' | 'grid'>();
 
   readonly registermaschine = signal(this.#rmService.registermaschine);
   readonly program = input.required<string>();
@@ -116,7 +132,7 @@ export class RegistermaschineComponent implements OnInit {
     });
     effect(() => {
       console.log('Zoom set to:', this.zoom());
-    })
+    });
   }
   ngOnInit(): void {
     this.registermaschine().reset();

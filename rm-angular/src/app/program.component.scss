@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto 1fr;
   grid-template-areas:
     "title-rm title-editor"

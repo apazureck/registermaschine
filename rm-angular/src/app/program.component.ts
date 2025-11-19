@@ -11,7 +11,7 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 import { ProgramError } from './models/program';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { firstValueFrom } from 'rxjs';
-import { CdkAutofill } from '@angular/cdk/text-field';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'rma-program',
@@ -24,6 +24,7 @@ import { CdkAutofill } from '@angular/cdk/text-field';
     MatButtonModule,
     MatIcon,
     MatDialogModule,
+    MatButtonToggleModule,
   ],
 
   providers: [RegistermaschineProviderService],
@@ -32,6 +33,7 @@ export class ProgramComponent {
   readonly #rm = inject(RegistermaschineProviderService).registermaschine;
   readonly code = signal<string>('');
   readonly rmRunning = signal<boolean>(false);
+  readonly displayStyle = signal<'svg' | 'grid'>('svg');
 
   #dialog = inject(MatDialog);
   readonly errors = signal<ProgramError[] | undefined>(undefined);
