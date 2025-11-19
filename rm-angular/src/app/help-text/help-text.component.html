@@ -19,8 +19,9 @@
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> Programmfluss </mat-panel-title>
+      <mat-panel-title> Befehle </mat-panel-title>
     </mat-expansion-panel-header>
+    <h2>Sprungbefehle</h2>
     <p>
       Die Registermaschine unterstützt bedingte und unbedingte Sprungbefehle,
       die es ermöglichen, den Programmfluss zu steuern. Bedingte Sprünge
@@ -61,11 +62,13 @@
       </li>
       <li><code>HLT 99</code> Beendet das aktuelle Programm.</li>
     </ul>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Verarbeitungsbefehle</mat-panel-title>
-    </mat-expansion-panel-header>
+    <h2>Verarbeitungsbefehle</h2>
+    <p>
+      Die Registermaschine unterstützt grundlegende arithmetische Operationen
+      wie Addition, Subtraktion, Multiplikation und Division. Diese Operationen
+      werden auf den Werten im Akkumulator und in den Speicherzellen
+      durchgeführt. Die Ausgabe landet immer im Akkumulator.
+    </p>
     <ul>
       <li>
         <code>ADD ##</code>
@@ -103,11 +106,13 @@
         </div>
       </li>
     </ul>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> Transportbefehle </mat-panel-title>
-    </mat-expansion-panel-header>
+    <h2>Transportbefehle</h2>
+    <p>
+      Die Registermaschine unterstützt Befehle zum Laden und Speichern von
+      Werten zwischen dem Akkumulator und dem Datenspeicher sowie zum Lesen von
+      Eingabewerten und Schreiben von Ausgabewerten. Dabei ist der Akkumulator
+      immer auf der Adresse 00. Alles darüber sind reguläre Speicherzellen.
+    </p>
     <ul>
       <li>
         <code>LDA ##</code>
@@ -133,8 +138,8 @@
         <code>INP ##</code>
         <div>
           Speichert den Wert vom INPUT in die angegebenen Speicherzelle
-          (<code>##</code>). <code>INP 00</code> speichert den Wert vom INPUT direkt in den
-          Akkumulator.
+          (<code>##</code>). <code>INP 00</code> speichert den Wert vom INPUT
+          direkt in den Akkumulator.
         </div>
       </li>
       <li>
@@ -146,5 +151,17 @@
         </div>
       </li>
     </ul>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Breakpoints </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Breakpoints ermöglichen es Ihnen, die Ausführung Ihres Programms an
+      bestimmten Stellen zu unterbrechen, um den aktuellen Zustand der
+      Registermaschine zu überprüfen. Sie können Breakpoints setzen, indem Sie
+      auf die linke Seitenleiste des Editors neben der gewünschten Zeile
+      klicken. Ein roter Punkt zeigt an, dass ein Breakpoint gesetzt wurde.
+    </p>
   </mat-expansion-panel>
 </mat-accordion>
