@@ -111,6 +111,10 @@ export class EditorComponent implements OnInit {
     });
   }
 
+  copy() {
+    navigator.clipboard.writeText(this.code());
+  }
+
   #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
     this.#removeOldProgramLineGlyphs(editor);
     for (const command of program) {
