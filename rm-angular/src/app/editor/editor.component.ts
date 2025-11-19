@@ -13,7 +13,6 @@ import {
   MonacoEditorModule,
   NGX_MONACO_EDITOR_CONFIG,
   NgxMonacoEditorConfig,
-  EditorComponent as MonacoEditorComponent,
 } from 'ngx-monaco-editor-v2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatSelectModule } from '@angular/material/select';
@@ -23,16 +22,23 @@ import { debounceTime, firstValueFrom, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ProgramError } from '../models/program';
-import { Range, editor as me } from 'monaco-editor';
+import { Range, editor as me, languages } from 'monaco-editor';
 import { RegistermaschineProviderService } from '../registermaschine-provider.service';
 import { Command } from '../models/commands';
+import { getRegistermaschineSyntax } from './syntax';
+
+languages.register({ id: 'registermaschine' });
+languages.setMonarchTokensProvider(
+  'registermaschine',
+  getRegistermaschineSyntax()
+);
 
 const glob_monacoConfig: NgxMonacoEditorConfig = {
   baseUrl:
     typeof window !== 'undefined'
       ? window.location.origin + '/assets/monaco/min/vs'
       : '', // bugfix for version 0.52. of monaco-editor
-  defaultOptions: { glyphMargin: true },
+  defaultOptions: { glyphMargin: true, languages: ['registermaschine'] },
 };
 
 @Component({
@@ -62,7 +68,7 @@ export class EditorComponent implements OnInit {
   #commandChanged = signal<Command | undefined>(undefined);
   #program = signal<Command[]>([]);
   readonly editor = signal<me.IStandaloneCodeEditor | undefined>(undefined);
-  readonly editorOptions = { theme: 'vs-light', language: 'shell' };
+  readonly editorOptions = { theme: 'vs', language: 'registermaschine' };
   readonly code = model<string>('');
   readonly errors = input<ProgramError[] | undefined>();
 
@@ -81,7 +87,7 @@ export class EditorComponent implements OnInit {
       const command = this.#commandChanged();
       if (!command) return;
 
-      this.#createCurrentLineGlyph(editor, command.editorLine);
+      this.#highlightCurrentLineGlyph(editor, command.editorLine);
     });
 
     effect(() => {
@@ -91,6 +97,7 @@ export class EditorComponent implements OnInit {
       if (!program || program.length === 0) return;
 
       this.#createProgramGlyphs(editor, program);
+      this.#createCurrentLineGlyphPlaceholders(editor, program);
     });
 
     this.#rmService.registermaschine.programRegister.onCurrentCommandChanged(
@@ -105,7 +112,7 @@ export class EditorComponent implements OnInit {
   }
 
   #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
-    this.removeOldProgramLineGlyphs(editor);
+    this.#removeOldProgramLineGlyphs(editor);
     for (const command of program) {
       const glyphWidget: me.IGlyphMarginWidget = {
         getDomNode: () => {
@@ -127,7 +134,7 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  private removeOldProgramLineGlyphs(editor: me.IStandaloneCodeEditor) {
+  #removeOldProgramLineGlyphs(editor: me.IStandaloneCodeEditor) {
     const size = this.#rmService.registermaschine.programMemory.size;
     for (let address = 0; address < size; address++) {
       const glyphWidget: me.IGlyphMarginWidget = {
@@ -149,28 +156,96 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  #createCurrentLineGlyph(
+  #removeOldCurrentLineGlyphs(editor: me.IStandaloneCodeEditor) {
+    const size = this.#rmService.registermaschine.programMemory.size;
+    for (let address = 0; address < size; address++) {
+      const glyphWidget: me.IGlyphMarginWidget = {
+        getDomNode: () => {
+          return document.createElement('div');
+        },
+        getPosition: () => {
+          return {
+            lane: me.GlyphMarginLane.Right,
+            range: new Range(1, 1, 1, 1),
+            zIndex: 0,
+          };
+        },
+        getId() {
+          return 'current-line-glyph-widget' + address;
+        },
+      };
+      editor.removeGlyphMarginWidget(glyphWidget);
+    }
+  }
+
+  readonly #currentLineGlyphDomNodes: Map<number, HTMLDivElement> = new Map();
+
+  #createCurrentLineGlyphPlaceholders(
+    editor: me.IStandaloneCodeEditor,
+    program: Command[]
+  ) {
+    // clear old placeholders
+    this.#currentLineGlyphDomNodes.clear();
+    this.#removeOldCurrentLineGlyphs(editor);
+
+    for (const command of program) {
+      const glyphWidget: me.IGlyphMarginWidget = {
+        getDomNode: () => {
+          const div = document.createElement('div');
+          div.className = 'current-line-glyph';
+          div.textContent = '▶';
+          div.onmouseover = () => {
+            // set full circle if break on hover
+            div.textContent = command.break ? '●' : '○';
+          };
+          div.onmouseout = () => {
+            // set arrow again
+            div.textContent = command.break ? '●' : '▶';
+            if (div.classList.contains('active')) {
+              div.textContent = '▶';
+            }
+          };
+          div.onclick = () => {
+            command.break = !command.break;
+            if (command.break) {
+              div.classList.add('breakpoint-set');
+              div.textContent = '●';
+            } else {
+              div.classList.remove('breakpoint-set');
+              div.textContent = '○';
+            }
+          };
+          this.#currentLineGlyphDomNodes.set(command.editorLine, div);
+          return div;
+        },
+        getPosition: () => ({
+          lane: me.GlyphMarginLane.Left,
+          range: new Range(command.editorLine, 1, command.editorLine, 1),
+          zIndex: 0,
+        }),
+        getId() {
+          return 'current-line-glyph-widget' + command.editorLine;
+        },
+      };
+      editor.addGlyphMarginWidget(glyphWidget);
+    }
+  }
+
+  #highlightCurrentLineGlyph(
     editor: me.IStandaloneCodeEditor,
     lineNumber: number
   ) {
-    const glyphWidget: me.IGlyphMarginWidget = {
-      getDomNode: () => {
-        const div = document.createElement('div');
-        div.className = 'current-line-glyph';
-        div.textContent = '▶';
-        return div;
-      },
-      getPosition: () => ({
-        lane: me.GlyphMarginLane.Left,
-        range: new Range(lineNumber, 1, lineNumber, 1),
-        zIndex: 0,
-      }),
-      getId() {
-        return 'current-line-glyph-widget';
-      },
-    };
-    editor.removeGlyphMarginWidget(glyphWidget);
-    editor.addGlyphMarginWidget(glyphWidget);
+    for (const [line, domNode] of this.#currentLineGlyphDomNodes) {
+      if (line === lineNumber) {
+        domNode.classList.add('active');
+        domNode.textContent = '▶';
+      } else {
+        domNode.classList.remove('active');
+        domNode.textContent = domNode.classList.contains('breakpoint-set')
+          ? '●'
+          : '○';
+      }
+    }
   }
 
   async loadExample(fileName: string) {

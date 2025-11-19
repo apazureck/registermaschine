@@ -60,9 +60,19 @@ mat-form-field[fill] {
 }
 
 .current-line-glyph {
-  color: var(--mat-sys-on-primary-container);
+  color: transparent;
+  cursor: pointer;
+  &.active {
+    color: var(--mat-sys-on-primary-container);
+  }
+  &:hover {
+    color: var(--mat-sys-on-primary-container);
+  }
+  &.breakpoint-set {
+    color: var(--mat-sys-on-primary-container);
+  }
 }
 
 .program-line-glyph {
-  color: gray
+  color: gray;
 }

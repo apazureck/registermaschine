@@ -30,6 +30,8 @@ export abstract class Command {
   public readonly code: CommandCode;
   public readonly operand: string;
 
+  public break: boolean = false;
+
   constructor(public rm: RmComponents, public opString: string, public readonly editorLine: number, public readonly address: number) {
     const opArray = opString.trim().split(' ');
     if (opArray.length !== 2) {

@@ -69,8 +69,9 @@ export class Registermaschine implements RmComponents {
     this.#running = true;
     this.#publishRunningChanged();
     if (this.programRegister.current.code === CommandCode.Halt) return;
+    if( this.programRegister.current.break) await this.#stepInternal();
     const wait = 1000 / this.clockFrequency;
-    while (this.programRegister.current.continue() && !this.#stop) {
+    while (this.programRegister.current.continue() && !this.programRegister.current.break && !this.#stop) {
       await new Promise((resolve) => setTimeout(resolve, wait));
       await this.#stepInternal();
     }
