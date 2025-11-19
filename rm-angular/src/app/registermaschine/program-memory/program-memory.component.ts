@@ -16,7 +16,10 @@ export class ProgramMemoryComponent {
   public readonly memoryContent = computed(() =>
     this.#memoryContent().map((cmd) => cmd?.toString() ?? '---')
   );
-  public readonly currentProgramCounter = signal<number | undefined>(undefined);
+  public readonly currentProgramCounter = signal<number>(1);
+  public readonly currentProgramIndex = computed(
+    () => this.currentProgramCounter() - 1
+  );
 
   constructor() {
     effect(() => {

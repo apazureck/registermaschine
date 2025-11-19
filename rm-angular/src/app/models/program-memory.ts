@@ -1,5 +1,6 @@
 import { Command } from './commands';
 import { HaltCommand } from './commands/halt-command';
+import { InvalidCommand } from './commands/invalid-command';
 
 export class ProgramMemory {
   setSize(programMemorySize: number) {
@@ -48,13 +49,20 @@ export class ProgramMemory {
     this.#memoryUpdatedCallbacks.push(callback);
   }
   getCommand(currentCount: number): Command | undefined {
-    if (!this.#memory[currentCount]) {
+    if (currentCount < 1 || currentCount > this.size) {
+      console.error(
+        `ProgramMemory: Address ${currentCount} out of bounds, returning HLT 99`
+      );
+      return new InvalidCommand(undefined as any, '99', -1, currentCount);
+    }
+    const i = currentCount - 1;
+    if (!this.#memory[i]) {
       console.error(
         `ProgramMemory: No command at address ${currentCount}, returning HLT 99`
       );
       return undefined;
     }
-    return this.#memory[currentCount];
+    return this.#memory[i];
   }
   #clearMemory() {
     this.#memory.length = 0;

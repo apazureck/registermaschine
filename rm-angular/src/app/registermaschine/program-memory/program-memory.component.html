@@ -17,12 +17,12 @@
     <div
       class="border left"
       style="width: 1rem"
-      [class]="{ highlight: i === currentProgramCounter() }"
+      [class]="{ highlight: i === currentProgramIndex() }"
     >
-      @if(i === currentProgramCounter()) {►}
+      @if(i === currentProgramIndex()) {►}
     </div>
-    <div [class]="{ highlight: i === currentProgramCounter() }">{{ i }}</div>
-    <div class="border right" [class]="{ highlight: i === currentProgramCounter() }">
+    <div [class]="{ highlight: i === currentProgramIndex() }">{{ i + 1 }}</div>
+    <div class="border right" [class]="{ highlight: i === currentProgramIndex() }">
       {{ entry }}
     </div>
     <div style="position: relative; height: 1.5rem; width: 60px">

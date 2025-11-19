@@ -14,13 +14,13 @@ INP 03    ; Einlesen einer Zahl (basis) an die Adresse 3
 INP 04    ; Einlesen einer Zahl (potenz) an die Adresse 4
 ; ---- Ergebnis der Potenz (basis hoch potenz) berechnen
 LDA 04    ; Lade Potenz lin Akkumulator
-JEZ 13    ; Falls potenz gleich 0 ist, Sprung auf 14 (Ergebnis ausgeben)
+JEZ 14    ; Falls potenz gleich 0 ist, Sprung auf 14 (Ergebnis ausgeben)
 SUB 02    ; Potenz um 1 dekrementieren
 STA 04    ; Potenz wieder zurueckspeichern (an die Adresse 4)
 LDA 03    ; Lade Basis in den Akku
 MUL 01    ; und dann Akku-Inhalt mit bisheriges Ergebnis multiplizieren
 STA 01    ; Speichere neuen Wert aus Akku zurueck nach Ergebnis (Adr. 1)
-JMP 05    ; Springe zurueck und fahre mit Algorithmus fort
+JMP 06    ; Springe zurueck und fahre mit Algorithmus fort
 ; ---- Ausgabe des Ergebnis und Programmende
 OUT 01    ; Gib Ergebnis aus
 HLT 99

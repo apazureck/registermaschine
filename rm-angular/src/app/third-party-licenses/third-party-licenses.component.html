@@ -1,0 +1,33 @@
+<h1>Über Registermaschine</h1>
+
+<p>
+  Diese Simulation wurde von Andreas Pazureck 2025 entwickelt. Sie darf
+  ausdrücklich von jedem ohne Erlaubnis Benutzt und weiterverbreitet werden.
+  <a href="https://github.com/apazureck/registermaschine"
+    >Der Sourcecode ist auf GitHub</a
+  >
+  frei unter der MIT Lizenz verfügbar.
+</p>
+<p>
+  Die Registermaschine und der Befehlssatz wurde von Helmut Herod in seiner
+  Vorlesung "Grundlagen der Informatik" an der Technischen Hochschule Nürnberg
+  entwickelt. Die erste Implementierung auf Basis von Webtechnologien stammt von
+  Jürgen Krumm.
+</p>
+
+<h2>Third-Party Lizenzen</h2>
+<mat-accordion>
+  @for(license of licenses(); track license.packageName) {
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ license.packageName }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ license.licenseType }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <pre>{{ license.licenseText }}</pre>
+  </mat-expansion-panel>
+  }</mat-accordion
+>

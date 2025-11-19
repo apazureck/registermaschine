@@ -6,10 +6,21 @@
 </div>
 <div class="title-editor">
   <h2>Editor</h2>
-  <button mat-icon-button color="primary" (click)="showHelp()">
-    <mat-icon>help</mat-icon>
-  </button>
+  <div class="buttons">
+    <a mat-icon-button color="primary" href="https://github.com/apazureck/registermaschine" target="_blank" rel="noopener">
+      <img src="assets/github-mark.svg" alt="GitHub Logo" />
+    </a>
+    <button mat-icon-button color="primary" (click)="showInfo()">
+      <mat-icon>info</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" (click)="showHelp()">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
 </div>
 <rma-controls></rma-controls>
-<rma-registermaschine [program]="code()" (onError)="errors.set($event)"></rma-registermaschine>
+<rma-registermaschine
+  [program]="code()"
+  (onError)="errors.set($event)"
+></rma-registermaschine>
 <rma-editor [(code)]="code" [errors]="errors()"></rma-editor>

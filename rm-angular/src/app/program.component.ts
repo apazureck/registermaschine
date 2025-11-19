@@ -11,6 +11,7 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 import { ProgramError } from './models/program';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { firstValueFrom } from 'rxjs';
+import { CdkAutofill } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'rma-program',
@@ -40,14 +41,17 @@ export class ProgramComponent {
   }
 
   async showSettings() {
-    const newSettings = await firstValueFrom(this.#dialog.open(SettingsDialogComponent, {
-      data: {
-        programMemorySize: this.#rm.programMemory.size,
-        dataMemorySize: this.#rm.dataMemory.size,
-        clockFrequency: this.#rm.clockFrequency,
-      }
-    }
-    ).afterClosed());
+    const newSettings = await firstValueFrom(
+      this.#dialog
+        .open(SettingsDialogComponent, {
+          data: {
+            programMemorySize: this.#rm.programMemory.size,
+            dataMemorySize: this.#rm.dataMemory.size,
+            clockFrequency: this.#rm.clockFrequency,
+          },
+        })
+        .afterClosed()
+    );
 
     if (newSettings) {
       this.#rm.programMemory.size = newSettings.programMemorySize;
@@ -58,5 +62,9 @@ export class ProgramComponent {
 
   showHelp() {
     this.#dialog.open(HelpDialogComponent);
+  }
+
+  showInfo() {
+    window.open('/licenses', '_blank');
   }
 }

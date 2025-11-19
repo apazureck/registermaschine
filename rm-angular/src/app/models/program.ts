@@ -27,7 +27,7 @@ export class Program {
     for (const rLine of lines) {
       const line = rLine.trim();
       i++;
-      const commandCodeRegex = new RegExp(commandParsingRegexString, 'gm');
+      const commandCodeRegex = new RegExp(commandParsingRegexString, 'gmi');
       if (line.length === 0) continue;
       if (line.startsWith('#') || line.startsWith(';')) continue;
       const match = commandCodeRegex.exec(line);
@@ -39,8 +39,8 @@ export class Program {
         });
         continue;
       }
-      const commandString = match[1] + ' ' + match[2];
-      const command = getCommand(rm, commandString, i, commands.length);
+      const commandString = match[1].toUpperCase() + ' ' + match[2];
+      const command = getCommand(rm, commandString, i, commands.length + 1);
       commands.push(command);
     }
 

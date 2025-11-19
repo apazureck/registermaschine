@@ -1,11 +1,11 @@
 export class ProgramCounter {
   #stepSubscribers: ((currentAddress: number) => void)[] = [];
-  #currentAddress: number = 0;
+  #currentAddress: number = 1;
   get current(): number {
     return this.#currentAddress;
   }
   reset() {
-    this.#currentAddress = 0;
+    this.#currentAddress = 1;
     this.#stepped();
   }
   increment() {
