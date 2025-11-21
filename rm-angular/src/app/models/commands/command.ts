@@ -27,12 +27,23 @@ export enum CommandCode {
 }
 
 export abstract class Command {
+  isJumpCommand(): boolean {
+    return this.getJumpTargetAddress() !== undefined;
+  }
+  getJumpTargetAddress(): number | undefined {
+    return undefined;
+  }
   public readonly code: CommandCode;
   public readonly operand: string;
 
   public break: boolean = false;
 
-  constructor(public rm: RmComponents, public opString: string, public readonly editorLine: number, public readonly address: number) {
+  constructor(
+    public rm: RmComponents,
+    public opString: string,
+    public readonly editorLine: number,
+    public readonly address: number
+  ) {
     const opArray = opString.trim().split(' ');
     if (opArray.length !== 2) {
       throw new Error(`Invalid command string: ${opString}`);

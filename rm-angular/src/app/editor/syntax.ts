@@ -1,17 +1,9 @@
-import { languages  } from 'monaco-editor';
+import { languages } from 'monaco-editor';
 
 export function getRegistermaschineSyntax(): languages.IMonarchLanguage {
   return {
     ignoreCase: true,
-    keywords: [
-      'JMP',
-      'JEZ',
-      'JNE',
-      'JLZ',
-      'JLE',
-      'JGZ',
-      'JGE',
-      'HLT',
+    program_keywords: [
       'ADD',
       'SUB',
       'MUL',
@@ -22,21 +14,36 @@ export function getRegistermaschineSyntax(): languages.IMonarchLanguage {
       'INP',
       'OUT',
     ],
+    memory_keywords: ['JMP', 'JEZ', 'JNE', 'JLZ', 'JLE', 'JGZ', 'JGE'],
+
+    other_keywords: ['HLT'],
 
     // The main tokenizer for our languages
     tokenizer: {
       root: [
         // identifiers and keywords
-        [/^\w+/, { cases: { '@keywords': 'keyword' } }],
+        [
+          /^\w+/,
+          {
+            cases: {
+              '@program_keywords': {
+                token: 'keyword',
+              },
+              '@memory_keywords': {
+                token: 'constant',
+              },
+              '@other_keywords': {
+                token: 'type',
+              },
+            },
+          },
+        ],
 
         // whitespace
         { include: '@whitespace' },
-
-        // numbers
-        [/\d+/, 'constant'],
       ],
 
-      comment: [[/[;#].*/, 'comment']],
+      comment: [[/[;#]/, 'comment', '@comment']],
 
       whitespace: [
         [/[ \t\r\n]+/, 'white'],

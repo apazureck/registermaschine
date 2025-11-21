@@ -21,7 +21,7 @@
   padding-top: 0.5rem;
   font-family: monospace;
   box-sizing: border-box;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto auto auto auto;
   grid-auto-rows: auto 1fr auto;
   font-size: 1rem;
   line-height: 1.5rem;
@@ -61,7 +61,8 @@
   transform: translateX(-50%);
   padding: 0 0.5rem;
   color: var(--ohm-color);
-  width: 100%;
+  align-self: center;
+  grid-column: span 2;
 }
 
 .highlight {

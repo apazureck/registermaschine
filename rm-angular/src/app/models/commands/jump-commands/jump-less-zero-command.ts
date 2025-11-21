@@ -11,4 +11,12 @@ export class JumpLessZeroCommand extends Command {
       return targetAddress;
     }
   }
+
+  override getJumpTargetAddress(): number | undefined {
+    const targetAddress = Number(this.operand);
+    if (isNaN(targetAddress) || targetAddress < 0) {
+      return undefined;
+    }
+    return targetAddress;
+  }
 }

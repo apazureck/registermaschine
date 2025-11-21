@@ -10,7 +10,7 @@ import { RegisterComponent } from "../register/register.component";
 })
 export class ProgramCounterComponent {
   public readonly programCounter = input.required<ProgramCounter>();
-  public readonly current = signal<number>(0);
+  public readonly current = signal<number>(1);
   /**
    *
    */

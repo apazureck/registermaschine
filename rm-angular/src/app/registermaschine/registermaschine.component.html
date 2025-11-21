@@ -16,6 +16,7 @@
         markerWidth="10"
         markerHeight="10"
         orient="auto-start-reverse"
+        fill="blue"
       >
         <path d="M 0 0 L 10 5 L 0 10 z" />
       </marker>
@@ -67,9 +68,9 @@
       </div>
     </foreignObject>
 
-    <foreignObject x="50" y="250" width="250" height="1000">
+    <foreignObject x="50" y="250" width="160" height="1000">
       <div
-        style="min-height: 0; padding-top: 0.5rem"
+        style="min-height: 0; padding-top: 0.5rem: width: 100%"
         [style.height]="memoryHeight()"
       >
         <rma-program-memory
@@ -92,7 +93,7 @@
 
     <path
       d="M 300,35 H 270 V 200 H 325 V 180"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-end="url(#arrow)"
@@ -100,7 +101,7 @@
 
     <path
       d="M 380,80 V 70"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-end="url(#arrow)"
@@ -109,7 +110,7 @@
     @switch(inputTarget()) { @case(IoTargetEnum.DataMemoryWrite) {
     <path
       d="M 485,270 V 35 H 550"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
     ></path>
@@ -117,7 +118,7 @@
     } @case(IoTargetEnum.AccumulatorWrite) {
     <path
       d="M 465,35 H 550 V 35"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-start="url(#arrow)"
@@ -125,7 +126,7 @@
     } } @switch(outputTarget()) { @case(IoTargetEnum.AccumulatorRead) {
     <path
       d="M460,35 H 485 V 115 H 545"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-end="url(#arrow)"
@@ -133,7 +134,7 @@
     } @case(IoTargetEnum.DataMemoryRead) {
     <path
       d="M 545,35 H 485 V 270"
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-start="url(#arrow)"
@@ -141,14 +142,14 @@
     } } @switch (accuTarget()) { @case (AccuTargetEnum.DataMemoryWrite) {
     <path
       d="M 460,35 H 485 V 270 "
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
     />
     } @case(AccuTargetEnum.DataMemoryRead) {
     <path
       d="M 465,35 H 485 V 270 "
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-start="url(#arrow)"
@@ -156,7 +157,7 @@
     } } @switch (aluTarget()) { @case (AluTargetEnum.DataMemory) {
     <path
       d="M 435,180 V 200 H 485 V 270 "
-      stroke="black"
+      stroke="blue"
       stroke-width="1"
       fill="none"
       marker-start="url(#arrow)"

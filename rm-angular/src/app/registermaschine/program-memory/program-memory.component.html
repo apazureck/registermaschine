@@ -3,14 +3,10 @@
     <div class="border top left">&nbsp;</div>
     <div class="label">Programm</div>
     <div class="border top right">&nbsp;</div>
-    <div>
-    </div>
     <div class="border left"></div>
     <div>Adr.</div>
-    <div class="border right pr-1">Befehl</div>
-    <div>
-
-    </div>
+    <div class="">Befehl</div>
+    <div class="border right"></div>
   </div>
   <div class="content">
     @for(entry of memoryContent(); track i; let i = $index) {
@@ -22,22 +18,129 @@
       @if(i === currentProgramIndex()) {►}
     </div>
     <div [class]="{ highlight: i === currentProgramIndex() }">{{ i + 1 }}</div>
-    <div class="border right" [class]="{ highlight: i === currentProgramIndex() }">
+    <div [class]="{ highlight: i === currentProgramIndex() }">
       {{ entry }}
     </div>
-    <div style="position: relative; height: 1.5rem; width: 60px">
+    <div
+      class="border right jump"
+      [class]="{
+        source: i === jumpSourceIndex(),
+        target: i === jumpTargetIndex()
+      }"
+    >
+      @if(jump(); as jumpInfo) { @if(i === jumpInfo.to ) {
+      <svg
+        width="1em"
+        height="100%"
+        viewBox="0 0 60 60"
+        preserveAspectRatio="none"
+      >
+        <marker
+          id="arrow"
+          markerWidth="5"
+          markerHeight="5"
+          refX="3"
+          refY="3"
+          orient="auto"
+        >
+          <path d="M 0 0 L 5 5 L 0 5 z" fill="red" stroke="red" />
+        </marker>
+        <line
+          x1="5"
+          y1="50%"
+          x2="50%"
+          y2="50%"
+          stroke="red"
+          stroke-width="2"
+          marker-start="url(#arrow)"
+        />
+        @if(i < jumpInfo.from) {
+        <line
+          x1="50%"
+          y1="50%"
+          x2="50%"
+          y2="100%"
+          stroke="red"
+          stroke-width="4"
+        />
+        } @else {
+        <line
+          x1="50%"
+          y1="50%"
+          x2="50%"
+          y2="0%"
+          stroke="red"
+          stroke-width="4"
+        />
+        }
+      </svg>
+      } @else if(i === jumpInfo.from) {
+      <svg
+        width="1em"
+        height="100%"
+        viewBox="0 0 30 30"
+        preserveAspectRatio="none"
+      >
+        <line
+          x1="0%"
+          y1="50%"
+          x2="50%"
+          y2="50%"
+          stroke="red"
+          stroke-width="2"
+        />
+        @if(i < jumpInfo.to) {
+        <line
+          x1="50%"
+          y1="50%"
+          x2="50%"
+          y2="100%"
+          stroke="red"
+          stroke-width="2"
+        />
+        } @else {
+        <line
+          x1="50%"
+          y1="0%"
+          x2="50%"
+          y2="50%"
+          stroke="red"
+          stroke-width="2"
+        />
+        }
+      </svg>
+      } @else if(i < jumpInfo.to && i > jumpInfo.from) {
+      <svg
+        width="1em"
+        height="100%"
+        viewBox="0 0 30 30"
+        preserveAspectRatio="none"
+      >
+        <line x1="15" y1="0" x2="15" y2="30" stroke="red" stroke-width="2" />
+      </svg>
+      } @else if(i < jumpInfo.from && i > jumpInfo.to) {
+      <svg
+        width="1em"
+        height="100%"
+        viewBox="0 0 30 30"
+        preserveAspectRatio="none"
+      >
+        <line x1="15" y1="0" x2="15" y2="30" stroke="red" stroke-width="2" />
+      </svg>
+      } }
     </div>
     }
   </div>
   <div class="footer">
     <div class="border bottom left">&nbsp;</div>
     <div class="border bottom">&nbsp;</div>
+    <div class="border bottom">&nbsp;</div>
     <div class="border bottom right">&nbsp;</div>
   </div>
 </div>
 
 <ng-template #lineDown>
-  <svg style="position: absolute" viewBox="0 0 50 50" width="50" height="25">
-    <line x1="50%" y1="0" x2="50%" y2="100%" stroke="black" stroke-width="2" />
+  <svg viewBox="0 0 50 50" width="1em" height="1em">
+    <line x1="50%" y1="0" x2="50%" y2="100%" stroke="red" stroke-width="2" />
   </svg>
 </ng-template>

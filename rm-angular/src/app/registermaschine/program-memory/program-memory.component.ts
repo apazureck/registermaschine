@@ -20,6 +20,41 @@ export class ProgramMemoryComponent {
   public readonly currentProgramIndex = computed(
     () => this.currentProgramCounter() - 1
   );
+  #currentCommand = computed<Command | undefined>(() => {
+    const pcIndex = this.currentProgramIndex();
+    return this.#memoryContent()[pcIndex];
+  });
+  public readonly jumpTargetIndex = computed<number | undefined>(() => {
+    const currentCommand = this.#currentCommand();
+    if (!currentCommand) {
+      return undefined;
+    }
+
+    const target = currentCommand.getJumpTargetAddress();
+    if (target === undefined) {
+      return undefined;
+    }
+    return target - 1;
+  });
+
+  public readonly jumpSourceIndex = computed<number | undefined>(() => {
+    const currentCommand = this.#currentCommand();
+    if (!currentCommand) {
+      return undefined;
+    }
+    if (!currentCommand.isJumpCommand()) {
+      return undefined;
+    }
+    return currentCommand.address - 1;
+  });
+  jump = computed<{ from: number; to: number } | undefined>(() => {
+    const from = this.jumpSourceIndex()
+    const to = this.jumpTargetIndex();
+    if (from === undefined || to === undefined) {
+      return undefined;
+    }
+    return { from, to };
+  });
 
   constructor() {
     effect(() => {
