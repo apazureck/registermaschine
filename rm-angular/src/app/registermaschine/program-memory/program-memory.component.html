@@ -8,7 +8,7 @@
     <div class="">Befehl</div>
     <div class="border right"></div>
   </div>
-  <div class="content">
+  <div class="content border right">
     @for(entry of memoryContent(); track i; let i = $index) {
     <div
       class="border left"
@@ -22,7 +22,7 @@
       {{ entry }}
     </div>
     <div
-      class="border right jump"
+      class="jump"
       [class]="{
         source: i === jumpSourceIndex(),
         target: i === jumpTargetIndex()
