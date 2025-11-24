@@ -10,7 +10,7 @@ CodeMirror.defineSimpleMode("registermaschine", {
     // Rules are matched in the order in which they appear, so there is
     // no ambiguity between this one and the one above
     {
-      regex: /(\d+)(\s?)(jmp|jez|jne|jlz|jle|jgz|jge|add|sub|mul|div|lda|ldk|sta|inp|out|hlt)\b(\s?)(\d+)/i,
+      regex: /(\d+)(\s?)(jmp|jez|jnz|jlz|jle|jgz|jge|add|sub|mul|div|lda|ldk|sta|inp|out|hlt)\b(\s?)(\d+)/i,
       token: ["number", null, "keyword", null, "variable"]
     },
     {

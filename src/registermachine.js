@@ -16,7 +16,7 @@ var alu_ops = ["add", "sub", "mul", "div"];
 var jump_ops = [
   "jmp",
   "jez",
-  "jne",
+  "jnz",
   "jlz",
   "jle",
   "jgz",
@@ -33,7 +33,7 @@ var g_instr = [
   "div",
   "jmp",
   "jez",
-  "jne",
+  "jnz",
   "jlz",
   "jle",
   "jgz",
@@ -140,7 +140,7 @@ function c_explainInstr(mnemo, data) {
     case "jez":
       return "springe zu Programmadresse " + data + " falls Akku == 0";
 
-    case "jne":
+    case "jnz":
       return "springe zu Programmadresse " + data + " falls Akku != 0";
 
     case "jlz":
@@ -258,7 +258,7 @@ function c_step() {
         if (c_readData(0) == 0) g_pc = data;
         break;
 
-      case "jne":
+      case "jnz":
         if (c_readData(0) != 0) g_pc = data;
         break;
 
