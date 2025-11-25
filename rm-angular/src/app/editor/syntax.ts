@@ -14,7 +14,7 @@ export function getRegistermaschineSyntax(): languages.IMonarchLanguage {
       'INP',
       'OUT',
     ],
-    memory_keywords: ['JMP', 'JEZ', 'JNZ', 'JLZ', 'JLE', 'JGZ', 'JGE'],
+    memory_keywords: ['JMP', 'JEZ', 'JNZ', 'JNE', 'JLZ', 'JLE', 'JGZ', 'JGE'],
 
     other_keywords: ['HLT'],
 

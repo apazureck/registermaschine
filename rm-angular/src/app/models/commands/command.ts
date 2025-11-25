@@ -4,6 +4,7 @@ export enum CommandCode {
   Jump = 'JMP',
   JumpEqualsZero = 'JEZ',
   JumpNotZero = 'JNZ',
+  JumpNotEqual = 'JNE',
   JumpLessZero = 'JLZ',
   JumpLessEqualsZero = 'JLE',
   JumpGreaterZero = 'JGZ',

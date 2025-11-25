@@ -32,6 +32,7 @@ const registeredCommands: {
   [CommandCode.JumpLessEqualsZero]: JumpLessEqualsZeroCommand,
   [CommandCode.JumpLessZero]: JumpLessZeroCommand,
   [CommandCode.JumpNotZero]: JumpNotZeroCommand,
+  [CommandCode.JumpNotEqual]: JumpNotZeroCommand,
   [CommandCode.Jump]: JumpCommand,
   [CommandCode.LoadToAccumulator]: LoadToAkkuCommand,
   [CommandCode.LoadConstantToAccumulator]: LoadConstantToAccumulatorCommand,

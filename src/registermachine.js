@@ -17,6 +17,7 @@ var jump_ops = [
   "jmp",
   "jez",
   "jnz",
+  "jne",
   "jlz",
   "jle",
   "jgz",
@@ -34,6 +35,7 @@ var g_instr = [
   "jmp",
   "jez",
   "jnz",
+  "jne",
   "jlz",
   "jle",
   "jgz",
@@ -141,6 +143,7 @@ function c_explainInstr(mnemo, data) {
       return "springe zu Programmadresse " + data + " falls Akku == 0";
 
     case "jnz":
+    case "jne":
       return "springe zu Programmadresse " + data + " falls Akku != 0";
 
     case "jlz":
@@ -259,6 +262,7 @@ function c_step() {
         break;
 
       case "jnz":
+      case "jne":
         if (c_readData(0) != 0) g_pc = data;
         break;
 
