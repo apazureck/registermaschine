@@ -4,8 +4,9 @@ export function getHelpText(word: string): string | undefined {
       return '`JMP [Adresse]`: Springt zur angegebenen Adresse im Programmspeicher.';
     case 'JEZ':
       return '`JEZ [Adresse]`: Springt zur angegebenen Adresse im Programmspeicher, wenn der Akkumulator 0 ist.';
+    case 'JNZ':
     case 'JNE':
-      return '`JNE [Adresse]`: Springt zur angegebenen Adresse im Programmspeicher, wenn der Akkumulator nicht 0 ist.';
+      return '`JNZ/JNE [Adresse]`: Springt zur angegebenen Adresse im Programmspeicher, wenn der Akkumulator nicht 0 ist.';
     case 'JLZ':
       return '`JLZ [Adresse]`: Springt zur angegebenen Adresse im Programmspeicher, wenn der Akkumulator kleiner als 0 ist.';
     case 'JLE':
