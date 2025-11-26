@@ -26,8 +26,8 @@ import { Range, editor as me, languages } from 'monaco-editor';
 import { RegistermaschineProviderService } from '../registermaschine-provider.service';
 import { Command } from '../models/commands';
 import { getRegistermaschineSyntax } from './syntax';
-import { getHelpText } from './help-text';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { getHelpText, REGISTERMASCHINE_INSTRUCTIONS } from './language-metadata';
 
 function registerMonacoLanguages() {
   const monaco = (window as any).monaco.languages as typeof languages;
@@ -50,6 +50,35 @@ function registerMonacoLanguages() {
       return {
         contents: [{ value: helpText }],
       }
+    },
+  });
+
+  monaco.registerCompletionItemProvider('registermaschine', {
+    triggerCharacters: ['J', 'L', 'H', 'A', 'S', 'M', 'D', 'I', 'O'],
+    provideCompletionItems: function (model, position) {
+      const wordInfo = model.getWordUntilPosition(position);
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: wordInfo.startColumn,
+        endColumn: wordInfo.endColumn,
+      };
+
+      const suggestions = REGISTERMASCHINE_INSTRUCTIONS.map((instruction) => ({
+        label: instruction.opcode,
+        detail: instruction.description,
+        documentation: {
+          value: `\`${instruction.signature}\`\n\n${instruction.description}`,
+        },
+        kind: monaco.CompletionItemKind.Keyword,
+        range,
+        insertText: instruction.snippet ?? instruction.opcode,
+        insertTextRules: instruction.snippet
+          ? monaco.CompletionItemInsertTextRule.InsertAsSnippet
+          : undefined,
+      }));
+
+      return { suggestions };
     },
   });
 }
