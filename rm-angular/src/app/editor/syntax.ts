@@ -1,22 +1,17 @@
 import { languages } from 'monaco-editor';
+import {
+  REGISTERMASCHINE_MEMORY_KEYWORDS,
+  REGISTERMASCHINE_OTHER_KEYWORDS,
+  REGISTERMASCHINE_PROGRAM_KEYWORDS,
+} from './language-metadata';
 
 export function getRegistermaschineSyntax(): languages.IMonarchLanguage {
   return {
     ignoreCase: true,
-    program_keywords: [
-      'ADD',
-      'SUB',
-      'MUL',
-      'DIV',
-      'LDA',
-      'LDK',
-      'STA',
-      'INP',
-      'OUT',
-    ],
-    memory_keywords: ['JMP', 'JEZ', 'JNZ', 'JNE', 'JLZ', 'JLE', 'JGZ', 'JGE'],
 
-    other_keywords: ['HLT'],
+    program_keywords: REGISTERMASCHINE_PROGRAM_KEYWORDS,
+    memory_keywords: REGISTERMASCHINE_MEMORY_KEYWORDS,
+    other_keywords: REGISTERMASCHINE_OTHER_KEYWORDS,
 
     // The main tokenizer for our languages
     tokenizer: {

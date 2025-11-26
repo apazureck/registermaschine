@@ -27,7 +27,8 @@ import { RegistermaschineProviderService } from '../registermaschine-provider.se
 import { Command } from '../models/commands';
 import { getRegistermaschineSyntax } from './syntax';
 import { getHelpText } from './help-text';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { REGISTERMASCHINE_INSTRUCTIONS } from './language-metadata';
 
 function registerMonacoLanguages() {
   const monaco = (window as any).monaco.languages as typeof languages;
@@ -49,7 +50,36 @@ function registerMonacoLanguages() {
       if (!helpText) return null;
       return {
         contents: [{ value: helpText }],
-      }
+      };
+    },
+  });
+
+  monaco.registerCompletionItemProvider('registermaschine', {
+    triggerCharacters: ['J', 'L', 'H', 'A', 'S', 'M', 'D', 'I', 'O'],
+    provideCompletionItems: function (model, position) {
+      const wordInfo = model.getWordUntilPosition(position);
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: wordInfo.startColumn,
+        endColumn: wordInfo.endColumn,
+      };
+
+      const suggestions = REGISTERMASCHINE_INSTRUCTIONS.map((instruction: any) => ({
+        label: instruction.opcode,
+        detail: instruction.description,
+        documentation: {
+          value: `\`${instruction.signature}\`\n\n${instruction.description}`,
+        },
+        kind: monaco.CompletionItemKind.Keyword,
+        range,
+        insertText: instruction.snippet ?? instruction.opcode,
+        insertTextRules: instruction.snippet
+          ? monaco.CompletionItemInsertTextRule.InsertAsSnippet
+          : undefined,
+      }));
+
+      return { suggestions };
     },
   });
 }
@@ -136,7 +166,9 @@ export class EditorComponent implements OnInit {
 
   copy() {
     navigator.clipboard.writeText(this.code());
-    this.#messageToast.open('Code in die Zwischenablage kopiert.', undefined, {duration: 2000});
+    this.#messageToast.open('Code in die Zwischenablage kopiert.', undefined, {
+      duration: 2000,
+    });
   }
 
   #createProgramGlyphs(editor: me.IStandaloneCodeEditor, program: Command[]) {
